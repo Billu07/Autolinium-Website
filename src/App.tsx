@@ -1,6 +1,5 @@
 import React from "react";
 import { motion } from "framer-motion";
-import type { Variants } from "framer-motion";
 import { Routes, Route, useLocation, Link } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
 import VideoCard from "./components/VideoCard";
@@ -12,66 +11,10 @@ import Blog from "./pages/Blog";
 import BlogPost from "./pages/BlogPost";
 import "./App.css";
 
-// Error Boundary for debugging
-class ErrorBoundary extends React.Component<
-  { children: React.ReactNode },
-  { hasError: boolean }
-> {
-  state = { hasError: false };
-
-  static getDerivedStateFromError() {
-    return { hasError: true };
-  }
-
-  render() {
-    if (this.state.hasError) {
-      return (
-        <h1 className="text-white text-center mt-20">
-          Something went wrong. Check console for errors.
-        </h1>
-      );
-    }
-    return this.props.children;
-  }
-}
-
-// Staggered letter animation variant
-const letterVariants: Variants = {
-  hidden: { opacity: 0, y: 50 },
-  visible: { opacity: 1, y: 0 },
-};
-
-// Floating button variant
-const buttonVariants: Variants = {
-  hover: { scale: 1.1, rotate: 2, boxShadow: "0 0 15px var(--neon-teal)" },
-  float: {
-    y: [-10, 10, -10],
-    transition: { duration: 3, repeat: Infinity, ease: "easeInOut" },
-  },
-};
-
-// Nav item variants
-const navItemVariants: Variants = {
-  hover: {
-    scale: 1.1,
-    color: "var(--neon-teal)",
-    transition: { duration: 0.3 },
-  },
-};
-
-// Particle variants
-const particleVariants: Variants = {
-  animate: {
-    x: [0, 50, 0],
-    y: [0, 50, 0],
-    opacity: [0.3, 0.8, 0.3],
-    scale: [0.5, 1, 0.5],
-    transition: {
-      duration: 5,
-      repeat: Infinity,
-      ease: "easeInOut",
-    },
-  },
+// Simple variants for fade-ins (matching Axus minimal animations)
+const fadeInVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.6 } },
 };
 
 // Scroll progress component
@@ -91,7 +34,7 @@ const ScrollProgress: React.FC = () => {
 
   return (
     <motion.div
-      className="fixed top-0 left-0 h-1 bg-[var(--neon-teal)] z-20"
+      className="fixed top-0 left-0 h-1 bg-[var(--accent-blue)] z-20"
       style={{ width: `${scrollY}%` }}
       initial={{ width: 0 }}
       animate={{ width: `${scrollY}%` }}
@@ -100,280 +43,525 @@ const ScrollProgress: React.FC = () => {
   );
 };
 
-// Extracted Components
+// Home component with Axus structure
 const Home: React.FC = () => (
   <div>
-    {/* Hero Section */}
-    <section
-      id="home"
-      className="min-h-screen flex items-center justify-center bg-gradient-to-b from-black to-teal-900 pt-20"
-    >
+    {/* Hero Section - Axus Style */}
+    <section className="min-h-screen flex items-center justify-center bg-[var(--primary-bg)] text-white pt-20">
       <motion.div
-        initial={{ opacity: 0, y: 50 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 1.5, ease: "easeOut" }}
-        className="text-center px-4"
+        variants={fadeInVariants}
+        initial="hidden"
+        animate="visible"
+        className="text-center px-4 max-w-4xl"
       >
-        <h2
-          className="text-4xl md:text-6xl font-orbitron glitch mb-4"
-          data-text="Unlock the Future of Automation"
-        >
-          {"Unlock the Future of Automation".split("").map((char, i) => (
-            <motion.span
-              key={i}
-              custom={i}
-              variants={letterVariants}
-              initial="hidden"
-              animate="visible"
-              transition={{ delay: i * 0.05, duration: 0.5, ease: "easeOut" }}
-              style={{ display: "inline-block" }}
-            >
-              {char === " " ? "\u00A0" : char}
-            </motion.span>
-          ))}
-        </h2>
-        <p className="text-lg md:text-xl mb-6 font-sans max-w-2xl mx-auto">
-          Friendly AI solutions that save time, boost productivity, and make
-          your business shine.
+        <h1 className="text-5xl md:text-7xl font-bold mb-4">
+          Welcome To Autolinium
+        </h1>
+        <p className="text-xl md:text-2xl mb-8 text-[var(--text-secondary)]">
+          AI automates routine tasks, freeing up employees for more strategic,
+          creative, and high-value activities.
         </p>
-        <motion.div
-          variants={buttonVariants}
-          animate="float"
-          whileHover="hover"
-          className="inline-block"
-        >
-          <Link
-            to="/services"
-            className="bg-[var(--neon-purple)] px-6 py-3 rounded-lg text-lg hover:bg-teal-700 transition duration-300"
-          >
-            Explore Services
-          </Link>
-        </motion.div>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+          {/* Hero Cards - Placeholder for images */}
+          <div className="card text-center p-4">
+            <img
+              src="https://via.placeholder.com/150?text=AI+Tool+1"
+              alt="Hero Card 1"
+              className="w-full h-32 object-cover rounded mb-2"
+            />
+          </div>
+          <div className="card text-center p-4">
+            <img
+              src="https://via.placeholder.com/150?text=AI+Tool+2"
+              alt="Hero Card 2"
+              className="w-full h-32 object-cover rounded mb-2"
+            />
+          </div>
+          <div className="card text-center p-4">
+            <img
+              src="https://via.placeholder.com/150?text=AI+Tool+3"
+              alt="Hero Card 3"
+              className="w-full h-32 object-cover rounded mb-2"
+            />
+          </div>
+          <div className="card text-center p-4">
+            <img
+              src="https://via.placeholder.com/150?text=AI+Tool+4"
+              alt="Hero Card 4"
+              className="w-full h-32 object-cover rounded mb-2"
+            />
+          </div>
+        </div>
+        <p className="text-2xl mb-8">
+          204+ Startups Supported From Companies Around The World
+        </p>
+        <Link to="/pricing" className="button text-lg">
+          Start Your 30-Day Free Trial
+        </Link>
       </motion.div>
     </section>
 
-    {/* Services Section */}
-    <section id="services" className="py-20 container mx-auto px-4 bg-gray-900">
-      <h2
-        className="text-4xl md:text-5xl font-orbitron text-center mb-12 glitch"
-        data-text="Our Services"
+    {/* About Section - Axus Style */}
+    <section className="section bg-[var(--primary-bg)]">
+      <motion.div
+        variants={fadeInVariants}
+        initial="hidden"
+        animate="visible"
+        className="container"
       >
-        Our Services
-      </h2>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-        <VideoCard
-          src="/assets/chatbot-demo.mp4"
-          title="Smart Chat Helpers"
-          description="Engage customers 24/7 with AI chatbots tailored for your business."
-          buttonText="Learn More"
-          color="var(--neon-teal)"
-          icon="fa-comments"
-          index={0}
-        />
-        <VideoCard
-          src="/assets/assistant-demo.mp4"
-          title="Your Personal AI Sidekick"
-          description="Text or voice assistants to manage your daily tasks effortlessly."
-          buttonText="Learn More"
-          color="var(--neon-pink)"
-          icon="fa-user-robot"
-          index={1}
-        />
-        <VideoCard
-          src="/assets/automation-demo.mp4"
-          title="Workflow Wizards"
-          description="Automate processes with smart agents for maximum efficiency."
-          buttonText="Learn More"
-          color="var(--neon-purple)"
-          icon="fa-magic-wand-sparkles"
-          index={2}
-        />
-      </div>
+        <h2 className="text-4xl font-bold mb-4 text-center">
+          About Autolinium
+        </h2>
+        <p className="text-lg text-center mb-8 text-[var(--text-secondary)]">
+          Easy Ways To Use AI Tools, And Build AI. Access valuable insights on
+          customer behavior, identify areas for improvement, manage support
+          requests and make data-driven decisions to optimize your services.
+        </p>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="card text-center">
+            <h3 className="text-xl font-semibold mb-2">
+              AI Strategy and Consulting
+            </h3>
+            <p className="text-[var(--text-secondary)]">
+              Tailored strategies for AI adoption.
+            </p>
+          </div>
+          <div className="card text-center">
+            <h3 className="text-xl font-semibold mb-2">
+              Machine Learning Solutions
+            </h3>
+            <p className="text-[var(--text-secondary)]">
+              Custom ML models for your needs.
+            </p>
+          </div>
+          <div className="card text-center">
+            <h3 className="text-xl font-semibold mb-2">
+              AI Integration and Deployment
+            </h3>
+            <p className="text-[var(--text-secondary)]">
+              Seamless integration into workflows.
+            </p>
+          </div>
+        </div>
+      </motion.div>
     </section>
 
-    {/* Tools Section */}
-    <section id="tools" className="py-20 container mx-auto px-4">
-      <h2
-        className="text-4xl md:text-5xl font-orbitron text-center mb-12 glitch"
-        data-text="Ready-to-Use Tools"
+    {/* Services/Features Section - Axus Style */}
+    <section className="section bg-[var(--primary-bg)]">
+      <motion.div
+        variants={fadeInVariants}
+        initial="hidden"
+        animate="visible"
+        className="container"
       >
-        Ready-to-Use Tools
-      </h2>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-        <VideoCard
-          src="/assets/chatbot-pro-demo.mp4"
-          title="ChatBot Pro"
-          description="Advanced chatbot solution for 24/7 customer engagement."
-          buttonText="Request Demo"
-          color="var(--neon-teal)"
-          icon="fa-robot"
-          index={0}
-        />
-        <VideoCard
-          src="/assets/ai-assistant-plus-demo.mp4"
-          title="AI Assistant Plus"
-          description="Personalized AI to manage your schedule and tasks."
-          buttonText="Request Demo"
-          color="var(--neon-pink)"
-          icon="fa-user-gear"
-          index={1}
-        />
-        <VideoCard
-          src="/assets/autoflow-demo.mp4"
-          title="AutoFlow"
-          description="Automate complex workflows with ease."
-          buttonText="Request Demo"
-          color="var(--neon-purple)"
-          icon="fa-cogs"
-          index={2}
-        />
-      </div>
+        <h2 className="text-4xl font-bold mb-8 text-center">
+          Built For Integration
+        </h2>
+        <p className="text-lg text-center mb-12 text-[var(--text-secondary)]">
+          Connect Autolinium with the software you use every day
+        </p>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="card text-center">
+            <img
+              src="https://via.placeholder.com/100?text=Logo1"
+              alt="Logo 1"
+              className="mx-auto mb-4"
+            />
+            <h3 className="text-xl font-semibold">Integration 1</h3>
+          </div>
+          <div className="card text-center">
+            <img
+              src="https://via.placeholder.com/100?text=Logo2"
+              alt="Logo 2"
+              className="mx-auto mb-4"
+            />
+            <h3 className="text-xl font-semibold">Integration 2</h3>
+          </div>
+          <div className="card text-center">
+            <img
+              src="https://via.placeholder.com/100?text=Logo3"
+              alt="Logo 3"
+              className="mx-auto mb-4"
+            />
+            <h3 className="text-xl font-semibold">Integration 3</h3>
+          </div>
+        </div>
+      </motion.div>
     </section>
 
-    {/* Contact Section */}
-    <Contact />
+    {/* Process Section - Axus Style */}
+    <section className="section bg-[var(--primary-bg)]">
+      <motion.div
+        variants={fadeInVariants}
+        initial="hidden"
+        animate="visible"
+        className="container"
+      >
+        <h2 className="text-4xl font-bold mb-8 text-center">Working Process</h2>
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+          <div className="process-step">
+            <h3 className="text-2xl font-bold mb-2">#01</h3>
+            <h4 className="text-xl font-semibold mb-2">Create Account</h4>
+            <p className="text-[var(--text-secondary)]">
+              This initial phase ensures that the project is well-defined and
+              aligned with the client's objectives.
+            </p>
+          </div>
+          <div className="process-step">
+            <h3 className="text-2xl font-bold mb-2">#02</h3>
+            <h4 className="text-xl font-semibold mb-2">Your Idea</h4>
+            <p className="text-[var(--text-secondary)]">
+              We then transform the data into a suitable format for analysis and
+              split it into training, validation.
+            </p>
+          </div>
+          <div className="process-step">
+            <h3 className="text-2xl font-bold mb-2">#03</h3>
+            <h4 className="text-xl font-semibold mb-2">Evaluation</h4>
+            <p className="text-[var(--text-secondary)]">
+              We perform Exploratory Data Analysis to reveal patterns,
+              correlations, and distributions.
+            </p>
+          </div>
+          <div className="process-step">
+            <h3 className="text-2xl font-bold mb-2">#04</h3>
+            <h4 className="text-xl font-semibold mb-2">Get Result</h4>
+            <p className="text-[var(--text-secondary)]">
+              The journey begins with a thorough understanding of the client’s
+              needs, and their specific problem.
+            </p>
+          </div>
+        </div>
+      </motion.div>
+    </section>
+
+    {/* Pricing Section - Axus Style */}
+    <section className="section bg-[var(--primary-bg)]" id="pricing">
+      <motion.div
+        variants={fadeInVariants}
+        initial="hidden"
+        animate="visible"
+        className="container"
+      >
+        <h2 className="text-4xl font-bold mb-8 text-center">
+          Flexible Pricing
+        </h2>
+        <p className="text-lg text-center mb-12 text-[var(--text-secondary)]">
+          Affordable Pricing Plan
+        </p>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div className="card text-center">
+            <h3 className="text-2xl font-bold mb-4">Teams</h3>
+            <p className="text-3xl font-bold mb-2">$69.00/month</p>
+            <p className="text-[var(--text-secondary)] mb-6">
+              Perfect for freelancers and startups automating workflows on a
+              budget.
+            </p>
+            <ul className="text-left mb-6">
+              <li className="mb-2">Basic AI Tools</li>
+              <li className="mb-2">Limited API Access</li>
+              <li className="mb-2">5 Prebuilt Templates</li>
+              <li className="mb-2">Basic Support</li>
+              <li className="mb-2">AI Assistance</li>
+            </ul>
+            <Link to="/subscribe" className="button">
+              Get Started
+            </Link>
+          </div>
+          <div className="card text-center">
+            <h3 className="text-2xl font-bold mb-4">Business</h3>
+            <p className="text-3xl font-bold mb-2">$99.00/month</p>
+            <p className="text-[var(--text-secondary)] mb-6">
+              For growing teams needing advanced AI automation.
+            </p>
+            <ul className="text-left mb-6">
+              <li className="mb-2">Advanced AI Tools</li>
+              <li className="mb-2">Unlimited API Access</li>
+              <li className="mb-2">20+ Prebuilt Templates</li>
+              <li className="mb-2">Priority Support</li>
+              <li className="mb-2">Custom Integration</li>
+            </ul>
+            <Link to="/subscribe" className="button">
+              Get Started
+            </Link>
+          </div>
+        </div>
+      </motion.div>
+    </section>
+
+    {/* Testimonials Section - Axus Style */}
+    <section className="section bg-[var(--primary-bg)]">
+      <motion.div
+        variants={fadeInVariants}
+        initial="hidden"
+        animate="visible"
+        className="container"
+      >
+        <h2 className="text-4xl font-bold mb-8 text-center">Testimonials</h2>
+        <p className="text-lg text-center mb-12 text-[var(--text-secondary)]">
+          Reliable Reviews From Our Customers
+        </p>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="testimonial">
+            <p className="mb-4">
+              Unique highly effective! Loves or pursues or desires to obtain
+              pain because it is pain but because occasionally of all our
+              circumstances.
+            </p>
+            <h4 className="font-semibold">Andrew Mark</h4>
+            <p className="text-[var(--text-secondary)]">Founder - Umake</p>
+          </div>
+          <div className="testimonial">
+            <p className="mb-4">
+              Amazing & Efficient! Seeks or craves or strives to achieve
+              pleasure not for itself but because of the fleeting nature of our
+              conditions.
+            </p>
+            <h4 className="font-semibold">William Jack</h4>
+            <p className="text-[var(--text-secondary)]">Manager - Attributes</p>
+          </div>
+          <div className="testimonial">
+            <p className="mb-4">
+              My Favorite Tool. Desires or aspires or hopes to grasp happiness
+              not merely for itself but because of the unpredictability of life.
+            </p>
+            <h4 className="font-semibold">Jack Taylor</h4>
+            <p className="text-[var(--text-secondary)]">
+              Project Head - Specify Sol
+            </p>
+          </div>
+        </div>
+      </motion.div>
+    </section>
+
+    {/* FAQ Section - Axus Style */}
+    <section className="section bg-[var(--primary-bg)]">
+      <motion.div
+        variants={fadeInVariants}
+        initial="hidden"
+        animate="visible"
+        className="container"
+      >
+        <h2 className="text-4xl font-bold mb-8 text-center">
+          Frequently Asked Questions
+        </h2>
+        <p className="text-lg text-center mb-12 text-[var(--text-secondary)]">
+          We Answer Your Questions
+        </p>
+        <div className="faq-item">
+          <h3 className="text-xl font-semibold cursor-pointer">
+            How do I get started with Autolinium?
+          </h3>
+          <p className="text-[var(--text-secondary)]">
+            To begin, sign up for an Autolinium account, obtain your API key,
+            and explore our easy-to-use dashboard for content generation and
+            design assistance.
+          </p>
+        </div>
+        <div className="faq-item">
+          <h3 className="text-xl font-semibold cursor-pointer">
+            How is the data security of our chatbots ensured?
+          </h3>
+          <p className="text-[var(--text-secondary)]">
+            We use end-to-end encryption and comply with GDPR standards to
+            protect your data.
+          </p>
+        </div>
+        <div className="faq-item">
+          <h3 className="text-xl font-semibold cursor-pointer">
+            What integrations does Autolinium support?
+          </h3>
+          <p className="text-[var(--text-secondary)]">
+            Seamless integration with CRM, Slack, and more.
+          </p>
+        </div>
+      </motion.div>
+    </section>
+
+    {/* Contact Section - Axus Style */}
+    <section className="section bg-[var(--primary-bg)]">
+      <motion.div
+        variants={fadeInVariants}
+        initial="hidden"
+        animate="visible"
+        className="container"
+      >
+        <h2 className="text-4xl font-bold mb-8 text-center">Drop A Line</h2>
+        <p className="text-lg text-center mb-12 text-[var(--text-secondary)]">
+          Let's Collaborate & Discuss Your Project
+        </p>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div>
+            <h3 className="text-xl font-semibold mb-4">I want to discuss:</h3>
+            <ul className="space-y-2 text-[var(--text-secondary)]">
+              <li>
+                <Link to="#" className="hover:text-[var(--accent-blue)]">
+                  User Experience
+                </Link>
+              </li>
+              <li>
+                <Link to="#" className="hover:text-[var(--accent-blue)]">
+                  Quality & Reliability
+                </Link>
+              </li>
+              <li>
+                <Link to="#" className="hover:text-[var(--accent-blue)]">
+                  Collaboration
+                </Link>
+              </li>
+              <li>
+                <Link to="#" className="hover:text-[var(--accent-blue)]">
+                  Legal & Copyright
+                </Link>
+              </li>
+            </ul>
+          </div>
+          <div className="contact-form">
+            <input type="text" placeholder="Your Name" className="mb-4" />
+            <input type="email" placeholder="Your Email" className="mb-4" />
+            <textarea placeholder="Your Message" rows={4} className="mb-4" />
+            <button type="submit" className="button w-full">
+              Send Message
+            </button>
+          </div>
+        </div>
+      </motion.div>
+    </section>
   </div>
 );
 
-const Services: React.FC = () => (
-  <section
-    id="services"
-    className="py-20 container mx-auto px-4 bg-gray-900 min-h-screen"
-  >
-    <h2
-      className="text-4xl md:text-5xl font-orbitron text-center mb-12 glitch"
-      data-text="Our Services"
+// Dedicated About page
+const About: React.FC = () => (
+  <section className="section bg-[var(--primary-bg)]">
+    <motion.div
+      variants={fadeInVariants}
+      initial="hidden"
+      animate="visible"
+      className="container"
     >
-      Our Services
-    </h2>
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-      <VideoCard
-        src="/assets/chatbot-demo.mp4"
-        title="Smart Chat Helpers"
-        description="Engage customers 24/7 with AI chatbots tailored for your business."
-        buttonText="Learn More"
-        color="var(--neon-teal)"
-        icon="fa-comments"
-        index={0}
-      />
-      <VideoCard
-        src="/assets/assistant-demo.mp4"
-        title="Your Personal AI Sidekick"
-        description="Text or voice assistants to manage your daily tasks effortlessly."
-        buttonText="Learn More"
-        color="var(--neon-pink)"
-        icon="fa-user-robot"
-        index={1}
-      />
-      <VideoCard
-        src="/assets/automation-demo.mp4"
-        title="Workflow Wizards"
-        description="Automate processes with smart agents for maximum efficiency."
-        buttonText="Learn More"
-        color="var(--neon-purple)"
-        icon="fa-magic-wand-sparkles"
-        index={2}
-      />
-    </div>
+      <h2 className="text-4xl font-bold mb-4 text-center">About Autolinium</h2>
+      <p className="text-lg text-center mb-8 text-[var(--text-secondary)]">
+        Easy Ways To Use AI Tools, And Build AI. Access valuable insights on
+        customer behavior, identify areas for improvement, manage support
+        requests and make data-driven decisions to optimize your services.
+      </p>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="card text-center">
+          <h3 className="text-xl font-semibold mb-2">
+            AI Strategy and Consulting
+          </h3>
+          <p className="text-[var(--text-secondary)]">
+            Tailored strategies for AI adoption.
+          </p>
+        </div>
+        <div className="card text-center">
+          <h3 className="text-xl font-semibold mb-2">
+            Machine Learning Solutions
+          </h3>
+          <p className="text-[var(--text-secondary)]">
+            Custom ML models for your needs.
+          </p>
+        </div>
+        <div className="card text-center">
+          <h3 className="text-xl font-semibold mb-2">
+            AI Integration and Deployment
+          </h3>
+          <p className="text-[var(--text-secondary)]">
+            Seamless integration into workflows.
+          </p>
+        </div>
+      </div>
+    </motion.div>
   </section>
 );
 
-const Tools: React.FC = () => (
-  <section id="tools" className="py-20 container mx-auto px-4 min-h-screen">
-    <h2
-      className="text-4xl md:text-5xl font-orbitron text-center mb-12 glitch"
-      data-text="Ready-to-Use Tools"
+// Dedicated Pricing page
+const Pricing: React.FC = () => (
+  <section className="section bg-[var(--primary-bg)]" id="pricing">
+    <motion.div
+      variants={fadeInVariants}
+      initial="hidden"
+      animate="visible"
+      className="container"
     >
-      Ready-to-Use Tools
-    </h2>
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-      <VideoCard
-        src="/assets/chatbot-pro-demo.mp4"
-        title="ChatBot Pro"
-        description="Advanced chatbot solution for 24/7 customer engagement."
-        buttonText="Request Demo"
-        color="var(--neon-teal)"
-        icon="fa-robot"
-        index={0}
-      />
-      <VideoCard
-        src="/assets/ai-assistant-plus-demo.mp4"
-        title="AI Assistant Plus"
-        description="Personalized AI to manage your schedule and tasks."
-        buttonText="Request Demo"
-        color="var(--neon-pink)"
-        icon="fa-user-gear"
-        index={1}
-      />
-      <VideoCard
-        src="/assets/autoflow-demo.mp4"
-        title="AutoFlow"
-        description="Automate complex workflows with ease."
-        buttonText="Request Demo"
-        color="var(--neon-purple)"
-        icon="fa-cogs"
-        index={2}
-      />
-    </div>
+      <h2 className="text-4xl font-bold mb-8 text-center">Flexible Pricing</h2>
+      <p className="text-lg text-center mb-12 text-[var(--text-secondary)]">
+        Affordable Pricing Plan
+      </p>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div className="card text-center">
+          <h3 className="text-2xl font-bold mb-4">Teams</h3>
+          <p className="text-3xl font-bold mb-2">$69.00/month</p>
+          <p className="text-[var(--text-secondary)] mb-6">
+            Perfect for freelancers and startups automating workflows on a
+            budget.
+          </p>
+          <ul className="text-left mb-6">
+            <li className="mb-2">Basic AI Tools</li>
+            <li className="mb-2">Limited API Access</li>
+            <li className="mb-2">5 Prebuilt Templates</li>
+            <li className="mb-2">Basic Support</li>
+            <li className="mb-2">AI Assistance</li>
+          </ul>
+          <Link to="/subscribe" className="button">
+            Get Started
+          </Link>
+        </div>
+        <div className="card text-center">
+          <h3 className="text-2xl font-bold mb-4">Business</h3>
+          <p className="text-3xl font-bold mb-2">$99.00/month</p>
+          <p className="text-[var(--text-secondary)] mb-6">
+            For growing teams needing advanced AI automation.
+          </p>
+          <ul className="text-left mb-6">
+            <li className="mb-2">Advanced AI Tools</li>
+            <li className="mb-2">Unlimited API Access</li>
+            <li className="mb-2">20+ Prebuilt Templates</li>
+            <li className="mb-2">Priority Support</li>
+            <li className="mb-2">Custom Integration</li>
+          </ul>
+          <Link to="/subscribe" className="button">
+            Get Started
+          </Link>
+        </div>
+      </div>
+    </motion.div>
   </section>
 );
 
+// App with updated navigation for new routes
 const App: React.FC = () => {
   const location = useLocation();
 
   return (
-    <ErrorBoundary>
-      <div className="bg-black text-white font-orbitron relative overflow-hidden">
-        {/* Dynamic Particle Background */}
-        <div className="fixed inset-0 pointer-events-none z-0">
-          {[...Array(10)].map((_, i) => (
-            <motion.div
-              key={i}
-              className="absolute w-2 h-2 bg-[var(--neon-teal)] rounded-full particle"
-              style={{
-                left: `${Math.random() * 100}%`,
-                top: `${Math.random() * 100}%`,
-              }}
-              custom={i}
-              animate="animate"
-              variants={particleVariants}
-              transition={{ delay: Math.random() * 2 }}
+    <div className="bg-[var(--primary-bg)] text-[var(--text-primary)] font-inter relative overflow-hidden">
+      {/* Header */}
+      <header className="fixed top-0 w-full bg-[var(--primary-bg)] bg-opacity-95 p-4 z-10 shadow-[var(--shadow)]">
+        <ScrollProgress />
+        <nav className="container mx-auto flex justify-between items-center">
+          <motion.div
+            className="flex items-center"
+            animate={{ scale: [1, 1.05, 1] }}
+            transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+          >
+            <img
+              src="/assets/autolinium-logo.png"
+              alt="Autolinium Logo"
+              className="h-10 mr-2 drop-shadow-lg"
             />
-          ))}
-        </div>
-
-        {/* Header */}
-        <header className="fixed top-0 w-full bg-black bg-opacity-90 p-4 z-10 shadow-[0_0_10px_rgba(0,255,255,0.5)]">
-          <ScrollProgress />
-          <nav className="container mx-auto flex justify-between items-center">
-            <motion.div
-              className="flex items-center"
-              animate={{ scale: [1, 1.05, 1] }}
-              transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
-            >
-              <img
-                src="/assets/autolinium-logo.png"
-                alt="Autolinium Logo"
-                className="h-10 mr-2 drop-shadow-lg"
-              />
-              <h1
-                className="text-2xl md:text-3xl font-orbitron glitch"
-                data-text="Autolinium"
-              >
-                Autolinium
-              </h1>
-            </motion.div>
-            <ul className="flex space-x-4 md:space-x-6 text-sm md:text-base">
-              {["Home", "Services", "Tools", "Blog", "Contact"].map((item) => (
+            <h1 className="text-2xl md:text-3xl font-bold">Autolinium</h1>
+          </motion.div>
+          <ul className="flex space-x-4 md:space-x-6 text-sm md:text-base">
+            {["Home", "About", "Services", "Pricing", "Blog", "Contact"].map(
+              (item) => (
                 <motion.li
                   key={item}
-                  variants={navItemVariants}
-                  whileHover="hover"
+                  whileHover={{ scale: 1.05 }}
                   className="relative"
                 >
                   <Link
                     to={item === "Home" ? "/" : `/${item.toLowerCase()}`}
-                    className="hover:text-[var(--neon-teal)]"
+                    className="hover:text-[var(--accent-blue)]"
                     aria-current={
                       location.pathname ===
                       (item === "Home" ? "/" : `/${item.toLowerCase()}`)
@@ -383,68 +571,66 @@ const App: React.FC = () => {
                   >
                     {item}
                   </Link>
-                  <motion.div
-                    className="absolute bottom-0 left-0 h-0.5 bg-[var(--neon-teal)]"
-                    initial={{ width: 0 }}
-                    whileHover={{ width: "100%" }}
-                    transition={{ duration: 0.3 }}
-                  />
                 </motion.li>
-              ))}
-            </ul>
-          </nav>
-        </header>
+              )
+            )}
+          </ul>
+        </nav>
+      </header>
 
-        {/* Page Content with Transitions */}
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={location.pathname}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.5, ease: "easeInOut" }}
-            className="pt-20"
-          >
-            <Routes location={location}>
-              <Route path="/" element={<Home />} />
-              <Route path="/services" element={<Services />} />
-              <Route path="/tools" element={<Tools />} />
-              <Route path="/services/:slug" element={<ServiceDetail />} />
-              <Route path="/tools/:slug" element={<ToolDetail />} />
-              <Route path="/subscribe" element={<Subscribe />} />
-              <Route path="/blog" element={<Blog />} />
-              <Route path="/blog/:id" element={<BlogPost />} />
-              <Route path="/contact" element={<Contact />} />
-            </Routes>
-          </motion.div>
-        </AnimatePresence>
+      {/* Page Content with Transitions */}
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={location.pathname}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.5, ease: "easeInOut" }}
+          className="pt-20"
+        >
+          <Routes location={location}>
+            <Route path="/" element={<Home />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/services" element={<Services />} />
+            <Route path="/pricing" element={<Pricing />} />
+            <Route path="/blog" element={<Blog />} />
+            <Route path="/blog/:id" element={<BlogPost />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="/services/:slug" element={<ServiceDetail />} />
+            <Route path="/tools/:slug" element={<ToolDetail />} />
+            <Route path="/subscribe" element={<Subscribe />} />
+          </Routes>
+        </motion.div>
+      </AnimatePresence>
 
-        {/* Footer */}
-        <footer className="bg-gray-900 p-6 text-center mt-20">
-          <p className="mb-4">&copy; 2025 Autolinium. All rights reserved.</p>
-          <div className="flex justify-center space-x-4">
-            <a href="#" className="text-[var(--neon-teal)] hover:text-teal-300">
-              <i className="fab fa-twitter"></i>
-            </a>
-            <a href="#" className="text-[var(--neon-pink)] hover:text-pink-300">
-              <i className="fab fa-facebook-f"></i>
-            </a>
-            <a
-              href="#"
-              className="text-[var(--neon-purple)] hover:text-purple-300"
-            >
-              <i className="fab fa-linkedin-in"></i>
-            </a>
-          </div>
-          <Link
-            to="/subscribe"
-            className="mt-4 inline-block bg-[var(--neon-purple)] px-4 py-2 rounded hover:bg-teal-700 transition"
+      {/* Footer */}
+      <footer className="bg-gray-800 p-6 text-center">
+        <p className="mb-4">&copy; 2025 Autolinium. All rights reserved.</p>
+        <div className="flex justify-center space-x-4 mb-4">
+          <a
+            href="#"
+            className="text-[var(--text-secondary)] hover:text-[var(--accent-blue)]"
           >
-            Book a Free Consultation
-          </Link>
-        </footer>
-      </div>
-    </ErrorBoundary>
+            <i className="fab fa-twitter"></i>
+          </a>
+          <a
+            href="#"
+            className="text-[var(--text-secondary)] hover:text-[var(--accent-blue)]"
+          >
+            <i className="fab fa-facebook-f"></i>
+          </a>
+          <a
+            href="#"
+            className="text-[var(--text-secondary)] hover:text-[var(--accent-blue)]"
+          >
+            <i className="fab fa-linkedin-in"></i>
+          </a>
+        </div>
+        <Link to="/contact" className="button">
+          Drop A Line
+        </Link>
+      </footer>
+    </div>
   );
 };
 
