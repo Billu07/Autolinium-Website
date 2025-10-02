@@ -92,5 +92,4 @@ const Contact: React.FC = () => {
     </motion.section>
   );
 };
-
 export default Contact;

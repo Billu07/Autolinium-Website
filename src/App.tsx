@@ -1,5 +1,6 @@
 import React from "react";
-import { motion, Variants } from "framer-motion";
+import { motion } from "framer-motion";
+import type { Variants } from "framer-motion";
 import { Routes, Route, useLocation, Link } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
 import VideoCard from "./components/VideoCard";
@@ -351,7 +352,7 @@ const App: React.FC = () => {
               transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
             >
               <img
-                src="/src/assets/autolinium-logo.png"
+                src="/assets/autolinium-logo.png"
                 alt="Autolinium Logo"
                 className="h-10 mr-2 drop-shadow-lg"
               />
