@@ -2,12 +2,13 @@ import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 
+// Card container variants for staggered animation (fixed ease types)
 const cardVariants = {
   hidden: { opacity: 0, y: 50 },
   visible: (i: number) => ({
     opacity: 1,
     y: 0,
-    transition: { duration: 0.8, delay: i * 0.2, ease: "easeOut" },
+    transition: { duration: 0.8, delay: i * 0.2, ease: [0.0, 0.0, 0.58, 1.0] }, // easeOut as cubic-bezier
   }),
 };
 
@@ -39,7 +40,7 @@ const VideoCard: React.FC<VideoCardProps> = ({
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true, amount: 0.3 }}
-      whileHover={{ rotateX: 5, rotateY: 5, boxShadow: "0 0 20px " + color }}
+      whileHover={{ rotateX: 5, rotateY: 5, boxShadow: `0 0 20px ${color}` }}
       transition={{ type: "spring", stiffness: 100 }}
       className="bg-[var(--bg-dark)] p-6 rounded-lg border-2 hover:shadow-[var(--border-glow)] transition transform"
       style={{ borderColor: color }}
@@ -49,7 +50,7 @@ const VideoCard: React.FC<VideoCardProps> = ({
           className={`fas ${icon} text-4xl`}
           style={{ color }}
           animate={{ rotate: [0, 10, -10, 0], scale: [1, 1.1, 1] }}
-          transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+          transition={{ duration: 2, repeat: Infinity, ease: "linear" }} // linear is a valid string
         ></motion.i>
       </div>
       <h3
@@ -79,14 +80,14 @@ const VideoCard: React.FC<VideoCardProps> = ({
               className="rounded-full h-12 w-12 border-t-2 border-b-2"
               style={{ borderColor: color }}
               animate={{ rotate: 360 }}
-              transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
+              transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }} // linear is valid
             ></motion.div>
           </div>
         )}
       </div>
       <div className="flex justify-center space-x-2 mt-4">
         <motion.span
-          whileHover={{ scale: 1.05, boxShadow: "0 0 10px " + color }}
+          whileHover={{ scale: 1.05, boxShadow: `0 0 10px ${color}` }}
           whileTap={{ scale: 0.95 }}
           className="px-4 py-2 rounded transition inline-block text-white"
           style={{ backgroundColor: color }}
@@ -103,7 +104,7 @@ const VideoCard: React.FC<VideoCardProps> = ({
         </motion.span>
         {buttonText === "Request Demo" && (
           <motion.span
-            whileHover={{ scale: 1.05, boxShadow: "0 0 10px " + color }}
+            whileHover={{ scale: 1.05, boxShadow: `0 0 10px ${color}` }}
             whileTap={{ scale: 0.95 }}
             className="px-4 py-2 rounded transition inline-block text-white"
             style={{ backgroundColor: color }}
