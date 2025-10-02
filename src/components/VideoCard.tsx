@@ -1,15 +1,11 @@
 import React, { useState } from "react";
-import { motion } from "framer-motion";
+import { motion, Variants } from "framer-motion";
 import { Link } from "react-router-dom";
 
-// Card container variants for staggered animation (fixed ease types)
-const cardVariants = {
+// Card container variants for staggered animation
+const cardVariants: Variants = {
   hidden: { opacity: 0, y: 50 },
-  visible: (i: number) => ({
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.8, delay: i * 0.2, ease: [0.0, 0.0, 0.58, 1.0] }, // easeOut as cubic-bezier
-  }),
+  visible: { opacity: 1, y: 0 },
 };
 
 interface VideoCardProps {
@@ -41,7 +37,12 @@ const VideoCard: React.FC<VideoCardProps> = ({
       whileInView="visible"
       viewport={{ once: true, amount: 0.3 }}
       whileHover={{ rotateX: 5, rotateY: 5, boxShadow: `0 0 20px ${color}` }}
-      transition={{ type: "spring", stiffness: 100 }}
+      transition={{
+        type: "spring",
+        stiffness: 100,
+        duration: 0.8,
+        delay: index * 0.2,
+      }}
       className="bg-[var(--bg-dark)] p-6 rounded-lg border-2 hover:shadow-[var(--border-glow)] transition transform"
       style={{ borderColor: color }}
     >
@@ -50,7 +51,7 @@ const VideoCard: React.FC<VideoCardProps> = ({
           className={`fas ${icon} text-4xl`}
           style={{ color }}
           animate={{ rotate: [0, 10, -10, 0], scale: [1, 1.1, 1] }}
-          transition={{ duration: 2, repeat: Infinity, ease: "linear" }} // linear is a valid string
+          transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
         ></motion.i>
       </div>
       <h3
@@ -80,7 +81,7 @@ const VideoCard: React.FC<VideoCardProps> = ({
               className="rounded-full h-12 w-12 border-t-2 border-b-2"
               style={{ borderColor: color }}
               animate={{ rotate: 360 }}
-              transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }} // linear is valid
+              transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
             ></motion.div>
           </div>
         )}

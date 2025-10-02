@@ -1,5 +1,5 @@
 import React from "react";
-import { motion } from "framer-motion";
+import { motion, Variants } from "framer-motion";
 import { Routes, Route, useLocation, Link } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
 import VideoCard from "./components/VideoCard";
@@ -34,27 +34,23 @@ class ErrorBoundary extends React.Component<
   }
 }
 
-// Staggered letter animation variant (fixed ease type)
-const letterVariants = {
+// Staggered letter animation variant
+const letterVariants: Variants = {
   hidden: { opacity: 0, y: 50 },
-  visible: (i: number) => ({
-    opacity: 1,
-    y: 0,
-    transition: { delay: i * 0.05, duration: 0.5, ease: [0.0, 0.0, 0.58, 1.0] }, // easeOut as cubic-bezier
-  }),
+  visible: { opacity: 1, y: 0 },
 };
 
-// Floating button variant (fixed ease type)
-const buttonVariants = {
+// Floating button variant
+const buttonVariants: Variants = {
   hover: { scale: 1.1, rotate: 2, boxShadow: "0 0 15px var(--neon-teal)" },
   float: {
     y: [-10, 10, -10],
-    transition: { duration: 3, repeat: Infinity, ease: [0.42, 0, 0.58, 1.0] }, // easeInOut as cubic-bezier
+    transition: { duration: 3, repeat: Infinity, ease: "easeInOut" },
   },
 };
 
 // Nav item variants
-const navItemVariants = {
+const navItemVariants: Variants = {
   hover: {
     scale: 1.1,
     color: "var(--neon-teal)",
@@ -62,20 +58,19 @@ const navItemVariants = {
   },
 };
 
-// Particle variants (fixed ease type)
-const particleVariants = {
-  animate: (i: number) => ({
-    x: [0, Math.sin(i) * 50, 0],
-    y: [0, Math.cos(i) * 50, 0],
+// Particle variants
+const particleVariants: Variants = {
+  animate: {
+    x: [0, 50, 0],
+    y: [0, 50, 0],
     opacity: [0.3, 0.8, 0.3],
     scale: [0.5, 1, 0.5],
     transition: {
-      duration: 5 + Math.random() * 3,
+      duration: 5,
       repeat: Infinity,
-      ease: [0.42, 0, 0.58, 1.0], // easeInOut as cubic-bezier
-      delay: Math.random() * 2,
+      ease: "easeInOut",
     },
-  }),
+  },
 };
 
 // Scroll progress component
@@ -115,7 +110,7 @@ const Home: React.FC = () => (
       <motion.div
         initial={{ opacity: 0, y: 50 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 1.5, ease: [0.0, 0.0, 0.58, 1.0] }} // easeOut as cubic-bezier
+        transition={{ duration: 1.5, ease: "easeOut" }}
         className="text-center px-4"
       >
         <h2
@@ -129,6 +124,7 @@ const Home: React.FC = () => (
               variants={letterVariants}
               initial="hidden"
               animate="visible"
+              transition={{ delay: i * 0.05, duration: 0.5, ease: "easeOut" }}
               style={{ display: "inline-block" }}
             >
               {char === " " ? "\u00A0" : char}
@@ -340,6 +336,7 @@ const App: React.FC = () => {
               custom={i}
               animate="animate"
               variants={particleVariants}
+              transition={{ delay: Math.random() * 2 }}
             />
           ))}
         </div>
@@ -351,7 +348,7 @@ const App: React.FC = () => {
             <motion.div
               className="flex items-center"
               animate={{ scale: [1, 1.05, 1] }}
-              transition={{ duration: 2, repeat: Infinity, ease: "linear" }} // linear is valid
+              transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
             >
               <img
                 src="/src/assets/autolinium-logo.png"
@@ -404,7 +401,7 @@ const App: React.FC = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.5, ease: [0.0, 0.0, 0.58, 1.0] }} // easeOut as cubic-bezier
+            transition={{ duration: 0.5, ease: "easeInOut" }}
             className="pt-20"
           >
             <Routes location={location}>
