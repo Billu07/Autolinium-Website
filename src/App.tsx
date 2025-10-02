@@ -144,7 +144,7 @@ const Home: React.FC = () => (
         >
           <Link
             to="/services"
-            className="bg-[var(--neon-teal)] px-6 py-3 rounded-lg text-lg hover:bg-teal-300 transition duration-300"
+            className="bg-[var(--neon-purple)] px-6 py-3 rounded-lg text-lg hover:bg-teal-700 transition duration-300"
           >
             Explore Services
           </Link>
@@ -438,7 +438,7 @@ const App: React.FC = () => {
           </div>
           <Link
             to="/subscribe"
-            className="mt-4 inline-block bg-[var(--neon-teal)] px-4 py-2 rounded hover:bg-teal-300 transition"
+            className="mt-4 inline-block bg-[var(--neon-purple)] px-4 py-2 rounded hover:bg-teal-700 transition"
           >
             Book a Free Consultation
           </Link>

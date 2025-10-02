@@ -83,7 +83,7 @@ const Contact: React.FC = () => {
         <motion.button
           whileHover={{ scale: 1.05, boxShadow: "0 0 10px var(--neon-teal)" }}
           whileTap={{ scale: 0.95 }}
-          className="w-full p-3 rounded bg-[var(--neon-teal)] text-white hover:bg-teal-300 transition"
+          className="w-full p-3 rounded bg-[var(--neon-purple)] text-white hover:bg-teal-700 transition"
           type="submit"
         >
           Send Message
