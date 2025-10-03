@@ -1,10 +1,10 @@
 import React, { useEffect } from "react";
-import { motion, useMotionValue, useTransform } from "framer-motion";
+import { motion, useMotionValue, useTransform, Variants } from "framer-motion";
 import { Link } from "react-router-dom";
 import "./../App.css";
 
 // Animation variants
-const fadeInVariants = {
+const fadeInVariants: Variants = {
   hidden: { opacity: 0, y: 20 },
   visible: {
     opacity: 1,
@@ -18,7 +18,7 @@ const fadeInVariants = {
   },
 };
 
-const staggerContainer = {
+const staggerContainer: Variants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
@@ -26,21 +26,20 @@ const staggerContainer = {
   },
 };
 
-const cardVariants = {
+const cardVariants: Variants = {
   hidden: { opacity: 0, y: 20, rotate: 0 },
   visible: {
     opacity: 1,
     y: 0,
-    rotate: [0, 2, -2, 0],
+    rotate: 0,
     transition: {
       duration: 0.6,
       ease: "easeOut",
-      rotate: { duration: 1.5, ease: "easeInOut" },
     },
   },
 };
 
-const buttonVariants = {
+const buttonVariants: Variants = {
   hover: {
     scale: 1.1,
     boxShadow: "0 4px 8px rgba(0, 77, 64, 0.3)",
@@ -48,7 +47,12 @@ const buttonVariants = {
   },
   pulse: {
     scale: [1, 1.05, 1],
-    transition: { duration: 2, repeat: Infinity, ease: "easeInOut" },
+    transition: {
+      duration: 2,
+      repeat: Infinity,
+      ease: "easeInOut",
+      times: [0, 0.5, 1],
+    },
   },
 };
 
