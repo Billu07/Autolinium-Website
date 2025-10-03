@@ -4,6 +4,7 @@ import {
   useMotionValue,
   useTransform,
   type Variants,
+  useAnimationControls,
 } from "framer-motion";
 import { Routes, Route, useLocation, Link } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
@@ -66,7 +67,7 @@ const cardVariants: Variants = {
   visible: {
     opacity: 1,
     y: 0,
-    rotate: 0, // No rotation, or set to a single value if needed
+    rotate: 0,
     transition: {
       duration: 0.6,
       ease: "easeOut",
@@ -100,7 +101,7 @@ const tickerVariants: Variants = {
       x: {
         repeat: Infinity,
         repeatType: "loop",
-        duration: 30, // Slower for readability
+        duration: 30,
         ease: "linear",
       },
     },
@@ -155,6 +156,8 @@ const Home: React.FC = () => {
   const y = useMotionValue(0);
   const rotateX = useTransform(y, [-100, 100], [10, -10]);
   const rotateY = useTransform(x, [-100, 100], [-10, 10]);
+  // Animation controls for ticker
+  const tickerControls = useAnimationControls();
 
   const handleMouseMove = (event: React.MouseEvent<HTMLDivElement>) => {
     if (window.innerWidth >= 640) {
@@ -569,8 +572,9 @@ const Home: React.FC = () => {
             <motion.div
               className="flex whitespace-nowrap"
               variants={tickerVariants}
-              animate="animate"
-              whileHover={{ pause: true }} // Pause on hover (desktop only)
+              animate={tickerControls}
+              onHoverStart={() => tickerControls.stop()}
+              onHoverEnd={() => tickerControls.start("animate")}
             >
               {helpItems.concat(helpItems).map((item, index) => (
                 <span
