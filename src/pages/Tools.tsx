@@ -1,5 +1,10 @@
 import React, { useEffect } from "react";
-import { motion, useMotionValue, useTransform, Variants } from "framer-motion";
+import {
+  motion,
+  useMotionValue,
+  useTransform,
+  type Variants,
+} from "framer-motion";
 import { Link } from "react-router-dom";
 import "./../App.css";
 
