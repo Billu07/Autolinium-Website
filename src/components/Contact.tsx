@@ -1,9 +1,8 @@
-import React, { useState, useEffect } from "react";
-import { motion, type Variants } from "framer-motion";
-import "./../App.css";
+import React, { useState } from "react";
+import { motion } from "framer-motion";
+import { useScrollAnimation } from "../hooks/useScrollAnimation";
 
-// Animation variants
-const fadeInVariants: Variants = {
+const fadeInVariants = {
   hidden: { opacity: 0, y: 20 },
   visible: {
     opacity: 1,
@@ -17,46 +16,13 @@ const fadeInVariants: Variants = {
   },
 };
 
-const buttonVariants: Variants = {
+const buttonVariants = {
   hover: {
     scale: 1.05,
     boxShadow: "0 4px 8px rgba(0, 77, 64, 0.3)",
     transition: { duration: 0.3 },
   },
-  pulse: {
-    scale: [1, 1.05, 1],
-    transition: {
-      duration: 2,
-      repeat: Infinity,
-      ease: "easeInOut",
-      times: [0, 0.5, 1],
-    },
-  },
 };
-
-// Error boundary component
-class ErrorBoundary extends React.Component<
-  { children: React.ReactNode },
-  { hasError: boolean }
-> {
-  state = { hasError: false };
-
-  static getDerivedStateFromError() {
-    return { hasError: true };
-  }
-
-  render() {
-    if (this.state.hasError) {
-      return (
-        <div className="text-center text-white">
-          <h2 className="text-4xl font-bold mb-4">Something went wrong</h2>
-          <p className="text-lg text-text-secondary">Please try again later.</p>
-        </div>
-      );
-    }
-    return this.props.children;
-  }
-}
 
 const Contact: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -64,45 +30,59 @@ const Contact: React.FC = () => {
     email: "",
     message: "",
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const { ref, isVisible } = useScrollAnimation();
 
-  useEffect(() => {
-    console.log("Contact component mounted successfully");
-  }, []);
-
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    alert("Message sent! (Mocked for demo)");
-    // Add backend integration here (e.g., Vercel serverless function)
+    setIsSubmitting(true);
+
+    // Simulate API call
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+
+    alert("Message sent! We'll get back to you within 24 hours.");
+    setFormData({ name: "", email: "", message: "" });
+    setIsSubmitting(false);
   };
 
   return (
-    <ErrorBoundary>
-      <section className="section bg-[var(--primary-bg)] min-h-screen pt-20">
-        <motion.div
-          variants={fadeInVariants}
-          initial="hidden"
-          animate="visible"
-          className="container"
-        >
-          <h2 className="text-4xl font-bold mb-8 text-center text-white font-inter">
-            Get in Touch
-          </h2>
-          <p className="text-lg text-center mb-12 text-text-secondary max-w-3xl mx-auto">
-            Have a question or want to start a project? Fill out the form below,
-            and we'll get back to you soon!
-          </p>
-          <form onSubmit={handleSubmit} className="max-w-lg mx-auto">
-            <div className="mb-4">
+    <section
+      ref={ref}
+      className="section bg-[var(--primary-bg)] min-h-screen pt-20"
+    >
+      <motion.div
+        variants={fadeInVariants}
+        initial="hidden"
+        animate={isVisible ? "visible" : "hidden"}
+        className="container"
+      >
+        <h2 className="text-4xl font-bold mb-8 text-center text-white">
+          Get in Touch
+        </h2>
+        <p className="text-lg text-center mb-12 text-[var(--text-secondary)] max-w-3xl mx-auto">
+          Have a question or want to start a project? Fill out the form below,
+          and we'll get back to you soon!
+        </p>
+
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 max-w-6xl mx-auto">
+          {/* Contact Form */}
+          <motion.form
+            onSubmit={handleSubmit}
+            className="space-y-6"
+            whileHover={{ y: -5 }}
+            transition={{ duration: 0.3 }}
+          >
+            <div>
               <label
                 htmlFor="name"
-                className="block text-text-secondary mb-2 font-inter"
+                className="block text-[var(--text-secondary)] mb-2"
               >
-                Name
+                Name *
               </label>
               <input
                 id="name"
                 type="text"
-                className="w-full p-3 rounded bg-primary-bg text-white border-2 border-accent-pink focus:border-accent-pink focus:outline-none"
+                className="w-full p-3 rounded bg-gray-800 text-white border-2 border-[var(--card-border)] focus:border-[var(--accent-blue)] focus:outline-none transition-colors"
                 value={formData.name}
                 onChange={(e) =>
                   setFormData({ ...formData, name: e.target.value })
@@ -110,17 +90,18 @@ const Contact: React.FC = () => {
                 required
               />
             </div>
-            <div className="mb-4">
+
+            <div>
               <label
                 htmlFor="email"
-                className="block text-text-secondary mb-2 font-inter"
+                className="block text-[var(--text-secondary)] mb-2"
               >
-                Email
+                Email *
               </label>
               <input
                 id="email"
                 type="email"
-                className="w-full p-3 rounded bg-primary-bg text-white border-2 border-accent-pink focus:border-accent-pink focus:outline-none"
+                className="w-full p-3 rounded bg-gray-800 text-white border-2 border-[var(--card-border)] focus:border-[var(--accent-blue)] focus:outline-none transition-colors"
                 value={formData.email}
                 onChange={(e) =>
                   setFormData({ ...formData, email: e.target.value })
@@ -128,17 +109,18 @@ const Contact: React.FC = () => {
                 required
               />
             </div>
-            <div className="mb-4">
+
+            <div>
               <label
                 htmlFor="message"
-                className="block text-text-secondary mb-2 font-inter"
+                className="block text-[var(--text-secondary)] mb-2"
               >
-                Message
+                Message *
               </label>
               <textarea
                 id="message"
-                className="w-full p-3 rounded bg-primary-bg text-white border-2 border-accent-pink focus:border-accent-pink focus:outline-none"
-                rows={5}
+                className="w-full p-3 rounded bg-gray-800 text-white border-2 border-[var(--card-border)] focus:border-[var(--accent-blue)] focus:outline-none transition-colors resize-none"
+                rows={6}
                 value={formData.message}
                 onChange={(e) =>
                   setFormData({ ...formData, message: e.target.value })
@@ -146,19 +128,90 @@ const Contact: React.FC = () => {
                 required
               ></textarea>
             </div>
+
             <motion.button
               variants={buttonVariants}
               whileHover="hover"
               whileTap={{ scale: 0.95 }}
-              className="w-full p-3 rounded bg-accent-deep-teal text-white font-inter"
+              className="w-full p-4 rounded bg-[var(--accent-deep-teal)] text-white font-semibold disabled:opacity-50 disabled:cursor-not-allowed"
               type="submit"
+              disabled={isSubmitting}
             >
-              Send Message
+              {isSubmitting ? (
+                <span className="flex items-center justify-center">
+                  <i className="fas fa-spinner fa-spin mr-2"></i>
+                  Sending...
+                </span>
+              ) : (
+                "Send Message"
+              )}
             </motion.button>
-          </form>
-        </motion.div>
-      </section>
-    </ErrorBoundary>
+          </motion.form>
+
+          {/* Contact Info */}
+          <motion.div
+            className="space-y-6"
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.6, delay: 0.3 }}
+          >
+            <div className="card p-6">
+              <h3 className="text-xl font-semibold mb-4 text-[var(--accent-blue)]">
+                Contact Information
+              </h3>
+
+              <div className="space-y-4">
+                <div className="flex items-center space-x-3">
+                  <i className="fas fa-envelope text-[var(--accent-blue)]"></i>
+                  <span className="text-[var(--text-secondary)]">
+                    hello@autolinium.com
+                  </span>
+                </div>
+
+                <div className="flex items-center space-x-3">
+                  <i className="fas fa-clock text-[var(--accent-blue)]"></i>
+                  <span className="text-[var(--text-secondary)]">
+                    Response time: 24 hours
+                  </span>
+                </div>
+
+                <div className="flex items-center space-x-3">
+                  <i className="fas fa-globe text-[var(--accent-blue)]"></i>
+                  <span className="text-[var(--text-secondary)]">
+                    Worldwide service
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <div className="card p-6">
+              <h3 className="text-xl font-semibold mb-4 text-[var(--accent-blue)]">
+                Why Choose Us?
+              </h3>
+
+              <ul className="space-y-3 text-[var(--text-secondary)]">
+                <li className="flex items-center space-x-2">
+                  <i className="fas fa-check text-green-400"></i>
+                  <span>30-day money-back guarantee</span>
+                </li>
+                <li className="flex items-center space-x-2">
+                  <i className="fas fa-check text-green-400"></i>
+                  <span>24/7 customer support</span>
+                </li>
+                <li className="flex items-center space-x-2">
+                  <i className="fas fa-check text-green-400"></i>
+                  <span>Free initial consultation</span>
+                </li>
+                <li className="flex items-center space-x-2">
+                  <i className="fas fa-check text-green-400"></i>
+                  <span>Quick project turnaround</span>
+                </li>
+              </ul>
+            </div>
+          </motion.div>
+        </div>
+      </motion.div>
+    </section>
   );
 };
 

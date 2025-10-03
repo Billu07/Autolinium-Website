@@ -61,37 +61,52 @@ const VideoCard: React.FC<VideoCardProps> = ({
       animate="visible"
       whileHover={!isMobile ? "hover" : undefined}
       whileTap={isMobile ? { scale: 0.98 } : undefined}
-      className="card text-center relative overflow-hidden"
+      className="card text-center relative overflow-hidden group"
       style={{ borderColor: "var(--card-border)" }}
     >
+      {/* Animated background gradient */}
+      <div className="absolute inset-0 bg-gradient-to-br from-transparent via-transparent to-transparent group-hover:from-pink-500/10 group-hover:via-purple-500/10 group-hover:to-blue-500/10 transition-all duration-300"></div>
+
       {/* Image */}
-      <div className="relative mb-4">
-        <img
+      <div className="relative mb-4 z-10">
+        <motion.img
           src={src}
           alt={title}
           className="w-full max-h-[150px] sm:max-h-[200px] object-contain rounded-lg"
           loading="lazy"
           onError={handleImageError}
+          whileHover={{ scale: 1.05 }}
+          transition={{ duration: 0.3 }}
         />
       </div>
+
       {/* Content */}
-      <h3 className="text-lg sm:text-xl font-semibold mb-2">{title}</h3>
-      <p className="text-[var(--text-secondary)] text-sm sm:text-base mb-4">
-        {description}
-      </p>
-      <Link
-        to="/services"
-        className="button inline-block"
-        style={
-          {
-            backgroundColor: color,
-            "--hover-bg": "var(--accent-deep-teal)",
-          } as React.CSSProperties
-        }
-      >
-        <i className={`${icon} mr-2`}></i>
-        {buttonText}
-      </Link>
+      <div className="relative z-10">
+        <h3 className="text-lg sm:text-xl font-semibold mb-2 text-white group-hover:text-[var(--accent-blue)] transition-colors duration-200">
+          {title}
+        </h3>
+        <p className="text-[var(--text-secondary)] text-sm sm:text-base mb-4 group-hover:text-white transition-colors duration-200">
+          {description}
+        </p>
+        <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+          <Link
+            to="/services"
+            className="button inline-block relative overflow-hidden group"
+            style={
+              {
+                backgroundColor: color,
+                "--hover-bg": "var(--accent-deep-teal)",
+              } as React.CSSProperties
+            }
+          >
+            <span className="relative z-10 flex items-center justify-center">
+              <i className={`${icon} mr-2`}></i>
+              {buttonText}
+            </span>
+            <div className="absolute inset-0 bg-[var(--accent-deep-teal)] transform scale-x-0 group-hover:scale-x-100 transition-transform duration-200 origin-left"></div>
+          </Link>
+        </motion.div>
+      </div>
     </motion.div>
   );
 };

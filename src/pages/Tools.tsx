@@ -1,15 +1,12 @@
-import React, { useEffect } from "react";
-import {
-  motion,
-  useMotionValue,
-  useTransform,
-  type Variants,
-} from "framer-motion";
+import React from "react";
+import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import "./../App.css";
+import ErrorBoundary from "../components/ErrorBoundary";
+import { useTiltAnimation } from "../hooks/useTiltAnimation";
+import { useScrollAnimation } from "../hooks/useScrollAnimation";
 
 // Animation variants
-const fadeInVariants: Variants = {
+const fadeInVariants = {
   hidden: { opacity: 0, y: 20 },
   visible: {
     opacity: 1,
@@ -23,7 +20,7 @@ const fadeInVariants: Variants = {
   },
 };
 
-const staggerContainer: Variants = {
+const staggerContainer = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
@@ -31,154 +28,218 @@ const staggerContainer: Variants = {
   },
 };
 
-const cardVariants: Variants = {
-  hidden: { opacity: 0, y: 20, rotate: 0 },
+const cardVariants = {
+  hidden: { opacity: 0, y: 20 },
   visible: {
     opacity: 1,
     y: 0,
-    rotate: 0,
-    transition: {
-      duration: 0.6,
-      ease: "easeOut",
-    },
+    transition: { duration: 0.6, ease: "easeOut" },
   },
 };
 
-const buttonVariants: Variants = {
+const buttonVariants = {
   hover: {
     scale: 1.1,
     boxShadow: "0 4px 8px rgba(0, 77, 64, 0.3)",
     transition: { duration: 0.3 },
   },
-  pulse: {
-    scale: [1, 1.05, 1],
-    transition: {
-      duration: 2,
-      repeat: Infinity,
-      ease: "easeInOut",
-      times: [0, 0.5, 1],
-    },
-  },
 };
 
-// Error boundary component
-class ErrorBoundary extends React.Component<
-  { children: React.ReactNode },
-  { hasError: boolean }
-> {
-  state = { hasError: false };
-
-  static getDerivedStateFromError() {
-    return { hasError: true };
-  }
-
-  render() {
-    if (this.state.hasError) {
-      return (
-        <div className="text-center text-white">
-          <h2 className="text-4xl font-bold mb-4">Something went wrong</h2>
-          <p className="text-lg text-text-secondary">Please try again later.</p>
-        </div>
-      );
-    }
-    return this.props.children;
-  }
-}
-
 const Tools: React.FC = () => {
-  // Debug log to confirm component mounts
-  useEffect(() => {
-    console.log("Tools component mounted successfully");
-  }, []);
+  const tiltAnimation = useTiltAnimation();
+  const { ref, isVisible } = useScrollAnimation();
 
-  // Mouse-based tilt for cards
-  const x = useMotionValue(0);
-  const y = useMotionValue(0);
-  const rotateX = useTransform(y, [-100, 100], [10, -10]);
-  const rotateY = useTransform(x, [-100, 100], [-10, 10]);
-
-  const handleMouseMove = (event: React.MouseEvent<HTMLDivElement>) => {
-    const rect = event.currentTarget.getBoundingClientRect();
-    const centerX = rect.left + rect.width / 2;
-    const centerY = rect.top + rect.height / 2;
-    const mouseX = event.clientX - centerX;
-    const mouseY = event.clientY - centerY;
-    x.set(mouseX);
-    y.set(mouseY);
-  };
-
-  const handleMouseLeave = () => {
-    x.set(0);
-    y.set(0);
-  };
+  const tools = [
+    {
+      title: "Airtable & Softr",
+      description:
+        "Build powerful CRMs and databases with no-code solutions that scale with your business.",
+      slug: "airtable-softr",
+      icon: "/assets/softair.png",
+      useCases: ["Custom CRMs", "Client Portals", "Data Management"],
+      color: "from-orange-500 to-red-500",
+    },
+    {
+      title: "Make, n8n, Zapier",
+      description:
+        "Automate complex workflows across your favorite tools with powerful integration platforms.",
+      slug: "make-n8n-zapier",
+      icon: "/assets/manier.png",
+      useCases: [
+        "Workflow Automation",
+        "Data Syncing",
+        "Multi-app Integration",
+      ],
+      color: "from-blue-500 to-indigo-500",
+    },
+    {
+      title: "React Native & AWS",
+      description:
+        "Develop scalable mobile apps and backends with cutting-edge technologies.",
+      slug: "react-native-aws",
+      icon: "/assets/reaws.png",
+      useCases: ["Mobile Apps", "Cloud Backends", "Real-time Features"],
+      color: "from-purple-500 to-pink-500",
+    },
+  ];
 
   return (
     <ErrorBoundary>
-      <section className="section bg-[var(--primary-bg)] min-h-screen pt-20">
+      <section
+        ref={ref}
+        className="section bg-[var(--primary-bg)] min-h-screen pt-20"
+      >
         <motion.div
           variants={fadeInVariants}
           initial="hidden"
-          animate="visible"
+          animate={isVisible ? "visible" : "hidden"}
           className="container"
         >
-          <h2 className="text-4xl font-bold mb-8 text-center text-white">
-            Our Tools
-          </h2>
-          <p className="text-lg text-center mb-12 text-text-secondary">
-            Explore our AI-powered tools to enhance your productivity.
-          </p>
+          <motion.h2
+            className="text-4xl font-bold mb-8 text-center text-white"
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+          >
+            Our Tools & Technologies
+          </motion.h2>
+
+          <motion.p
+            className="text-lg text-center mb-12 text-[var(--text-secondary)] max-w-2xl mx-auto"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+          >
+            We leverage the best tools in the industry to build robust, scalable
+            solutions that drive your business forward.
+          </motion.p>
+
           <motion.div
             variants={staggerContainer}
             initial="hidden"
-            animate="visible"
-            className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8"
+            animate={isVisible ? "visible" : "hidden"}
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
           >
-            {[
-              {
-                title: "Airtable & Softr",
-                description: "For custom CRMs and databases.",
-                slug: "airtable-softr",
-                icon: "/assets/softair.png",
-              },
-              {
-                title: "Make, n8n, Zapier",
-                description: "For seamless automations.",
-                slug: "make-n8n-zapier",
-                icon: "/assets/manier.png",
-              },
-              {
-                title: "React Native & AWS",
-                description: "For mobile apps and scalable backends.",
-                slug: "react-native-aws",
-                icon: "/assets/reaws.png",
-              },
-            ].map((tool, index) => (
+            {tools.map((tool, index) => (
               <motion.div
                 key={index}
                 variants={cardVariants}
-                style={{ rotateX, rotateY, perspective: 1000 }}
-                onMouseMove={handleMouseMove}
-                onMouseLeave={handleMouseLeave}
-                className="card text-center border-2 border-accent-pink"
+                style={{
+                  rotateX: tiltAnimation.rotateX,
+                  rotateY: tiltAnimation.rotateY,
+                  perspective: 1000,
+                }}
+                onMouseMove={tiltAnimation.handleMouseMove}
+                onMouseLeave={tiltAnimation.handleMouseLeave}
+                className="group"
               >
-                <img
-                  src={tool.icon}
-                  alt={tool.title}
-                  className="mx-auto mb-4 h-16"
-                  onError={() => console.error(`Failed to load ${tool.icon}`)}
-                />
-                <h3 className="text-xl font-semibold mb-2">{tool.title}</h3>
-                <p className="text-text-secondary mb-4">{tool.description}</p>
-                <motion.div variants={buttonVariants} whileHover="hover">
-                  <Link
-                    to={`/tools/${tool.slug}`}
-                    className="button bg-accent-deep-teal"
-                  >
-                    Learn More
-                  </Link>
+                <motion.div
+                  className="card text-center h-full flex flex-col relative overflow-hidden"
+                  whileHover={{ y: -10 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  {/* Gradient Background */}
+                  <div
+                    className={`absolute inset-0 bg-gradient-to-br ${tool.color} opacity-0 group-hover:opacity-10 transition-opacity duration-300`}
+                  ></div>
+
+                  <div className="relative z-10 flex-1 flex flex-col">
+                    <div className="mb-4">
+                      <img
+                        src={tool.icon}
+                        alt={tool.title}
+                        className="mx-auto mb-4 h-16 w-16 object-contain"
+                        onError={(e) => {
+                          e.currentTarget.src = "/assets/fallback-image.jpg";
+                        }}
+                      />
+                    </div>
+
+                    <h3 className="text-xl font-semibold mb-3 text-white group-hover:text-[var(--accent-blue)] transition-colors">
+                      {tool.title}
+                    </h3>
+
+                    <p className="text-[var(--text-secondary)] mb-6 flex-1">
+                      {tool.description}
+                    </p>
+
+                    {/* Use Cases */}
+                    <div className="mb-6">
+                      <h4 className="text-sm font-semibold text-[var(--accent-blue)] mb-3">
+                        Common Use Cases:
+                      </h4>
+                      <ul className="space-y-2">
+                        {tool.useCases.map((useCase, useCaseIndex) => (
+                          <li
+                            key={useCaseIndex}
+                            className="text-sm text-[var(--text-secondary)]"
+                          >
+                            • {useCase}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+
+                    <div className="mt-auto">
+                      <motion.div variants={buttonVariants} whileHover="hover">
+                        <Link
+                          to={`/tools/${tool.slug}`}
+                          className="button bg-[var(--accent-deep-teal)] w-full hover:bg-[var(--accent-blue)] transition-colors"
+                        >
+                          <span className="flex items-center justify-center">
+                            Explore Tool
+                            <i className="fas fa-external-link-alt ml-2"></i>
+                          </span>
+                        </Link>
+                      </motion.div>
+                    </div>
+                  </div>
                 </motion.div>
               </motion.div>
             ))}
+          </motion.div>
+
+          {/* Additional Tools Grid */}
+          <motion.div
+            className="mt-16"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.8, delay: 0.6 }}
+          >
+            <h3 className="text-2xl font-semibold mb-8 text-center text-white">
+              Our Full Toolbelt
+            </h3>
+
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
+              {[
+                { name: "Airtable", icon: "fas fa-table" },
+                { name: "Softr", icon: "fas fa-layer-group" },
+                { name: "Make", icon: "fas fa-puzzle-piece" },
+                { name: "n8n", icon: "fas fa-code-branch" },
+                { name: "Zapier", icon: "fas fa-bolt" },
+                { name: "React", icon: "fab fa-react" },
+                { name: "Node.js", icon: "fab fa-node-js" },
+                { name: "AWS", icon: "fab fa-aws" },
+                { name: "Python", icon: "fab fa-python" },
+                { name: "Docker", icon: "fab fa-docker" },
+                { name: "PostgreSQL", icon: "fas fa-database" },
+                { name: "Git", icon: "fab fa-git-alt" },
+              ].map((tech, index) => (
+                <motion.div
+                  key={index}
+                  className="flex flex-col items-center justify-center p-4 bg-gray-800 rounded-lg hover:bg-gray-700 transition-colors group"
+                  whileHover={{ scale: 1.05, y: -2 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <i
+                    className={`${tech.icon} text-2xl text-[var(--accent-blue)] mb-2 group-hover:scale-110 transition-transform`}
+                  ></i>
+                  <span className="text-xs text-center text-[var(--text-secondary)] group-hover:text-white transition-colors">
+                    {tech.name}
+                  </span>
+                </motion.div>
+              ))}
+            </div>
           </motion.div>
         </motion.div>
       </section>

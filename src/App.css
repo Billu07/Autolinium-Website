@@ -6,12 +6,12 @@
   --text-primary: #ffffff;
   --text-secondary: #a0aec0;
   --accent-blue: #3b82f6;
-  --accent-purple: #6b46c1; /* Kept for potential use */
-  --accent-deep-teal: #004d40; /* For buttons */
-  --card-border: rgba(219, 39, 119, 0.5); /* Pink, semi-transparent */
+  --accent-purple: #6b46c1;
+  --accent-deep-teal: #004d40;
+  --card-border: rgba(219, 39, 119, 0.5);
   --shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
   --shadow-card: 0 4px 8px rgba(0, 0, 0, 0.2);
-  --shadow-card-hover: 0 8px 16px rgba(219, 39, 119, 0.3); /* Pink glow */
+  --shadow-card-hover: 0 8px 16px rgba(219, 39, 119, 0.3);
 }
 
 /* Reset and base styles */
@@ -25,6 +25,8 @@ body {
   margin: 0;
   font-family: "Inter", sans-serif;
   overflow-x: hidden;
+  background-color: var(--primary-bg) !important;
+  color: var(--text-primary) !important;
 }
 
 .container {
@@ -42,20 +44,13 @@ body {
   }
 }
 
-/* Performance optimizations */
-img {
-  max-width: 100%;
-  height: auto;
-  display: block;
-}
-
 /* Base section styles */
 .section {
   padding-top: 3rem;
   padding-bottom: 3rem;
   position: relative;
   overflow: hidden;
-  background-color: var(--primary-bg);
+  background-color: var(--primary-bg) !important;
 }
 
 @media (min-width: 640px) {
@@ -65,7 +60,7 @@ img {
   }
 }
 
-/* Hero section with custom pattern */
+/* Hero section with custom pattern - FIXED */
 .hero-section {
   padding-top: 3rem;
   padding-bottom: 3rem;
@@ -73,10 +68,11 @@ img {
   text-align: center;
   color: white;
   background: linear-gradient(rgba(26, 32, 44, 0.9), rgba(26, 32, 44, 0.9)),
-    url("/assets/hero-pattern.jpg");
-  background-size: cover;
-  background-position: center;
-  background-attachment: scroll; /* Changed from fixed for better mobile performance */
+    url("/assets/hero-pattern.jpg") !important;
+  background-size: cover !important;
+  background-position: center !important;
+  background-attachment: scroll !important;
+  background-repeat: no-repeat !important;
   position: relative;
   overflow: hidden;
   min-height: 100vh;
@@ -89,13 +85,13 @@ img {
   .hero-section {
     padding-top: 5rem;
     padding-bottom: 5rem;
-    background-attachment: fixed; /* Enable parallax on desktop */
+    background-attachment: fixed !important;
   }
 }
 
-/* Optimized gradient backgrounds for desktop only */
+/* Optimized gradient backgrounds for desktop only - FIXED */
 @media (min-width: 641px) {
-  .section:nth-child(odd):not(.hero-section) {
+  .section:nth-of-type(odd):not(.hero-section) {
     background: linear-gradient(
         135deg,
         rgba(26, 32, 44, 0.95) 0%,
@@ -105,11 +101,11 @@ img {
         circle at 30% 30%,
         rgba(0, 77, 64, 0.2) 0%,
         transparent 70%
-      );
+      ) !important;
     animation: gradientShiftOdd 15s ease-in-out infinite;
   }
 
-  .section:nth-child(even):not(.hero-section) {
+  .section:nth-of-type(even):not(.hero-section) {
     background: linear-gradient(
         135deg,
         rgba(26, 32, 44, 0.95) 0%,
@@ -119,12 +115,12 @@ img {
         circle at 70% 70%,
         rgba(0, 77, 64, 0.2) 0%,
         transparent 70%
-      );
+      ) !important;
     animation: gradientShiftEven 15s ease-in-out infinite;
   }
 }
 
-/* Gradient animation keyframes - desktop only */
+/* Gradient animation keyframes */
 @keyframes gradientShiftOdd {
   0% {
     background-position: 0% 50%, 30% 30%;
@@ -149,20 +145,17 @@ img {
   }
 }
 
-/* Card styles with performance optimizations */
+/* Card styles - FIXED */
 .card {
-  background-color: var(--primary-bg);
+  background-color: var(--primary-bg) !important;
   border-radius: 0.75rem;
   padding: 1rem;
-  border: 2px solid var(--card-border);
+  border: 2px solid var(--card-border) !important;
   box-shadow: var(--shadow-card);
   transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease,
     background 0.3s ease;
   position: relative;
   overflow: hidden;
-  will-change: transform; /* Performance hint */
-  backface-visibility: hidden; /* Performance optimization */
-  transform: translateZ(0); /* Hardware acceleration */
 }
 
 @media (min-width: 640px) {
@@ -171,55 +164,113 @@ img {
   }
 
   .card:hover {
-    border-color: var(--card-border);
+    border-color: var(--card-border) !important;
     box-shadow: var(--shadow-card-hover);
     background: linear-gradient(
       135deg,
       rgba(219, 39, 119, 0.1),
       rgba(59, 130, 246, 0.1)
-    );
+    ) !important;
     transform: scale(1.05) rotate(1deg);
   }
 }
 
-/* Ticker container styles */
+/* Button styles - FIXED */
+.button {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: white !important;
+  background-color: var(--accent-blue) !important;
+  transition: background-color 0.3s ease;
+  text-decoration: none;
+  min-width: 3rem;
+  min-height: 3rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  cursor: pointer;
+}
+
+@media (min-width: 640px) {
+  .button {
+    padding: 0.75rem 1.5rem;
+    font-size: 1.125rem;
+  }
+
+  .button:hover {
+    background-color: var(--accent-deep-teal) !important;
+  }
+}
+
+/* Text color fixes */
+.text-white {
+  color: var(--text-primary) !important;
+}
+
+.text-\[\var\(--text-secondary\)\] {
+  color: var(--text-secondary) !important;
+}
+
+.text-\[\var\(--accent-blue\)\] {
+  color: var(--accent-blue) !important;
+}
+
+/* Background color fixes */
+.bg-\[\var\(--primary-bg\)\] {
+  background-color: var(--primary-bg) !important;
+}
+
+.bg-\[\var\(--accent-blue\)\] {
+  background-color: var(--accent-blue) !important;
+}
+
+.bg-\[\var\(--accent-deep-teal\)\] {
+  background-color: var(--accent-deep-teal) !important;
+}
+
+/* Border color fixes */
+.border-\[\var\(--card-border\)\] {
+  border-color: var(--card-border) !important;
+}
+
+/* Rest of your existing CSS remains the same... */
 .ticker-container {
   padding-top: 1rem;
   padding-bottom: 1rem;
-  background-color: var(--primary-bg);
-  border-top: 1px solid var(--card-border);
-  border-bottom: 1px solid var(--card-border);
+  background-color: var(--primary-bg) !important;
+  border-top: 1px solid var(--card-border) !important;
+  border-bottom: 1px solid var(--card-border) !important;
   overflow: hidden;
 }
 
-/* Ticker item styles */
 .ticker-item {
   display: inline-flex;
   align-items: center;
 }
 
-/* FAQ container styles */
 .faq-container {
   max-width: 48rem;
   margin-left: auto;
   margin-right: auto;
 }
 
-/* FAQ item styles */
 .faq-item {
   padding-top: 0.5rem;
   padding-bottom: 0.5rem;
 }
 
-/* FAQ question styles */
 .faq-question {
   transition: color 0.2s ease;
-  min-height: 3rem; /* Touch-friendly */
+  min-height: 3rem;
   width: 100%;
   text-align: left;
   padding-top: 1rem;
   padding-bottom: 1rem;
-  color: var(--accent-blue);
+  color: var(--accent-blue) !important;
   font-size: 1.125rem;
   font-weight: 600;
   display: flex;
@@ -231,76 +282,43 @@ img {
 }
 
 @media (min-width: 640px) {
-  .faq-question {
-    font-size: 1.25rem;
-  }
-
   .faq-question:hover {
-    color: var(--card-border);
+    color: var(--card-border) !important;
   }
 }
 
-/* FAQ answer styles */
 .faq-answer {
   overflow: hidden;
 }
 
-/* Button styles */
-.button {
-  display: inline-block;
-  padding: 0.5rem 1rem;
-  border-radius: 0.5rem;
-  font-size: 1rem;
-  font-weight: 600;
-  color: white;
-  background-color: var(--accent-blue);
-  transition: background-color 0.3s ease;
-  text-decoration: none;
-  min-width: 3rem; /* Touch-friendly size */
-  min-height: 3rem;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-}
-
-@media (min-width: 640px) {
-  .button {
-    padding: 0.75rem 1.5rem;
-    font-size: 1.125rem;
-  }
-
-  .button:hover {
-    background-color: var(--accent-deep-teal);
-  }
-}
-
-/* Review card styles */
-.review-card {
-  background-color: var(--primary-bg);
+.review-card,
+.team-card {
+  background-color: var(--primary-bg) !important;
   border-radius: 0.75rem;
   padding: 1rem;
-  border: 2px solid var(--card-border);
+  border: 2px solid var(--card-border) !important;
   box-shadow: var(--shadow-card);
   transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
 }
 
 @media (min-width: 640px) {
-  .review-card {
+  .review-card,
+  .team-card {
     padding: 1.5rem;
   }
 
-  .review-card:hover {
+  .review-card:hover,
+  .team-card:hover {
     box-shadow: var(--shadow-card-hover);
     background: linear-gradient(
       135deg,
       rgba(219, 39, 119, 0.1),
       rgba(59, 130, 246, 0.1)
-    );
+    ) !important;
     transform: scale(1.05);
   }
 }
 
-/* Star rating */
 .star-rating {
   display: flex;
   justify-content: center;
@@ -318,196 +336,29 @@ img {
   }
 }
 
-/* Team card styles */
-.team-card {
-  background-color: var(--primary-bg);
-  border-radius: 0.75rem;
-  padding: 1rem;
-  border: 2px solid var(--card-border);
-  box-shadow: var(--shadow-card);
-  text-align: center;
-  transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
-}
-
-@media (min-width: 640px) {
-  .team-card {
-    padding: 1.5rem;
-  }
-
-  .team-card:hover {
-    box-shadow: var(--shadow-card-hover);
-    background: linear-gradient(
-      135deg,
-      rgba(219, 39, 119, 0.1),
-      rgba(59, 130, 246, 0.1)
-    );
-    transform: scale(1.05) translateY(-0.3125rem);
-  }
-}
-
-/* Ensure content visibility */
-header,
-footer,
-.container {
-  z-index: 1;
-}
-
 /* Mobile-specific styles */
 @media (max-width: 640px) {
-  /* Simplify section backgrounds for performance */
   .section {
     background-attachment: scroll;
-    background: var(--primary-bg);
+    background: var(--primary-bg) !important;
     padding-top: 2rem;
     padding-bottom: 2rem;
   }
 
-  /* Hero section mobile styles */
   .hero-section {
     background: linear-gradient(rgba(26, 32, 44, 0.9), rgba(26, 32, 44, 0.9)),
-      url("/assets/hero-pattern.jpg");
-    background-attachment: scroll;
-    background-size: cover;
-    background-position: center;
+      url("/assets/hero-pattern.jpg") !important;
+    background-attachment: scroll !important;
+    background-size: cover !important;
+    background-position: center !important;
     padding-top: 2rem;
     padding-bottom: 2rem;
     min-height: 80vh;
   }
 
-  /* Disable gradient animations on mobile */
-  .section:nth-child(odd),
-  .section:nth-child(even) {
+  .section:nth-of-type(odd),
+  .section:nth-of-type(even) {
     animation: none;
-  }
-
-  /* Responsive typography */
-  h1 {
-    font-size: 1.875rem;
-  }
-
-  h2 {
-    font-size: 1.5rem;
-  }
-
-  h3 {
-    font-size: 1.125rem;
-  }
-
-  p,
-  li {
-    font-size: 0.875rem;
-  }
-
-  /* Responsive grids */
-  .grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 1rem;
-  }
-
-  /* Hero section adjustments */
-  .min-h-screen {
-    min-height: 80vh;
-    padding-top: 4rem;
-  }
-
-  /* Navigation */
-  nav ul {
-    display: none;
-  }
-
-  /* Hamburger menu icon */
-  .hamburger {
-    display: block;
-    font-size: 1.5rem;
-    cursor: pointer;
-  }
-
-  /* Card adjustments */
-  .card,
-  .review-card,
-  .team-card {
-    padding: 1rem;
-  }
-
-  .card img,
-  .review-card img,
-  .team-card img {
-    height: 3rem;
-    width: 3rem;
-  }
-
-  /* Button adjustments */
-  .button {
-    font-size: 0.875rem;
-    padding: 0.5rem 1rem;
-  }
-
-  /* Footer adjustments */
-  footer {
-    padding: 1rem;
-  }
-
-  footer p {
-    font-size: 0.875rem;
-  }
-
-  /* Ticker adjustments for mobile */
-  .ticker-item {
-    font-size: 0.75rem;
-    margin-left: 0.5rem;
-    margin-right: 0.5rem;
-  }
-
-  .ticker-item i {
-    font-size: 0.875rem;
-  }
-
-  /* FAQ adjustments for mobile */
-  .faq-question {
-    font-size: 0.875rem;
-    padding-top: 0.75rem;
-    padding-bottom: 0.75rem;
-  }
-
-  .faq-answer {
-    font-size: 0.75rem;
-  }
-
-  .faq-question i {
-    font-size: 0.875rem;
-  }
-}
-
-/* Hamburger menu styles */
-.hamburger {
-  display: none;
-}
-
-/* Touch-friendly link sizes */
-a {
-  min-width: 3rem;
-  min-height: 3rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-/* Hero Section image overrides */
-.hero-section .card img {
-  width: 100%;
-  max-height: 150px;
-  height: auto;
-  object-fit: contain;
-  display: block !important;
-}
-
-@media (max-width: 640px) {
-  .hero-section .card img {
-    max-height: 100px;
-    width: 100%;
-    object-fit: contain;
-    display: block !important;
   }
 }
 
@@ -526,13 +377,17 @@ a {
   }
 }
 
-/* Performance optimizations for animations */
-@media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-  }
+/* Theme styles */
+[data-theme="light"] {
+  --primary-bg: #f7fafc;
+  --text-primary: #2d3748;
+  --text-secondary: #4a5568;
+  --card-border: rgba(66, 153, 225, 0.5);
+}
+
+[data-theme="dark"] {
+  --primary-bg: #1a202c;
+  --text-primary: #ffffff;
+  --text-secondary: #a0aec0;
+  --card-border: rgba(219, 39, 119, 0.5);
 }

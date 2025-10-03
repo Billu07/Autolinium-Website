@@ -1,15 +1,12 @@
-import React, { useEffect } from "react";
-import {
-  motion,
-  useMotionValue,
-  useTransform,
-  type Variants,
-} from "framer-motion";
+import React from "react";
+import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import "./../App.css";
+import ErrorBoundary from "../components/ErrorBoundary";
+import { useTiltAnimation } from "../hooks/useTiltAnimation";
+import { useScrollAnimation } from "../hooks/useScrollAnimation";
 
 // Animation variants
-const fadeInVariants: Variants = {
+const fadeInVariants = {
   hidden: { opacity: 0, y: 20 },
   visible: {
     opacity: 1,
@@ -23,7 +20,7 @@ const fadeInVariants: Variants = {
   },
 };
 
-const staggerContainer: Variants = {
+const staggerContainer = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
@@ -31,161 +28,187 @@ const staggerContainer: Variants = {
   },
 };
 
-const cardVariants: Variants = {
-  hidden: { opacity: 0, y: 20, rotate: 0 },
+const cardVariants = {
+  hidden: { opacity: 0, y: 20 },
   visible: {
     opacity: 1,
     y: 0,
-    rotate: 0,
-    transition: {
-      duration: 0.6,
-      ease: "easeOut",
-    },
+    transition: { duration: 0.6, ease: "easeOut" },
   },
 };
 
-const buttonVariants: Variants = {
+const buttonVariants = {
   hover: {
     scale: 1.1,
     boxShadow: "0 4px 8px rgba(0, 77, 64, 0.3)",
     transition: { duration: 0.3 },
   },
-  pulse: {
-    scale: [1, 1.05, 1],
-    transition: {
-      duration: 2,
-      repeat: Infinity,
-      ease: "easeInOut",
-      times: [0, 0.5, 1],
-    },
-  },
 };
 
-// Error boundary component
-class ErrorBoundary extends React.Component<
-  { children: React.ReactNode },
-  { hasError: boolean }
-> {
-  state = { hasError: false };
-
-  static getDerivedStateFromError() {
-    return { hasError: true };
-  }
-
-  render() {
-    if (this.state.hasError) {
-      return (
-        <div className="text-center text-white">
-          <h2 className="text-4xl font-bold mb-4">Something went wrong</h2>
-          <p className="text-lg text-text-secondary">Please try again later.</p>
-        </div>
-      );
-    }
-    return this.props.children;
-  }
-}
-
 const Services: React.FC = () => {
-  // Debug log to confirm component mounts
-  useEffect(() => {
-    console.log("Services component mounted successfully");
-  }, []);
+  const tiltAnimation = useTiltAnimation();
+  const { ref, isVisible } = useScrollAnimation();
 
-  // Mouse-based tilt for cards
-  const x = useMotionValue(0);
-  const y = useMotionValue(0);
-  const rotateX = useTransform(y, [-100, 100], [10, -10]);
-  const rotateY = useTransform(x, [-100, 100], [-10, 10]);
-
-  const handleMouseMove = (event: React.MouseEvent<HTMLDivElement>) => {
-    const rect = event.currentTarget.getBoundingClientRect();
-    const centerX = rect.left + rect.width / 2;
-    const centerY = rect.top + rect.height / 2;
-    const mouseX = event.clientX - centerX;
-    const mouseY = event.clientY - centerY;
-    x.set(mouseX);
-    y.set(mouseY);
-  };
-
-  const handleMouseLeave = () => {
-    x.set(0);
-    y.set(0);
-  };
+  const services = [
+    {
+      title: "Custom CRMs",
+      description:
+        "Built with Airtable, Softr, or full-code stacks like Postgres/React/Node.",
+      slug: "custom-crms",
+      icon: "/assets/crm.png",
+      features: ["Centralized Data", "Custom Dashboards", "API Integration"],
+      color: "from-blue-500 to-cyan-500",
+    },
+    {
+      title: "Workflow Automations",
+      description:
+        "Integrate Slack, Gmail, Stripe, and more with Make, n8n, Zapier.",
+      slug: "workflow-automations",
+      icon: "/assets/process.png",
+      features: ["Multi-platform", "Real-time Sync", "90% Time Save"],
+      color: "from-purple-500 to-pink-500",
+    },
+    {
+      title: "AI-Driven Agents & Chatbots",
+      description:
+        "Voice, text, multi-channel bots with ChatGPT, Botpress, Vapi.",
+      slug: "ai-agents-chatbots",
+      icon: "/assets/robot.png",
+      features: ["24/7 Support", "Multi-channel", "Smart Responses"],
+      color: "from-green-500 to-teal-500",
+    },
+  ];
 
   return (
     <ErrorBoundary>
-      <section className="section bg-[var(--primary-bg)] min-h-screen pt-20">
+      <section
+        ref={ref}
+        className="section bg-[var(--primary-bg)] min-h-screen pt-20"
+      >
         <motion.div
           variants={fadeInVariants}
           initial="hidden"
-          animate="visible"
+          animate={isVisible ? "visible" : "hidden"}
           className="container"
         >
-          <h2 className="text-4xl font-bold mb-8 text-center text-white">
+          <motion.h2
+            className="text-4xl font-bold mb-8 text-center text-white"
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+          >
             Our Services
-          </h2>
-          <p className="text-lg text-center mb-12 text-text-secondary">
-            Discover our AI-powered services to transform your business.
-          </p>
+          </motion.h2>
+
+          <motion.p
+            className="text-lg text-center mb-12 text-[var(--text-secondary)] max-w-2xl mx-auto"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+          >
+            Discover our AI-powered services designed to transform your business
+            operations and drive growth through intelligent automation.
+          </motion.p>
+
           <motion.div
             variants={staggerContainer}
             initial="hidden"
-            animate="visible"
-            className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8"
+            animate={isVisible ? "visible" : "hidden"}
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
           >
-            {[
-              {
-                title: "Custom CRMs",
-                description:
-                  "Built with Airtable, Softr, or full-code stacks like Postgres/React/Node.",
-                slug: "custom-crms",
-                icon: "/assets/crm.png",
-              },
-              {
-                title: "Workflow Automations",
-                description:
-                  "Integrate Slack, Gmail, Stripe, and more with Make, n8n, Zapier.",
-                slug: "workflow-automations",
-                icon: "/assets/process.png",
-              },
-              {
-                title: "AI-Driven Agents & Chatbots",
-                description:
-                  "Voice, text, multi-channel bots with ChatGPT, Botpress, Vapi.",
-                slug: "ai-agents-chatbots",
-                icon: "/assets/robot.png",
-              },
-            ].map((service, index) => (
+            {services.map((service, index) => (
               <motion.div
                 key={index}
                 variants={cardVariants}
-                style={{ rotateX, rotateY, perspective: 1000 }}
-                onMouseMove={handleMouseMove}
-                onMouseLeave={handleMouseLeave}
-                className="card text-center border-2 border-accent-pink"
+                style={{
+                  rotateX: tiltAnimation.rotateX,
+                  rotateY: tiltAnimation.rotateY,
+                  perspective: 1000,
+                }}
+                onMouseMove={tiltAnimation.handleMouseMove}
+                onMouseLeave={tiltAnimation.handleMouseLeave}
+                className="group"
               >
-                <img
-                  src={service.icon}
-                  alt={service.title}
-                  className="mx-auto mb-4 h-16"
-                  onError={() =>
-                    console.error(`Failed to load ${service.icon}`)
-                  }
-                />
-                <h3 className="text-xl font-semibold mb-2">{service.title}</h3>
-                <p className="text-text-secondary mb-4">
-                  {service.description}
-                </p>
-                <motion.div variants={buttonVariants} whileHover="hover">
-                  <Link
-                    to={`/services/${service.slug}`}
-                    className="button bg-accent-deep-teal"
-                  >
-                    Learn More
-                  </Link>
+                <motion.div
+                  className="card text-center h-full flex flex-col relative overflow-hidden"
+                  whileHover={{ y: -10 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  {/* Gradient Background */}
+                  <div
+                    className={`absolute inset-0 bg-gradient-to-br ${service.color} opacity-0 group-hover:opacity-10 transition-opacity duration-300`}
+                  ></div>
+
+                  <div className="relative z-10 flex-1 flex flex-col">
+                    <div className="mb-4">
+                      <img
+                        src={service.icon}
+                        alt={service.title}
+                        className="mx-auto mb-4 h-16 w-16 object-contain"
+                        onError={(e) => {
+                          e.currentTarget.src = "/assets/fallback-image.jpg";
+                        }}
+                      />
+                    </div>
+
+                    <h3 className="text-xl font-semibold mb-3 text-white group-hover:text-[var(--accent-blue)] transition-colors">
+                      {service.title}
+                    </h3>
+
+                    <p className="text-[var(--text-secondary)] mb-6 flex-1">
+                      {service.description}
+                    </p>
+
+                    {/* Features */}
+                    <div className="mb-6">
+                      <ul className="space-y-2">
+                        {service.features.map((feature, featureIndex) => (
+                          <li
+                            key={featureIndex}
+                            className="flex items-center text-sm text-[var(--text-secondary)]"
+                          >
+                            <i className="fas fa-check text-green-400 mr-2 text-xs"></i>
+                            {feature}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+
+                    <div className="mt-auto">
+                      <motion.div variants={buttonVariants} whileHover="hover">
+                        <Link
+                          to={`/services/${service.slug}`}
+                          className="button bg-[var(--accent-deep-teal)] w-full hover:bg-[var(--accent-blue)] transition-colors"
+                        >
+                          <span className="flex items-center justify-center">
+                            Learn More
+                            <i className="fas fa-arrow-right ml-2"></i>
+                          </span>
+                        </Link>
+                      </motion.div>
+                    </div>
+                  </div>
                 </motion.div>
               </motion.div>
             ))}
+          </motion.div>
+
+          {/* Additional CTA */}
+          <motion.div
+            className="text-center mt-12"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.6 }}
+          >
+            <p className="text-[var(--text-secondary)] mb-6">
+              Not sure which service is right for you?
+            </p>
+            <Link
+              to="/contact"
+              className="button bg-transparent border-2 border-[var(--accent-blue)] text-[var(--accent-blue)] hover:bg-[var(--accent-blue)] hover:text-white transition-colors"
+            >
+              Get Free Consultation
+            </Link>
           </motion.div>
         </motion.div>
       </section>
