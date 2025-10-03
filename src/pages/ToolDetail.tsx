@@ -1,67 +1,155 @@
-// src/pages/ToolDetail.tsx
 import React from "react";
 import { motion } from "framer-motion";
 import { useParams, Link } from "react-router-dom";
+import "./../App.css";
 
-// Mock data
-const toolsData = {
-  "chatbot-pro": {
-    title: "ChatBot Pro",
-    description: "Advanced chatbot for 24/7 engagement. Request a demo below.",
-    videoSrc: "/assets/chatbot-pro-demo.mp4",
-    features: [
-      "Real-time Responses",
-      "Multi-language Support",
-      "Analytics Dashboard",
-    ],
+// Animation variants
+const fadeInVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.6,
+      ease: "easeOut",
+      type: "spring",
+      stiffness: 100,
+    },
   },
-  // Add for others...
+};
+
+const buttonVariants = {
+  hover: {
+    scale: 1.1,
+    boxShadow: "0 4px 8px rgba(0, 77, 64, 0.3)",
+    transition: { duration: 0.3 },
+  },
+  pulse: {
+    scale: [1, 1.05, 1],
+    transition: { duration: 2, repeat: Infinity, ease: "easeInOut" },
+  },
+};
+
+// Mock data for tools
+const toolData: {
+  [key: string]: {
+    title: string;
+    description: string;
+    features: string[];
+    useCase: string;
+  };
+} = {
+  "airtable-softr": {
+    title: "Airtable & Softr",
+    description:
+      "Build powerful, user-friendly CRMs and databases with Airtable’s flexible data management and Softr’s no-code frontends for rapid deployment.",
+    features: [
+      "Customizable database schemas",
+      "User-friendly interfaces with Softr",
+      "Real-time data collaboration",
+      "Integration with automation tools",
+    ],
+    useCase:
+      "Created a client portal for a consulting firm, using Airtable for data storage and Softr for a branded frontend, deployed in 2 weeks.",
+  },
+  "make-n8n-zapier": {
+    title: "Make, n8n, Zapier",
+    description:
+      "Automate complex workflows across your favorite tools with Make, n8n, and Zapier, enabling seamless data flow and task automation.",
+    features: [
+      "Connect 100+ apps with no-code/low-code",
+      "Custom logic for advanced workflows",
+      "Real-time triggers and actions",
+      "Scalable automation for any business size",
+    ],
+    useCase:
+      "Automated lead syncing for a marketing agency, connecting HubSpot, Slack, and Gmail via n8n, reducing manual updates by 90%.",
+  },
+  "react-native-aws": {
+    title: "React Native & AWS",
+    description:
+      "Develop scalable mobile apps for Android and iOS with React Native, backed by AWS for robust, cloud-based infrastructure.",
+    features: [
+      "Cross-platform mobile apps",
+      "Scalable backends with AWS Lambda, S3",
+      "Real-time data with AWS AppSync",
+      "Secure authentication with AWS Cognito",
+    ],
+    useCase:
+      "Built a mobile app for a retail client, using React Native for the frontend and AWS for real-time inventory tracking, launched in 3 months.",
+  },
 };
 
 const ToolDetail: React.FC = () => {
   const { slug } = useParams<{ slug: string }>();
-  const tool = toolsData[slug as keyof typeof toolsData];
+  const tool = slug && toolData[slug] ? toolData[slug] : null;
 
-  if (!tool) return <p>Tool not found.</p>;
+  if (!tool) {
+    return (
+      <section className="section bg-[var(--primary-bg)] min-h-screen pt-20">
+        <div className="container text-center">
+          <h2 className="text-4xl font-bold mb-4 text-white">Tool Not Found</h2>
+          <p className="text-lg text-[var(--text-secondary)] mb-8">
+            The tool you're looking for doesn't exist.
+          </p>
+          <motion.div variants={buttonVariants} whileHover="hover">
+            <Link to="/tools" className="button bg-[var(--accent-deep-teal)]">
+              Back to Tools
+            </Link>
+          </motion.div>
+        </div>
+      </section>
+    );
+  }
 
   return (
-    <motion.section
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 1 }}
-      className="py-20 container mx-auto px-4 bg-gray-900 min-h-screen"
-    >
-      <h2
-        className="text-4xl md:text-5xl font-orbitron text-center mb-12 glitch"
-        data-text={tool.title}
+    <section className="section bg-[var(--primary-bg)] min-h-screen pt-20">
+      <motion.div
+        variants={fadeInVariants}
+        initial="hidden"
+        animate="visible"
+        className="container"
       >
-        {tool.title}
-      </h2>
-      <p className="text-lg font-sans max-w-3xl mx-auto mb-8 text-gray-300">
-        {tool.description}
-      </p>
-      <video
-        src={tool.videoSrc}
-        autoPlay
-        loop
-        muted
-        playsInline // For seamless mobile playback
-        className="w-full max-w-3xl mx-auto h-96 object-cover rounded mb-8 shadow-[var(--border-glow)]"
-        aria-label={`Demo video for ${tool.title}`}
-        preload="auto" // Seamless loading
-      />
-      <ul className="list-disc max-w-3xl mx-auto mb-8 text-gray-300">
-        {tool.features.map((feature, i) => (
-          <li key={i}>{feature}</li>
-        ))}
-      </ul>
-      <Link
-        to="/subscribe"
-        className="block max-w-xs mx-auto bg-[var(--neon-pink)] px-6 py-3 rounded-lg text-lg text-center hover:bg-pink-300 transition"
-      >
-        Request Demo
-      </Link>
-    </motion.section>
+        <h2 className="text-4xl font-bold mb-8 text-center text-white">
+          {tool.title}
+        </h2>
+        <p className="text-lg text-center mb-12 text-[var(--text-secondary)] max-w-3xl mx-auto">
+          {tool.description}
+        </p>
+        <div className="card mb-12">
+          <h3 className="text-xl font-semibold mb-4 text-center">
+            Key Features
+          </h3>
+          <ul className="list-disc max-w-3xl mx-auto text-[var(--text-secondary)] space-y-2">
+            {tool.features.map((feature, index) => (
+              <motion.li
+                key={index}
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: index * 0.2, duration: 0.5 }}
+              >
+                {feature}
+              </motion.li>
+            ))}
+          </ul>
+        </div>
+        <div className="card">
+          <h3 className="text-xl font-semibold mb-4 text-center">Use Case</h3>
+          <p className="text-[var(--text-secondary)] text-center max-w-3xl mx-auto">
+            {tool.useCase}
+          </p>
+        </div>
+        <motion.div
+          variants={buttonVariants}
+          whileHover="hover"
+          className="text-center mt-8"
+        >
+          <Link to="/contact" className="button bg-[var(--accent-deep-teal)]">
+            Get Started with {tool.title}
+          </Link>
+        </motion.div>
+      </motion.div>
+    </section>
   );
 };
 

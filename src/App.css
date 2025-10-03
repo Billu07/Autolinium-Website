@@ -1,95 +1,337 @@
-/* Axus-inspired custom styles */
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Orbitron:wght@400;700&display=utf-8");
+@import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css");
+
+:root {
+  --primary-bg: #1a202c;
+  --text-primary: #ffffff;
+  --text-secondary: #a0aec0;
+  --accent-blue: #3b82f6;
+  --accent-purple: #6b46c1; /* Kept for potential use */
+  --accent-deep-teal: #004d40; /* For buttons */
+  --card-border: rgba(219, 39, 119, 0.5); /* Pink, semi-transparent */
+  --shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+  --shadow-card: 0 4px 8px rgba(0, 0, 0, 0.2);
+  --shadow-card-hover: 0 8px 16px rgba(219, 39, 119, 0.3); /* Pink glow */
+}
+
+body {
+  margin: 0;
+  font-family: "Inter", sans-serif;
+}
+
+.container {
+  @apply max-w-6xl mx-auto px-4 sm:px-6;
+}
+
+/* Base section styles */
+.section {
+  @apply py-12 sm:py-20 relative;
+  background-color: var(--primary-bg); /* Solid fallback */
+  background-attachment: fixed;
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Hero section with custom pattern */
+.hero-section {
+  @apply py-12 sm:py-20 relative text-white;
+  background: linear-gradient(rgba(26, 32, 44, 0.9), rgba(26, 32, 44, 0.9)),
+    url("/assets/hero-pattern.jpg");
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Parallax gradient backgrounds with subtle animation for other sections */
+.section:nth-child(odd) {
+  background: linear-gradient(
+      135deg,
+      rgba(26, 32, 44, 0.95) 0%,
+      rgba(59, 130, 246, 0.15) 100%
+    ),
+    radial-gradient(circle at 30% 30%, rgba(0, 77, 64, 0.2) 0%, transparent 70%);
+  animation: gradientShiftOdd 15s ease-in-out infinite;
+}
+
+.section:nth-child(even) {
+  background: linear-gradient(
+      135deg,
+      rgba(26, 32, 44, 0.95) 0%,
+      rgba(219, 39, 119, 0.15) 100%
+    ),
+    radial-gradient(circle at 70% 70%, rgba(0, 77, 64, 0.2) 0%, transparent 70%);
+  animation: gradientShiftEven 15s ease-in-out infinite;
+}
+
+/* Gradient animation keyframes */
+@keyframes gradientShiftOdd {
+  0% {
+    background-position: 0% 50%, 30% 30%;
+  }
+  50% {
+    background-position: 100% 50%, 40% 40%;
+  }
+  100% {
+    background-position: 0% 50%, 30% 30%;
+  }
+}
+
+@keyframes gradientShiftEven {
+  0% {
+    background-position: 0% 50%, 70% 70%;
+  }
+  50% {
+    background-position: 100% 50%, 60% 60%;
+  }
+  100% {
+    background-position: 0% 50%, 70% 70%;
+  }
+}
+
+/* Card styles */
 .card {
-  background: var(--card-bg);
-  border-radius: 0.5rem;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
-    0 2px 4px -1px rgba(0, 0, 0, 0.06);
-  padding: 2rem;
-  color: #1a202c;
-  transition: transform 0.3s ease;
+  @apply bg-[var(--primary-bg)] rounded-xl p-4 sm:p-6 border-2 border-[var(--card-border)] shadow-[var(--shadow-card)];
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease,
+    background 0.3s ease;
+  position: relative;
+  overflow: hidden;
 }
 
 .card:hover {
-  transform: translateY(-4px);
+  @apply border-[var(--card-border)];
+  box-shadow: var(--shadow-card-hover);
+  background: linear-gradient(
+    135deg,
+    rgba(219, 39, 119, 0.1),
+    rgba(59, 130, 246, 0.1)
+  );
+  transform: scale(1.05) rotate(1deg);
 }
 
-.button {
-  background: var(--accent-blue);
-  color: white;
-  padding: 0.75rem 1.5rem;
-  border-radius: 0.5rem;
-  text-decoration: none;
-  font-weight: 500;
-  transition: background 0.3s ease;
+/* Ticker container styles */
+.ticker-container {
+  @apply py-4 bg-[var(--primary-bg)];
+  border-top: 1px solid var(--card-border);
+  border-bottom: 1px solid var(--card-border);
 }
 
-.button:hover {
-  background: var(--accent-blue-hover);
+/* Ticker item styles */
+.ticker-item {
+  @apply inline-flex items-center;
 }
 
-.grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 2rem;
+/* FAQ container styles */
+.faq-container {
+  @apply max-w-3xl mx-auto;
 }
 
-.process-step {
-  text-align: center;
-  padding: 2rem;
-  border: 1px solid #e2e8f0;
-  border-radius: 0.5rem;
-}
-
-.testimonial {
-  background: var(--primary-bg);
-  border-radius: 0.5rem;
-  padding: 2rem;
-  margin-bottom: 1rem;
-  position: relative;
-}
-
-.testimonial::before {
-  content: '"';
-  font-size: 4rem;
-  color: var(--accent-blue);
-  position: absolute;
-  top: -10px;
-  left: 10px;
-}
-
+/* FAQ item styles */
 .faq-item {
-  border-bottom: 1px solid #e2e8f0;
-  margin-bottom: 1rem;
+  @apply py-2;
 }
 
-.faq-item h3 {
-  cursor: pointer;
-  color: var(--accent-blue);
+/* FAQ question styles */
+.faq-question {
+  @apply transition-colors duration-200;
+  min-height: 48px; /* Touch-friendly */
 }
 
-.faq-item p {
-  color: var(--text-secondary);
-  margin-top: 0.5rem;
+.faq-question:hover {
+  @apply text-[var(--card-border)];
 }
 
-.contact-form input,
-.contact-form textarea {
-  width: 100%;
-  padding: 0.75rem;
-  border: 1px solid #e2e8f0;
-  border-radius: 0.5rem;
-  margin-bottom: 1rem;
-  background: var(--card-bg);
-  color: #1a202c;
+/* FAQ answer styles */
+.faq-answer {
+  @apply overflow-hidden;
 }
 
-.contact-form label {
-  display: block;
-  margin-bottom: 0.5rem;
-  color: var(--accent-blue);
-  font-weight: 500;
+/* Button styles */
+.button {
+  @apply inline-block px-4 py-2 sm:px-6 sm:py-3 rounded-lg text-base sm:text-lg font-semibold text-white bg-[var(--accent-blue)] hover:bg-[var(--accent-deep-teal)] transition-colors duration-300;
+  min-width: 48px; /* Touch-friendly size */
+  min-height: 48px;
 }
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+/* Review card styles */
+.review-card {
+  @apply bg-[var(--primary-bg)] rounded-xl p-4 sm:p-6 border-2 border-[var(--card-border)] shadow-[var(--shadow-card)];
+  transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+}
+
+.review-card:hover {
+  box-shadow: var(--shadow-card-hover);
+  background: linear-gradient(
+    135deg,
+    rgba(219, 39, 119, 0.1),
+    rgba(59, 130, 246, 0.1)
+  );
+  transform: scale(1.05);
+}
+
+/* Star rating */
+.star-rating {
+  @apply flex justify-center mb-4;
+}
+
+.star-rating i {
+  @apply text-yellow-400 text-base sm:text-lg;
+}
+
+/* Team card styles */
+.team-card {
+  @apply bg-[var(--primary-bg)] rounded-xl p-4 sm:p-6 border-2 border-[var(--card-border)] shadow-[var(--shadow-card)] text-center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+}
+
+.team-card:hover {
+  box-shadow: var(--shadow-card-hover);
+  background: linear-gradient(
+    135deg,
+    rgba(219, 39, 119, 0.1),
+    rgba(59, 130, 246, 0.1)
+  );
+  transform: scale(1.05) translateY(-5px);
+}
+
+/* Ensure content visibility */
+header,
+footer,
+.container {
+  z-index: 1;
+}
+
+/* Mobile-specific styles */
+@media (max-width: 640px) {
+  /* Simplify section backgrounds for performance */
+  .section {
+    background-attachment: scroll; /* Avoid fixed background issues on mobile */
+    background: var(--primary-bg); /* Solid background for better performance */
+    @apply py-8;
+  }
+
+  /* Hero section mobile styles */
+  .hero-section {
+    background: linear-gradient(rgba(26, 32, 44, 0.9), rgba(26, 32, 44, 0.9)),
+      url("/assets/hero-pattern.jpg");
+    background-attachment: scroll;
+    background-size: cover;
+    background-position: center;
+    @apply py-8;
+  }
+
+  .section:nth-child(odd),
+  .section:nth-child(even) {
+    animation: none; /* Disable gradient animations on mobile */
+  }
+
+  /* Responsive typography */
+  h1 {
+    @apply text-3xl;
+  }
+
+  h2 {
+    @apply text-2xl;
+  }
+
+  h3 {
+    @apply text-lg;
+  }
+
+  p,
+  li {
+    @apply text-sm;
+  }
+
+  /* Responsive grids */
+  .grid {
+    @apply grid-cols-1 gap-4;
+  }
+
+  /* Hero section adjustments */
+  .min-h-screen {
+    @apply min-h-[80vh] pt-16;
+  }
+
+  /* Navigation */
+  nav ul {
+    @apply hidden; /* Hide nav links by default */
+  }
+
+  /* Hamburger menu icon */
+  .hamburger {
+    @apply block text-2xl cursor-pointer;
+  }
+
+  /* Show nav links when active */
+  .nav-active {
+    @apply flex flex-col absolute top-16 left-0 w-full bg-[var(--primary-bg)] p-4 space-y-4;
+  }
+
+  /* Card adjustments */
+  .card,
+  .review-card,
+  .team-card {
+    @apply p-4;
+  }
+
+  .card img,
+  .review-card img,
+  .team-card img {
+    @apply h-12 w-12;
+  }
+
+  /* Button adjustments */
+  .button {
+    @apply text-sm px-4 py-2;
+  }
+
+  /* Footer adjustments */
+  footer {
+    @apply p-4;
+  }
+
+  footer p {
+    @apply text-sm;
+  }
+
+  /* Ticker adjustments for mobile */
+  .ticker-item {
+    @apply text-xs mx-2;
+  }
+
+  .ticker-item i {
+    @apply text-sm;
+  }
+
+  /* FAQ adjustments for mobile */
+  .faq-question {
+    @apply text-sm py-3;
+  }
+
+  .faq-answer {
+    @apply text-xs;
+  }
+
+  .faq-question i {
+    @apply text-sm;
+  }
+}
+
+/* Hamburger menu styles */
+.hamburger {
+  @apply hidden;
+}
+
+/* Ensure images are responsive */
+img {
+  @apply max-w-full h-auto;
+}
+
+/* Touch-friendly link sizes */
+a {
+  @apply min-w-[48px] min-h-[48px] flex items-center justify-center;
+}

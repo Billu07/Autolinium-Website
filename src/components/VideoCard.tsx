@@ -1,13 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 import { motion } from "framer-motion";
-import type { Variants } from "framer-motion";
 import { Link } from "react-router-dom";
-
-// Card container variants for staggered animation
-const cardVariants: Variants = {
-  hidden: { opacity: 0, y: 50 },
-  visible: { opacity: 1, y: 0 },
-};
 
 interface VideoCardProps {
   src: string;
@@ -16,8 +9,27 @@ interface VideoCardProps {
   buttonText: string;
   color: string;
   icon: string;
-  index: number;
+  index?: number;
 }
+
+const cardVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: (index: number = 0) => ({
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.6,
+      ease: "easeOut",
+      delay: index * 0.2,
+    },
+  }),
+  hover: {
+    scale: 1.05,
+    boxShadow: "0 8px 16px rgba(0, 77, 64, 0.2)", // Deep teal glow
+    borderColor: "var(--accent-deep-teal)",
+    transition: { duration: 0.3 },
+  },
+};
 
 const VideoCard: React.FC<VideoCardProps> = ({
   src,
@@ -26,95 +38,69 @@ const VideoCard: React.FC<VideoCardProps> = ({
   buttonText,
   color,
   icon,
-  index,
+  index = 0,
 }) => {
-  const [isLoading, setIsLoading] = useState(true);
+  // Debug index value
+  console.log(`VideoCard ${title} index:`, index);
+
+  // Fallback image
+  const fallbackImage = "/assets/fallback-image.jpg";
+
+  // Mobile-optimized image source (assumes mobile versions exist)
+  const mobileSrc = src.replace(".png", "-mobile.png");
 
   return (
     <motion.div
       custom={index}
       variants={cardVariants}
       initial="hidden"
-      whileInView="visible"
-      viewport={{ once: true, amount: 0.3 }}
-      whileHover={{ rotateX: 5, rotateY: 5, boxShadow: `0 0 20px ${color}` }}
-      transition={{
-        type: "spring",
-        stiffness: 100,
-        duration: 0.8,
-        delay: index * 0.2,
-      }}
-      className="bg-[var(--bg-dark)] p-6 rounded-lg border-2 hover:shadow-[var(--border-glow)] transition transform"
-      style={{ borderColor: color }}
+      animate="visible"
+      whileHover={window.innerWidth >= 640 ? "hover" : undefined} // Disable hover on mobile
+      className="card text-center relative overflow-hidden"
+      style={{ borderColor: "var(--card-border)" }}
     >
-      <div className="flex justify-center mb-4">
-        <motion.i
-          className={`fas ${icon} text-4xl`}
-          style={{ color }}
-          animate={{ rotate: [0, 10, -10, 0], scale: [1, 1.1, 1] }}
-          transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
-        ></motion.i>
+      {/* Logo Placeholder */}
+      <img
+        src="/assets/card-logo-placeholder.png"
+        alt={`${title} Logo`}
+        className="mx-auto mb-4 h-10 w-10 sm:h-12 sm:w-12 object-contain"
+        loading="lazy"
+        onError={() => console.error(`Failed to load logo for ${title}`)}
+      />
+      {/* Responsive Image */}
+      <div className="relative aspect-w-16 aspect-h-9 mb-4">
+        <picture>
+          <source media="(max-width: 640px)" srcSet={mobileSrc} />
+          <img
+            src={src}
+            alt={title}
+            className="w-full h-full object-cover rounded-lg"
+            loading="lazy"
+            onError={(e) => {
+              console.error(`Failed to load image for ${title}`);
+              e.currentTarget.src = fallbackImage;
+            }}
+          />
+        </picture>
       </div>
-      <h3
-        className="text-2xl font-orbitron mb-4 drop-shadow-sm text-center"
-        style={{ color, textShadow: "var(--text-shadow)" }}
+      {/* Content */}
+      <h3 className="text-lg sm:text-xl font-semibold mb-2">{title}</h3>
+      <p className="text-[var(--text-secondary)] text-sm sm:text-base mb-4">
+        {description}
+      </p>
+      <Link
+        to="/services"
+        className="button inline-block"
+        style={
+          {
+            backgroundColor: color,
+            "--hover-bg": "var(--accent-deep-teal)",
+          } as React.CSSProperties
+        }
       >
-        {title}
-      </h3>
-      <p className="font-sans mb-4 text-gray-300 text-center">{description}</p>
-      <div className="relative">
-        <video
-          src={src}
-          autoPlay
-          loop
-          muted
-          className="w-full h-48 object-cover rounded mb-4"
-          onLoadedData={(e) => {
-            e.currentTarget.style.opacity = "1";
-            setIsLoading(false);
-          }}
-          style={{ opacity: 0, transition: "opacity 0.5s" }}
-          aria-label={`Demo video for ${title}`}
-        />
-        {isLoading && (
-          <div className="absolute inset-0 flex items-center justify-center">
-            <motion.div
-              className="rounded-full h-12 w-12 border-t-2 border-b-2"
-              style={{ borderColor: color }}
-              animate={{ rotate: 360 }}
-              transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
-            ></motion.div>
-          </div>
-        )}
-      </div>
-      <div className="flex justify-center space-x-2 mt-4">
-        <motion.span
-          whileHover={{ scale: 1.05, boxShadow: `0 0 10px ${color}` }}
-          whileTap={{ scale: 0.95 }}
-          className="px-4 py-2 rounded transition inline-block text-white"
-          style={{ backgroundColor: color }}
-        >
-          <Link
-            to={
-              buttonText === "Learn More"
-                ? `/services/${title.toLowerCase().replace(/\s+/g, "-")}`
-                : `/tools/${title.toLowerCase().replace(/\s+/g, "-")}`
-            }
-          >
-            {buttonText}
-          </Link>
-        </motion.span>
-        {buttonText === "Request Demo" && (
-          <motion.span
-            whileHover={{ scale: 1.05, boxShadow: `0 0 10px ${color}` }}
-            whileTap={{ scale: 0.95 }}
-            className="px-4 py-2 rounded transition inline-block text-white"
-            style={{ backgroundColor: color }}
-          >
-            <Link to="/subscribe">Subscribe Now</Link>
-          </motion.span>
-        )}
-      </div>
+        <i className={`${icon} mr-2`}></i>
+        {buttonText}
+      </Link>
     </motion.div>
   );
 };

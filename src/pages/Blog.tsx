@@ -1,7 +1,7 @@
-// src/pages/Blog.tsx
-import React from "react";
+import React, { useEffect } from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
+import "./../App.css";
 
 // Mock posts
 const posts = [
@@ -19,44 +19,124 @@ const posts = [
   },
 ];
 
+// Animation variants
+const fadeInVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.6,
+      ease: "easeOut",
+      type: "spring",
+      stiffness: 100,
+    },
+  },
+};
+
+const staggerContainer = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: { staggerChildren: 0.2, delayChildren: 0.3 },
+  },
+};
+
+const cardVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.6, ease: "easeOut" },
+  },
+};
+
+const buttonVariants = {
+  hover: {
+    scale: 1.1,
+    boxShadow: "0 4px 8px rgba(0, 77, 64, 0.3)",
+    transition: { duration: 0.3 },
+  },
+  pulse: {
+    scale: [1, 1.05, 1],
+    transition: { duration: 2, repeat: Infinity, ease: "easeInOut" },
+  },
+};
+
+// Error boundary component
+class ErrorBoundary extends React.Component<
+  { children: React.ReactNode },
+  { hasError: boolean }
+> {
+  state = { hasError: false };
+
+  static getDerivedStateFromError() {
+    return { hasError: true };
+  }
+
+  render() {
+    if (this.state.hasError) {
+      return (
+        <div className="text-center text-white">
+          <h2 className="text-4xl font-bold mb-4">Something went wrong</h2>
+          <p className="text-lg text-text-secondary">Please try again later.</p>
+        </div>
+      );
+    }
+    return this.props.children;
+  }
+}
+
 const Blog: React.FC = () => {
+  useEffect(() => {
+    console.log("Blog component mounted successfully");
+  }, []);
+
   return (
-    <motion.section
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 1 }}
-      className="py-20 container mx-auto px-4 bg-gray-900 min-h-screen"
-    >
-      <h2
-        className="text-4xl md:text-5xl font-orbitron text-center mb-12 glitch"
-        data-text="Our Blog"
-      >
-        Our Blog
-      </h2>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-        {posts.map((post) => (
+    <ErrorBoundary>
+      <section className="section bg-[var(--primary-bg)] min-h-screen pt-20">
+        <motion.div
+          variants={fadeInVariants}
+          initial="hidden"
+          animate="visible"
+          className="container"
+        >
+          <h2 className="text-4xl font-bold mb-8 text-center text-white font-inter">
+            Our Blog
+          </h2>
+          <p className="text-lg text-center mb-12 text-text-secondary max-w-3xl mx-auto">
+            Stay updated with the latest insights on AI, automation, and
+            software development.
+          </p>
           <motion.div
-            key={post.id}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="bg-[var(--bg-dark)] p-6 rounded-lg border-2 border-[var(--neon-teal)] hover:shadow-[var(--border-glow)]"
+            variants={staggerContainer}
+            initial="hidden"
+            animate="visible"
+            className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8"
           >
-            <h3 className="text-2xl font-orbitron mb-4 text-[var(--neon-teal)]">
-              {post.title}
-            </h3>
-            <p className="text-gray-300 mb-4">{post.excerpt}</p>
-            <p className="text-sm text-gray-500">{post.date}</p>
-            <Link
-              to={`/blog/${post.id}`}
-              className="mt-4 inline-block px-4 py-2 rounded bg-[var(--neon-teal)] text-white hover:bg-teal-300"
-            >
-              Read More
-            </Link>
+            {posts.map((post) => (
+              <motion.div
+                key={post.id}
+                variants={cardVariants}
+                className="card text-center border-2 border-accent-pink"
+              >
+                <h3 className="text-xl font-semibold mb-2">{post.title}</h3>
+                <p className="text-text-secondary mb-4">{post.excerpt}</p>
+                <p className="text-sm text-text-secondary mb-4">{post.date}</p>
+                <motion.div variants={buttonVariants} whileHover="hover">
+                  <Link
+                    to={`/blog/${post.id}`}
+                    className="button bg-accent-deep-teal"
+                  >
+                    Read More
+                  </Link>
+                </motion.div>
+              </motion.div>
+            ))}
           </motion.div>
-        ))}
-      </div>
-    </motion.section>
+        </motion.div>
+      </section>
+    </ErrorBoundary>
   );
 };
 

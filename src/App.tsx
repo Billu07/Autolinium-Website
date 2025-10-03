@@ -1,5 +1,5 @@
-import React from "react";
-import { motion } from "framer-motion";
+import React, { useState } from "react";
+import { motion, useMotionValue, useTransform } from "framer-motion";
 import { Routes, Route, useLocation, Link } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
 import VideoCard from "./components/VideoCard";
@@ -9,12 +9,108 @@ import ToolDetail from "./pages/ToolDetail";
 import Subscribe from "./pages/Subscribe";
 import Blog from "./pages/Blog";
 import BlogPost from "./pages/BlogPost";
+import Services from "./pages/Services";
+import About from "./pages/About";
+import Pricing from "./pages/Pricing";
+import Tools from "./pages/Tools";
 import "./App.css";
 
-// Simple variants for fade-ins (matching Axus minimal animations)
+// Fade-in with bounce for sections
 const fadeInVariants = {
   hidden: { opacity: 0, y: 20 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.6 } },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.6,
+      ease: "easeOut",
+      type: "spring",
+      stiffness: 100,
+    },
+  },
+};
+
+// Slide-in for review/team cards
+const slideInVariants = {
+  hidden: { opacity: 0, x: -50 },
+  visible: {
+    opacity: 1,
+    x: 0,
+    transition: {
+      duration: 0.5,
+      ease: "easeOut",
+    },
+  },
+};
+
+// Staggered animation for cards
+const staggerContainer = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.2,
+      delayChildren: 0.3,
+    },
+  },
+};
+
+// Card tilt animation (disabled on mobile)
+const cardVariants = {
+  hidden: { opacity: 0, y: 20, rotate: 0 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    rotate: [0, 2, -2, 0],
+    transition: {
+      duration: 0.6,
+      ease: "easeOut",
+      rotate: { duration: 1.5, ease: "easeInOut" },
+    },
+  },
+};
+
+// Button pulse animation
+const buttonVariants = {
+  hover: {
+    scale: 1.1,
+    boxShadow: "0 4px 8px rgba(0, 77, 64, 0.3)",
+    transition: { duration: 0.3 },
+  },
+  pulse: {
+    scale: [1, 1.05, 1],
+    transition: { duration: 2, repeat: Infinity, ease: "easeInOut" },
+  },
+};
+
+// News ticker animation
+const tickerVariants = {
+  animate: {
+    x: ["0%", "-100%"],
+    transition: {
+      x: {
+        repeat: Infinity,
+        repeatType: "loop",
+        duration: 30, // Slower for readability
+        ease: "linear",
+      },
+    },
+  },
+};
+
+// FAQ answer animation
+const faqAnswerVariants = {
+  hidden: { opacity: 0, height: 0, marginTop: 0 },
+  visible: {
+    opacity: 1,
+    height: "auto",
+    marginTop: "0.5rem",
+    transition: {
+      opacity: { duration: 0.3 },
+      height: { duration: 0.3, ease: "easeOut" },
+      marginTop: { duration: 0.3 },
+    },
+  },
 };
 
 // Scroll progress component
@@ -43,495 +139,890 @@ const ScrollProgress: React.FC = () => {
   );
 };
 
-// Home component with Axus structure
-const Home: React.FC = () => (
-  <div>
-    {/* Hero Section - Axus Style */}
-    <section className="min-h-screen flex items-center justify-center bg-[var(--primary-bg)] text-white pt-20">
-      <motion.div
-        variants={fadeInVariants}
-        initial="hidden"
-        animate="visible"
-        className="text-center px-4 max-w-4xl"
-      >
-        <h1 className="text-5xl md:text-7xl font-bold mb-4">
-          Welcome To Autolinium
-        </h1>
-        <p className="text-xl md:text-2xl mb-8 text-[var(--text-secondary)]">
-          AI automates routine tasks, freeing up employees for more strategic,
-          creative, and high-value activities.
-        </p>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-          {/* Hero Cards - Placeholder for images */}
-          <div className="card text-center p-4">
-            <img
-              src="https://via.placeholder.com/150?text=AI+Tool+1"
-              alt="Hero Card 1"
-              className="w-full h-32 object-cover rounded mb-2"
-            />
-          </div>
-          <div className="card text-center p-4">
-            <img
-              src="https://via.placeholder.com/150?text=AI+Tool+2"
-              alt="Hero Card 2"
-              className="w-full h-32 object-cover rounded mb-2"
-            />
-          </div>
-          <div className="card text-center p-4">
-            <img
-              src="https://via.placeholder.com/150?text=AI+Tool+3"
-              alt="Hero Card 3"
-              className="w-full h-32 object-cover rounded mb-2"
-            />
-          </div>
-          <div className="card text-center p-4">
-            <img
-              src="https://via.placeholder.com/150?text=AI+Tool+4"
-              alt="Hero Card 4"
-              className="w-full h-32 object-cover rounded mb-2"
-            />
-          </div>
-        </div>
-        <p className="text-2xl mb-8">
-          204+ Startups Supported From Companies Around The World
-        </p>
-        <Link to="/pricing" className="button text-lg">
-          Start Your 30-Day Free Trial
-        </Link>
-      </motion.div>
-    </section>
+// Updated Home component
+const Home: React.FC = () => {
+  // Mouse-based tilt for cards (disabled on mobile)
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
+  const rotateX = useTransform(y, [-100, 100], [10, -10]);
+  const rotateY = useTransform(x, [-100, 100], [-10, 10]);
 
-    {/* About Section - Axus Style */}
-    <section className="section bg-[var(--primary-bg)]">
-      <motion.div
-        variants={fadeInVariants}
-        initial="hidden"
-        animate="visible"
-        className="container"
-      >
-        <h2 className="text-4xl font-bold mb-4 text-center">
-          About Autolinium
-        </h2>
-        <p className="text-lg text-center mb-8 text-[var(--text-secondary)]">
-          Easy Ways To Use AI Tools, And Build AI. Access valuable insights on
-          customer behavior, identify areas for improvement, manage support
-          requests and make data-driven decisions to optimize your services.
-        </p>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          <div className="card text-center">
-            <h3 className="text-xl font-semibold mb-2">
-              AI Strategy and Consulting
-            </h3>
-            <p className="text-[var(--text-secondary)]">
-              Tailored strategies for AI adoption.
-            </p>
-          </div>
-          <div className="card text-center">
-            <h3 className="text-xl font-semibold mb-2">
-              Machine Learning Solutions
-            </h3>
-            <p className="text-[var(--text-secondary)]">
-              Custom ML models for your needs.
-            </p>
-          </div>
-          <div className="card text-center">
-            <h3 className="text-xl font-semibold mb-2">
-              AI Integration and Deployment
-            </h3>
-            <p className="text-[var(--text-secondary)]">
-              Seamless integration into workflows.
-            </p>
-          </div>
-        </div>
-      </motion.div>
-    </section>
+  const handleMouseMove = (event: React.MouseEvent<HTMLDivElement>) => {
+    if (window.innerWidth >= 640) {
+      const rect = event.currentTarget.getBoundingClientRect();
+      const centerX = rect.left + rect.width / 2;
+      const centerY = rect.top + rect.height / 2;
+      const mouseX = event.clientX - centerX;
+      const mouseY = event.clientY - centerY;
+      x.set(mouseX);
+      y.set(mouseY);
+    }
+  };
 
-    {/* Services/Features Section - Axus Style */}
-    <section className="section bg-[var(--primary-bg)]">
-      <motion.div
-        variants={fadeInVariants}
-        initial="hidden"
-        animate="visible"
-        className="container"
-      >
-        <h2 className="text-4xl font-bold mb-8 text-center">
-          Built For Integration
-        </h2>
-        <p className="text-lg text-center mb-12 text-[var(--text-secondary)]">
-          Connect Autolinium with the software you use every day
-        </p>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          <div className="card text-center">
-            <img
-              src="https://via.placeholder.com/100?text=Logo1"
-              alt="Logo 1"
-              className="mx-auto mb-4"
-            />
-            <h3 className="text-xl font-semibold">Integration 1</h3>
-          </div>
-          <div className="card text-center">
-            <img
-              src="https://via.placeholder.com/100?text=Logo2"
-              alt="Logo 2"
-              className="mx-auto mb-4"
-            />
-            <h3 className="text-xl font-semibold">Integration 2</h3>
-          </div>
-          <div className="card text-center">
-            <img
-              src="https://via.placeholder.com/100?text=Logo3"
-              alt="Logo 3"
-              className="mx-auto mb-4"
-            />
-            <h3 className="text-xl font-semibold">Integration 3</h3>
-          </div>
-        </div>
-      </motion.div>
-    </section>
+  const handleMouseLeave = () => {
+    x.set(0);
+    y.set(0);
+  };
 
-    {/* Process Section - Axus Style */}
-    <section className="section bg-[var(--primary-bg)]">
-      <motion.div
-        variants={fadeInVariants}
-        initial="hidden"
-        animate="visible"
-        className="container"
-      >
-        <h2 className="text-4xl font-bold mb-8 text-center">Working Process</h2>
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-          <div className="process-step">
-            <h3 className="text-2xl font-bold mb-2">#01</h3>
-            <h4 className="text-xl font-semibold mb-2">Create Account</h4>
-            <p className="text-[var(--text-secondary)]">
-              This initial phase ensures that the project is well-defined and
-              aligned with the client's objectives.
-            </p>
-          </div>
-          <div className="process-step">
-            <h3 className="text-2xl font-bold mb-2">#02</h3>
-            <h4 className="text-xl font-semibold mb-2">Your Idea</h4>
-            <p className="text-[var(--text-secondary)]">
-              We then transform the data into a suitable format for analysis and
-              split it into training, validation.
-            </p>
-          </div>
-          <div className="process-step">
-            <h3 className="text-2xl font-bold mb-2">#03</h3>
-            <h4 className="text-xl font-semibold mb-2">Evaluation</h4>
-            <p className="text-[var(--text-secondary)]">
-              We perform Exploratory Data Analysis to reveal patterns,
-              correlations, and distributions.
-            </p>
-          </div>
-          <div className="process-step">
-            <h3 className="text-2xl font-bold mb-2">#04</h3>
-            <h4 className="text-xl font-semibold mb-2">Get Result</h4>
-            <p className="text-[var(--text-secondary)]">
-              The journey begins with a thorough understanding of the client’s
-              needs, and their specific problem.
-            </p>
-          </div>
-        </div>
-      </motion.div>
-    </section>
+  // How We Help data with funny content
+  const helpItems = [
+    {
+      text: "Zap repetitive tasks faster than you can say 'coffee break'!",
+      icon: "fas fa-magic",
+      link: "/services/workflow-automations",
+    },
+    {
+      text: "Turn leads into fans with AI that chats quicker than your auntie!",
+      icon: "fas fa-heart",
+      link: "/services/ai-agents-chatbots",
+    },
+    {
+      text: "No more oopsies—our systems keep your data tighter than a drum!",
+      icon: "fas fa-lock",
+      link: "/services/custom-crms",
+    },
+    {
+      text: "Scale your biz like a rocket without the crash landing!",
+      icon: "fas fa-rocket",
+      link: "/services/workflow-automations",
+    },
+    {
+      text: "Dashboards so clear, you’ll feel like a data wizard!",
+      icon: "fas fa-hat-wizard",
+      link: "/services/custom-crms",
+    },
+    {
+      text: "Mobile apps that let you run your empire from the beach!",
+      icon: "fas fa-umbrella-beach",
+      link: "/services/mobile-apps",
+    },
+  ];
 
-    {/* Pricing Section - Axus Style */}
-    <section className="section bg-[var(--primary-bg)]" id="pricing">
-      <motion.div
-        variants={fadeInVariants}
-        initial="hidden"
-        animate="visible"
-        className="container"
-      >
-        <h2 className="text-4xl font-bold mb-8 text-center">
-          Flexible Pricing
-        </h2>
-        <p className="text-lg text-center mb-12 text-[var(--text-secondary)]">
-          Affordable Pricing Plan
-        </p>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          <div className="card text-center">
-            <h3 className="text-2xl font-bold mb-4">Teams</h3>
-            <p className="text-3xl font-bold mb-2">$69.00/month</p>
-            <p className="text-[var(--text-secondary)] mb-6">
-              Perfect for freelancers and startups automating workflows on a
-              budget.
-            </p>
-            <ul className="text-left mb-6">
-              <li className="mb-2">Basic AI Tools</li>
-              <li className="mb-2">Limited API Access</li>
-              <li className="mb-2">5 Prebuilt Templates</li>
-              <li className="mb-2">Basic Support</li>
-              <li className="mb-2">AI Assistance</li>
-            </ul>
-            <Link to="/subscribe" className="button">
-              Get Started
+  // FAQ data
+  const faqItems = [
+    {
+      question: "Will your AI steal my job?",
+      answer:
+        "Nah, it’ll just make you look like a superstar by handling the boring stuff while you sip coffee!",
+    },
+    {
+      question: "How fast can you build my custom CRM?",
+      answer:
+        "Faster than you can say 'spreadsheet nightmare'—usually in weeks, depending on your needs!",
+    },
+    {
+      question: "Can your chatbots handle my sassy customers?",
+      answer:
+        "Oh, they’re sass-proof! Our AI chats quicker and wittier than your wittiest team member.",
+    },
+    {
+      question: "What if I’m not tech-savvy?",
+      answer:
+        "No tech degree needed! We make it so easy, even your grandma could run your biz from her phone.",
+    },
+    {
+      question: "Are your solutions affordable for small businesses?",
+      answer:
+        "Yup, we’ve got plans that won’t break the bank—think rocket fuel prices, not rocket ship!",
+    },
+    {
+      question: "Can you integrate with my existing tools?",
+      answer:
+        "Like peanut butter and jelly! We’ll hook up Slack, Gmail, or whatever you’re using in a snap.",
+    },
+  ];
+
+  // State for FAQ accordion
+  const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(null);
+
+  const toggleFaq = (index: number) => {
+    setOpenFaqIndex(openFaqIndex === index ? null : index);
+  };
+
+  return (
+    <div>
+      {/* Hero Section */}
+      <section className="min-h-screen flex items-center justify-center hero-section pt-20">
+        <motion.div
+          variants={fadeInVariants}
+          initial="hidden"
+          animate="visible"
+          className="text-center px-4 max-w-4xl"
+        >
+          <h1 className="text-5xl md:text-7xl font-bold mb-4 text-white">
+            Welcome To Autolinium
+          </h1>
+          <p className="text-xl md:text-2xl mb-8 text-[var(--text-secondary)]">
+            AI Based Software Agency: We build AI Agents, Custom CRMs,
+            Automations, and Mobile Apps that run your business 24/7.
+          </p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 mb-8">
+            <motion.div
+              variants={cardVariants}
+              style={{ rotateX, rotateY, perspective: 1000 }}
+              onMouseMove={handleMouseMove}
+              onMouseLeave={handleMouseLeave}
+            >
+              <VideoCard
+                src="/assets/hero-card-img-01.png"
+                title="AI Agents"
+                description="Intelligent agents for 24/7 operations."
+                buttonText="Explore"
+                color="var(--accent-blue)"
+                icon="fas fa-robot"
+                index={0}
+              />
+            </motion.div>
+            <motion.div
+              variants={cardVariants}
+              style={{ rotateX, rotateY, perspective: 1000 }}
+              onMouseMove={handleMouseMove}
+              onMouseLeave={handleMouseLeave}
+            >
+              <VideoCard
+                src="/assets/hero-card-img-02.png"
+                title="Custom CRMs"
+                description="Integrated systems to streamline data."
+                buttonText="Learn More"
+                color="var(--accent-blue)"
+                icon="fas fa-database"
+                index={1}
+              />
+            </motion.div>
+            <motion.div
+              variants={cardVariants}
+              style={{ rotateX, rotateY, perspective: 1000 }}
+              onMouseMove={handleMouseMove}
+              onMouseLeave={handleMouseLeave}
+            >
+              <VideoCard
+                src="/assets/hero-card-img-03.png"
+                title="Automations"
+                description="Reduce manual work by up to 90%."
+                buttonText="Discover"
+                color="var(--accent-blue)"
+                icon="fas fa-cogs"
+                index={2}
+              />
+            </motion.div>
+            <motion.div
+              variants={cardVariants}
+              style={{ rotateX, rotateY, perspective: 1000 }}
+              onMouseMove={handleMouseMove}
+              onMouseLeave={handleMouseLeave}
+            >
+              <VideoCard
+                src="/assets/hero-card-img-04.png"
+                title="Mobile Apps"
+                description="On-the-go solutions for Android & iOS."
+                buttonText="Try Now"
+                color="var(--accent-blue)"
+                icon="fas fa-mobile-alt"
+                index={3}
+              />
+            </motion.div>
+          </div>
+          <p className="text-2xl mb-8">
+            Proven solutions across real estate, finance, consulting, marketing,
+            and e-commerce.
+          </p>
+          <motion.div variants={buttonVariants} animate="pulse">
+            <Link
+              to="/pricing"
+              className="button text-lg bg-[var(--accent-deep-teal)] hover:bg-[var(--accent-deep-teal)]"
+            >
+              Start Your 30-Day Free Trial
             </Link>
+          </motion.div>
+        </motion.div>
+      </section>
+
+      {/* Services Section */}
+      <section className="section bg-[var(--primary-bg)]">
+        <motion.div
+          variants={staggerContainer}
+          initial="hidden"
+          animate="visible"
+          className="container"
+        >
+          <h2 className="text-4xl font-bold mb-8 text-center text-white">
+            Our Services
+          </h2>
+          <p className="text-lg text-center mb-12 text-[var(--text-secondary)]">
+            Discover our AI-powered services to transform your business.
+          </p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
+            <motion.div
+              variants={cardVariants}
+              style={{ rotateX, rotateY, perspective: 1000 }}
+              onMouseMove={handleMouseMove}
+              onMouseLeave={handleMouseLeave}
+            >
+              <motion.div variants={cardVariants} className="card text-center">
+                <img
+                  src="/assets/crm.png"
+                  alt="Service Logo"
+                  className="mx-auto mb-4 h-16"
+                />
+                <h3 className="text-xl font-semibold mb-2">Custom CRMs</h3>
+                <p className="text-[var(--text-secondary)] mb-4">
+                  Built with Airtable, Softr, or full-code stacks like
+                  Postgres/React/Node.
+                </p>
+                <motion.div variants={buttonVariants} whileHover="hover">
+                  <Link
+                    to="/services/custom-crms"
+                    className="button bg-[var(--accent-deep-teal)]"
+                  >
+                    Learn More
+                  </Link>
+                </motion.div>
+              </motion.div>
+            </motion.div>
+            <motion.div
+              variants={cardVariants}
+              style={{ rotateX, rotateY, perspective: 1000 }}
+              onMouseMove={handleMouseMove}
+              onMouseLeave={handleMouseLeave}
+            >
+              <motion.div variants={cardVariants} className="card text-center">
+                <img
+                  src="/assets/process.png"
+                  alt="Service Logo"
+                  className="mx-auto mb-4 h-16"
+                />
+                <h3 className="text-xl font-semibold mb-2">
+                  Workflow Automations
+                </h3>
+                <p className="text-[var(--text-secondary)] mb-4">
+                  Integrate Slack, Gmail, Stripe, and more with Make, n8n,
+                  Zapier.
+                </p>
+                <motion.div variants={buttonVariants} whileHover="hover">
+                  <Link
+                    to="/services/workflow-automations"
+                    className="button bg-[var(--accent-deep-teal)]"
+                  >
+                    Learn More
+                  </Link>
+                </motion.div>
+              </motion.div>
+            </motion.div>
+            <motion.div
+              variants={cardVariants}
+              style={{ rotateX, rotateY, perspective: 1000 }}
+              onMouseMove={handleMouseMove}
+              onMouseLeave={handleMouseLeave}
+            >
+              <motion.div variants={cardVariants} className="card text-center">
+                <img
+                  src="/assets/robot.png"
+                  alt="Service Logo"
+                  className="mx-auto mb-4 h-16"
+                />
+                <h3 className="text-xl font-semibold mb-2">
+                  AI-Driven Agents & Chatbots
+                </h3>
+                <p className="text-[var(--text-secondary)] mb-4">
+                  Voice, text, multi-channel bots with ChatGPT, Botpress, Vapi.
+                </p>
+                <motion.div variants={buttonVariants} whileHover="hover">
+                  <Link
+                    to="/services/ai-agents-chatbots"
+                    className="button bg-[var(--accent-deep-teal)]"
+                  >
+                    Learn More
+                  </Link>
+                </motion.div>
+              </motion.div>
+            </motion.div>
           </div>
-          <div className="card text-center">
-            <h3 className="text-2xl font-bold mb-4">Business</h3>
-            <p className="text-3xl font-bold mb-2">$99.00/month</p>
-            <p className="text-[var(--text-secondary)] mb-6">
-              For growing teams needing advanced AI automation.
-            </p>
-            <ul className="text-left mb-6">
-              <li className="mb-2">Advanced AI Tools</li>
-              <li className="mb-2">Unlimited API Access</li>
-              <li className="mb-2">20+ Prebuilt Templates</li>
-              <li className="mb-2">Priority Support</li>
-              <li className="mb-2">Custom Integration</li>
-            </ul>
-            <Link to="/subscribe" className="button">
-              Get Started
+        </motion.div>
+      </section>
+
+      {/* Tools Section */}
+      <section className="section bg-[var(--primary-bg)]">
+        <motion.div
+          variants={staggerContainer}
+          initial="hidden"
+          animate="visible"
+          className="container"
+        >
+          <h2 className="text-4xl font-bold mb-8 text-center text-white">
+            Our Tools
+          </h2>
+          <p className="text-lg text-center mb-12 text-[var(--text-secondary)]">
+            Explore our AI-powered tools to enhance your productivity.
+          </p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
+            <motion.div
+              variants={cardVariants}
+              style={{ rotateX, rotateY, perspective: 1000 }}
+              onMouseMove={handleMouseMove}
+              onMouseLeave={handleMouseLeave}
+            >
+              <motion.div variants={cardVariants} className="card text-center">
+                <img
+                  src="/assets/softair.png"
+                  alt="Tool Logo"
+                  className="mx-auto mb-4 h-16"
+                />
+                <h3 className="text-xl font-semibold mb-2">Airtable & Softr</h3>
+                <p className="text-[var(--text-secondary)] mb-4">
+                  For custom CRMs and databases.
+                </p>
+                <motion.div variants={buttonVariants} whileHover="hover">
+                  <Link
+                    to="/tools/airtable-softr"
+                    className="button bg-[var(--accent-deep-teal)]"
+                  >
+                    Learn More
+                  </Link>
+                </motion.div>
+              </motion.div>
+            </motion.div>
+            <motion.div
+              variants={cardVariants}
+              style={{ rotateX, rotateY, perspective: 1000 }}
+              onMouseMove={handleMouseMove}
+              onMouseLeave={handleMouseLeave}
+            >
+              <motion.div variants={cardVariants} className="card text-center">
+                <img
+                  src="/assets/manier.png"
+                  alt="Tool Logo"
+                  className="mx-auto mb-4 h-16"
+                />
+                <h3 className="text-xl font-semibold mb-2">
+                  Make, n8n, Zapier
+                </h3>
+                <p className="text-[var(--text-secondary)] mb-4">
+                  For seamless automations.
+                </p>
+                <motion.div variants={buttonVariants} whileHover="hover">
+                  <Link
+                    to="/tools/make-n8n-zapier"
+                    className="button bg-[var(--accent-deep-teal)]"
+                  >
+                    Learn More
+                  </Link>
+                </motion.div>
+              </motion.div>
+            </motion.div>
+            <motion.div
+              variants={cardVariants}
+              style={{ rotateX, rotateY, perspective: 1000 }}
+              onMouseMove={handleMouseMove}
+              onMouseLeave={handleMouseLeave}
+            >
+              <motion.div variants={cardVariants} className="card text-center">
+                <img
+                  src="/assets/reaws.png"
+                  alt="Tool Logo"
+                  className="mx-auto mb-4 h-16"
+                />
+                <h3 className="text-xl font-semibold mb-2">
+                  React Native & AWS
+                </h3>
+                <p className="text-[var(--text-secondary)] mb-4">
+                  For mobile apps and scalable backends.
+                </p>
+                <motion.div variants={buttonVariants} whileHover="hover">
+                  <Link
+                    to="/tools/react-native-aws"
+                    className="button bg-[var(--accent-deep-teal)]"
+                  >
+                    Learn More
+                  </Link>
+                </motion.div>
+              </motion.div>
+            </motion.div>
+          </div>
+        </motion.div>
+      </section>
+
+      {/* How We Help Section */}
+      <section className="section bg-[var(--primary-bg)]">
+        <motion.div
+          variants={fadeInVariants}
+          initial="hidden"
+          animate="visible"
+          className="container"
+        >
+          <h2 className="text-4xl font-bold mb-8 text-center text-white">
+            How We Help
+          </h2>
+          <div
+            className="relative overflow-hidden ticker-container"
+            role="region"
+            aria-label="How We Help ticker"
+          >
+            <motion.div
+              className="flex whitespace-nowrap"
+              variants={tickerVariants}
+              animate="animate"
+              whileHover={{ pause: true }} // Pause on hover (desktop only)
+            >
+              {helpItems.concat(helpItems).map((item, index) => (
+                <span
+                  key={index}
+                  className="inline-flex items-center mx-4 text-[var(--text-secondary)] text-sm sm:text-base ticker-item"
+                >
+                  <i
+                    className={`${item.icon} text-lg sm:text-xl text-[var(--accent-blue)] mr-2`}
+                    aria-hidden="true"
+                  ></i>
+                  <Link
+                    to={item.link}
+                    className="hover:text-[var(--accent-blue)]"
+                    aria-label={item.text}
+                  >
+                    {item.text}
+                  </Link>
+                  {index < helpItems.length * 2 - 1 && (
+                    <span className="mx-4">•</span>
+                  )}
+                </span>
+              ))}
+            </motion.div>
+          </div>
+        </motion.div>
+      </section>
+
+      {/* Featured Projects */}
+      <section className="section bg-[var(--primary-bg)]">
+        <motion.div
+          variants={staggerContainer}
+          initial="hidden"
+          animate="visible"
+          className="container"
+        >
+          <h2 className="text-4xl font-bold mb-8 text-center text-white">
+            Featured Projects
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <motion.div
+              variants={cardVariants}
+              style={{ rotateX, rotateY, perspective: 1000 }}
+              onMouseMove={handleMouseMove}
+              onMouseLeave={handleMouseLeave}
+            >
+              <motion.div variants={cardVariants} className="card">
+                <img
+                  src="/assets/project-placeholder.png"
+                  alt="Project Logo"
+                  className="mx-auto mb-4 h-16"
+                />
+                <h3 className="text-xl font-semibold mb-2">
+                  Real Estate CRM (USA)
+                </h3>
+                <p className="text-[var(--text-secondary)]">
+                  Deal pipeline with Slack alerts + call logging. Tools:
+                  Airtable, Make.
+                </p>
+              </motion.div>
+            </motion.div>
+            <motion.div
+              variants={cardVariants}
+              style={{ rotateX, rotateY, perspective: 1000 }}
+              onMouseMove={handleMouseMove}
+              onMouseLeave={handleMouseLeave}
+            >
+              <motion.div variants={cardVariants} className="card">
+                <img
+                  src="/assets/project-placeholder.png"
+                  alt="Project Logo"
+                  className="mx-auto mb-4 h-16"
+                />
+                <h3 className="text-xl font-semibold mb-2">
+                  Investor Deal Flow (USA)
+                </h3>
+                <p className="text-[var(--text-secondary)]">
+                  Multi-stage CRM with DocuSign & Calendly. Tools: Airtable,
+                  Make.
+                </p>
+              </motion.div>
+            </motion.div>
+            <motion.div
+              variants={cardVariants}
+              style={{ rotateX, rotateY, perspective: 1000 }}
+              onMouseMove={handleMouseMove}
+              onMouseLeave={handleMouseLeave}
+            >
+              <motion.div variants={cardVariants} className="card">
+                <img
+                  src="/assets/project-placeholder.png"
+                  alt="Project Logo"
+                  className="mx-auto mb-4 h-16"
+                />
+                <h3 className="text-xl font-semibold mb-2">
+                  Construction Site Bot (Mexico)
+                </h3>
+                <p className="text-[var(--text-secondary)]">
+                  Telegram bot for photo, voice & text reporting into CRM.
+                  Tools: Airtable, Make, ChatGPT.
+                </p>
+              </motion.div>
+            </motion.div>
+          </div>
+        </motion.div>
+      </section>
+
+      {/* Reviews Section (Why Clients Choose Us) */}
+      <section className="section bg-[var(--primary-bg)]">
+        <motion.div
+          variants={staggerContainer}
+          initial="hidden"
+          animate="visible"
+          className="container"
+        >
+          <h2 className="text-4xl font-bold mb-8 text-center text-white">
+            Client Reviews
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <motion.div
+              variants={slideInVariants}
+              style={{ rotateX, rotateY, perspective: 1000 }}
+              onMouseMove={handleMouseMove}
+              onMouseLeave={handleMouseLeave}
+            >
+              <div className="review-card">
+                <div className="star-rating">
+                  <i className="fas fa-star"></i>
+                  <i className="fas fa-star"></i>
+                  <i className="fas fa-star"></i>
+                  <i className="fas fa-star"></i>
+                  <i className="fas fa-star"></i>
+                </div>
+                <p className="text-[var(--text-secondary)] mb-4">
+                  "Autolinium transformed our workflow with a custom CRM that
+                  cut our manual work by 80%. Their team was responsive and
+                  delivered beyond expectations."
+                </p>
+                <p className="font-semibold">Jane D., Real Estate CEO</p>
+              </div>
+            </motion.div>
+            <motion.div
+              variants={slideInVariants}
+              style={{ rotateX, rotateY, perspective: 1000 }}
+              onMouseMove={handleMouseMove}
+              onMouseLeave={handleMouseLeave}
+            >
+              <div className="review-card">
+                <div className="star-rating">
+                  <i className="fas fa-star"></i>
+                  <i className="fas fa-star"></i>
+                  <i className="fas fa-star"></i>
+                  <i className="fas fa-star"></i>
+                  <i className="fas fa-star-half-alt"></i>
+                </div>
+                <p className="text-[var(--text-secondary)] mb-4">
+                  "The AI chatbot they built for us handles customer queries
+                  24/7, boosting our conversions. Highly recommend their
+                  expertise!"
+                </p>
+                <p className="font-semibold">Mark S., E-commerce Manager</p>
+              </div>
+            </motion.div>
+            <motion.div
+              variants={slideInVariants}
+              style={{ rotateX, rotateY, perspective: 1000 }}
+              onMouseMove={handleMouseMove}
+              onMouseLeave={handleMouseLeave}
+            >
+              <div className="review-card">
+                <div className="star-rating">
+                  <i className="fas fa-star"></i>
+                  <i className="fas fa-star"></i>
+                  <i className="fas fa-star"></i>
+                  <i className="fas fa-star"></i>
+                  <i className="fas fa-star"></i>
+                </div>
+                <p className="text-[var(--text-secondary)] mb-4">
+                  "Their automation setup with Make and Airtable saved us hours
+                  weekly. Professional, reliable, and worth every penny."
+                </p>
+                <p className="font-semibold">Sarah L., Finance Director</p>
+              </div>
+            </motion.div>
+          </div>
+        </motion.div>
+      </section>
+
+      {/* FAQ Section */}
+      <section className="section bg-[var(--primary-bg)]">
+        <motion.div
+          variants={fadeInVariants}
+          initial="hidden"
+          animate="visible"
+          className="container"
+        >
+          <h2 className="text-4xl font-bold mb-8 text-center text-white">
+            Frequently Asked Questions
+          </h2>
+          <div
+            className="faq-container"
+            role="region"
+            aria-label="Frequently Asked Questions"
+          >
+            {faqItems.map((item, index) => (
+              <div
+                key={index}
+                className="faq-item border-b border-[var(--card-border)]"
+              >
+                <button
+                  onClick={() => toggleFaq(index)}
+                  className="faq-question w-full text-left py-4 text-[var(--accent-blue)] text-lg sm:text-xl font-semibold flex justify-between items-center"
+                  aria-expanded={openFaqIndex === index}
+                  aria-controls={`faq-answer-${index}`}
+                >
+                  <span>{item.question}</span>
+                  <i
+                    className={`fas ${
+                      openFaqIndex === index
+                        ? "fa-chevron-up"
+                        : "fa-chevron-down"
+                    } text-[var(--accent-blue)]`}
+                  ></i>
+                </button>
+                <motion.div
+                  id={`faq-answer-${index}`}
+                  variants={faqAnswerVariants}
+                  initial="hidden"
+                  animate={openFaqIndex === index ? "visible" : "hidden"}
+                  className="faq-answer text-[var(--text-secondary)] text-sm sm:text-base"
+                >
+                  <p>{item.answer}</p>
+                </motion.div>
+              </div>
+            ))}
+          </div>
+        </motion.div>
+      </section>
+
+      {/* Meet the Team Section */}
+      <section className="section bg-[var(--primary-bg)]">
+        <motion.div
+          variants={staggerContainer}
+          initial="hidden"
+          animate="visible"
+          className="container"
+        >
+          <h2 className="text-4xl font-bold mb-8 text-center text-white">
+            Meet the Team
+          </h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+            <motion.div
+              variants={slideInVariants}
+              style={{ rotateX, rotateY, perspective: 1000 }}
+              onMouseMove={handleMouseMove}
+              onMouseLeave={handleMouseLeave}
+            >
+              <div className="team-card">
+                <img
+                  src="/assets/business.png"
+                  alt="Minhaz Uddin Fahim"
+                  className="w-24 h-24 rounded-full mx-auto mb-4 object-cover"
+                />
+                <h3 className="text-xl font-semibold mb-2">
+                  Minhaz Uddin Fahim
+                </h3>
+                <p className="text-[var(--text-secondary)] mb-4">
+                  Founder & AI/Automation Specialist
+                </p>
+                <div className="flex justify-center space-x-4">
+                  <a
+                    href="#"
+                    className="text-[var(--accent-blue)] hover:text-[var(--card-border)]"
+                  >
+                    <i className="fab fa-linkedin-in"></i>
+                  </a>
+                  <a
+                    href="#"
+                    className="text-[var(--accent-blue)] hover:text-[var(--card-border)]"
+                  >
+                    <i className="fab fa-twitter"></i>
+                  </a>
+                </div>
+              </div>
+            </motion.div>
+            <motion.div
+              variants={slideInVariants}
+              style={{ rotateX, rotateY, perspective: 1000 }}
+              onMouseMove={handleMouseMove}
+              onMouseLeave={handleMouseLeave}
+            >
+              <div className="team-card">
+                <img
+                  src="/assets/nerd.png"
+                  alt="Masum Billah Tuhin"
+                  className="w-24 h-24 rounded-full mx-auto mb-4 object-cover"
+                />
+                <h3 className="text-xl font-semibold mb-2">
+                  Masum Billah Tuhin
+                </h3>
+                <p className="text-[var(--text-secondary)] mb-4">
+                  Softr, Airtable & n8n Specialist
+                </p>
+                <div className="flex justify-center space-x-4">
+                  <a
+                    href="#"
+                    className="text-[var(--accent-blue)] hover:text-[var(--card-border)]"
+                  >
+                    <i className="fab fa-linkedin-in"></i>
+                  </a>
+                  <a
+                    href="#"
+                    className="text-[var(--accent-blue)] hover:text-[var(--card-border)]"
+                  >
+                    <i className="fab fa-twitter"></i>
+                  </a>
+                </div>
+              </div>
+            </motion.div>
+            <motion.div
+              variants={slideInVariants}
+              style={{ rotateX, rotateY, perspective: 1000 }}
+              onMouseMove={handleMouseMove}
+              onMouseLeave={handleMouseLeave}
+            >
+              <div className="team-card">
+                <img
+                  src="/assets/coding.png"
+                  alt="Rohit Roy"
+                  className="w-24 h-24 rounded-full mx-auto mb-4 object-cover"
+                />
+                <h3 className="text-xl font-semibold mb-2">Rohit Roy</h3>
+                <p className="text-[var(--text-secondary)] mb-4">
+                  Backend & Mobile/AI Developer
+                </p>
+                <div className="flex justify-center space-x-4">
+                  <a
+                    href="#"
+                    className="text-[var(--accent-blue)] hover:text-[var(--card-border)]"
+                  >
+                    <i className="fab fa-linkedin-in"></i>
+                  </a>
+                  <a
+                    href="#"
+                    className="text-[var(--accent-blue)] hover:text-[var(--card-border)]"
+                  >
+                    <i className="fab fa-twitter"></i>
+                  </a>
+                </div>
+              </div>
+            </motion.div>
+            <motion.div
+              variants={slideInVariants}
+              style={{ rotateX, rotateY, perspective: 1000 }}
+              onMouseMove={handleMouseMove}
+              onMouseLeave={handleMouseLeave}
+            >
+              <div className="team-card">
+                <img
+                  src="/assets/coding.png"
+                  alt="Md. Zahidul Hasan"
+                  className="w-24 h-24 rounded-full mx-auto mb-4 object-cover"
+                />
+                <h3 className="text-xl font-semibold mb-2">
+                  Md. Zahidul Hasan
+                </h3>
+                <p className="text-[var(--text-secondary)] mb-4">
+                  Full-Stack & Mobile Engineer
+                </p>
+                <div className="flex justify-center space-x-4">
+                  <a
+                    href="#"
+                    className="text-[var(--accent-blue)] hover:text-[var(--card-border)]"
+                  >
+                    <i className="fab fa-linkedin-in"></i>
+                  </a>
+                  <a
+                    href="#"
+                    className="text-[var(--accent-blue)] hover:text-[var(--card-border)]"
+                  >
+                    <i className="fab fa-twitter"></i>
+                  </a>
+                </div>
+              </div>
+            </motion.div>
+          </div>
+        </motion.div>
+      </section>
+
+      {/* Toolbelt */}
+      <section className="section bg-[var(--primary-bg)]">
+        <motion.div
+          variants={fadeInVariants}
+          initial="hidden"
+          animate="visible"
+          className="container"
+        >
+          <h2 className="text-4xl font-bold mb-8 text-center text-white">
+            Our Toolbelt
+          </h2>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+            <div className="flex items-center justify-center">
+              <i className="fas fa-tools mr-2"></i> Airtable
+            </div>
+            <div className="flex items-center justify-center">
+              <i className="fas fa-tools mr-2"></i> Softr
+            </div>
+            <div className="flex items-center justify-center">
+              <i className="fas fa-tools mr-2"></i> Make.com
+            </div>
+            <div className="flex items-center justify-center">
+              <i className="fas fa-tools mr-2"></i> Zapier
+            </div>
+            <div className="flex items-center justify-center">
+              <i className="fas fa-tools mr-2"></i> React Native
+            </div>
+            <div className="flex items-center justify-center">
+              <i className="fas fa-tools mr-2"></i> AWS
+            </div>
+            <div className="flex items-center justify-center">
+              <i className="fas fa-tools mr-2"></i> Docker
+            </div>
+          </div>
+        </motion.div>
+      </section>
+
+      {/* Call to Action */}
+      <section className="section bg-[var(--primary-bg)]">
+        <motion.div
+          variants={fadeInVariants}
+          initial="hidden"
+          animate="visible"
+          className="container text-center"
+        >
+          <h2 className="text-4xl font-bold mb-4 text-center text-white">
+            Ready to Scale?
+          </h2>
+          <p className="text-lg mb-8 text-[var(--text-secondary)]">
+            Invite Autolinium to your job or message us today – let’s build the
+            backbone of your business.
+          </p>
+          <motion.div variants={buttonVariants} animate="pulse">
+            <Link
+              to="/contact"
+              className="button bg-[var(--accent-deep-teal)] text-lg"
+            >
+              Get in Touch
             </Link>
-          </div>
-        </div>
-      </motion.div>
-    </section>
+          </motion.div>
+        </motion.div>
+      </section>
+    </div>
+  );
+};
 
-    {/* Testimonials Section - Axus Style */}
-    <section className="section bg-[var(--primary-bg)]">
-      <motion.div
-        variants={fadeInVariants}
-        initial="hidden"
-        animate="visible"
-        className="container"
-      >
-        <h2 className="text-4xl font-bold mb-8 text-center">Testimonials</h2>
-        <p className="text-lg text-center mb-12 text-[var(--text-secondary)]">
-          Reliable Reviews From Our Customers
-        </p>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          <div className="testimonial">
-            <p className="mb-4">
-              Unique highly effective! Loves or pursues or desires to obtain
-              pain because it is pain but because occasionally of all our
-              circumstances.
-            </p>
-            <h4 className="font-semibold">Andrew Mark</h4>
-            <p className="text-[var(--text-secondary)]">Founder - Umake</p>
-          </div>
-          <div className="testimonial">
-            <p className="mb-4">
-              Amazing & Efficient! Seeks or craves or strives to achieve
-              pleasure not for itself but because of the fleeting nature of our
-              conditions.
-            </p>
-            <h4 className="font-semibold">William Jack</h4>
-            <p className="text-[var(--text-secondary)]">Manager - Attributes</p>
-          </div>
-          <div className="testimonial">
-            <p className="mb-4">
-              My Favorite Tool. Desires or aspires or hopes to grasp happiness
-              not merely for itself but because of the unpredictability of life.
-            </p>
-            <h4 className="font-semibold">Jack Taylor</h4>
-            <p className="text-[var(--text-secondary)]">
-              Project Head - Specify Sol
-            </p>
-          </div>
-        </div>
-      </motion.div>
-    </section>
-
-    {/* FAQ Section - Axus Style */}
-    <section className="section bg-[var(--primary-bg)]">
-      <motion.div
-        variants={fadeInVariants}
-        initial="hidden"
-        animate="visible"
-        className="container"
-      >
-        <h2 className="text-4xl font-bold mb-8 text-center">
-          Frequently Asked Questions
-        </h2>
-        <p className="text-lg text-center mb-12 text-[var(--text-secondary)]">
-          We Answer Your Questions
-        </p>
-        <div className="faq-item">
-          <h3 className="text-xl font-semibold cursor-pointer">
-            How do I get started with Autolinium?
-          </h3>
-          <p className="text-[var(--text-secondary)]">
-            To begin, sign up for an Autolinium account, obtain your API key,
-            and explore our easy-to-use dashboard for content generation and
-            design assistance.
-          </p>
-        </div>
-        <div className="faq-item">
-          <h3 className="text-xl font-semibold cursor-pointer">
-            How is the data security of our chatbots ensured?
-          </h3>
-          <p className="text-[var(--text-secondary)]">
-            We use end-to-end encryption and comply with GDPR standards to
-            protect your data.
-          </p>
-        </div>
-        <div className="faq-item">
-          <h3 className="text-xl font-semibold cursor-pointer">
-            What integrations does Autolinium support?
-          </h3>
-          <p className="text-[var(--text-secondary)]">
-            Seamless integration with CRM, Slack, and more.
-          </p>
-        </div>
-      </motion.div>
-    </section>
-
-    {/* Contact Section - Axus Style */}
-    <section className="section bg-[var(--primary-bg)]">
-      <motion.div
-        variants={fadeInVariants}
-        initial="hidden"
-        animate="visible"
-        className="container"
-      >
-        <h2 className="text-4xl font-bold mb-8 text-center">Drop A Line</h2>
-        <p className="text-lg text-center mb-12 text-[var(--text-secondary)]">
-          Let's Collaborate & Discuss Your Project
-        </p>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          <div>
-            <h3 className="text-xl font-semibold mb-4">I want to discuss:</h3>
-            <ul className="space-y-2 text-[var(--text-secondary)]">
-              <li>
-                <Link to="#" className="hover:text-[var(--accent-blue)]">
-                  User Experience
-                </Link>
-              </li>
-              <li>
-                <Link to="#" className="hover:text-[var(--accent-blue)]">
-                  Quality & Reliability
-                </Link>
-              </li>
-              <li>
-                <Link to="#" className="hover:text-[var(--accent-blue)]">
-                  Collaboration
-                </Link>
-              </li>
-              <li>
-                <Link to="#" className="hover:text-[var(--accent-blue)]">
-                  Legal & Copyright
-                </Link>
-              </li>
-            </ul>
-          </div>
-          <div className="contact-form">
-            <input type="text" placeholder="Your Name" className="mb-4" />
-            <input type="email" placeholder="Your Email" className="mb-4" />
-            <textarea placeholder="Your Message" rows={4} className="mb-4" />
-            <button type="submit" className="button w-full">
-              Send Message
-            </button>
-          </div>
-        </div>
-      </motion.div>
-    </section>
-  </div>
-);
-
-// Dedicated About page
-const About: React.FC = () => (
-  <section className="section bg-[var(--primary-bg)]">
-    <motion.div
-      variants={fadeInVariants}
-      initial="hidden"
-      animate="visible"
-      className="container"
-    >
-      <h2 className="text-4xl font-bold mb-4 text-center">About Autolinium</h2>
-      <p className="text-lg text-center mb-8 text-[var(--text-secondary)]">
-        Easy Ways To Use AI Tools, And Build AI. Access valuable insights on
-        customer behavior, identify areas for improvement, manage support
-        requests and make data-driven decisions to optimize your services.
-      </p>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-        <div className="card text-center">
-          <h3 className="text-xl font-semibold mb-2">
-            AI Strategy and Consulting
-          </h3>
-          <p className="text-[var(--text-secondary)]">
-            Tailored strategies for AI adoption.
-          </p>
-        </div>
-        <div className="card text-center">
-          <h3 className="text-xl font-semibold mb-2">
-            Machine Learning Solutions
-          </h3>
-          <p className="text-[var(--text-secondary)]">
-            Custom ML models for your needs.
-          </p>
-        </div>
-        <div className="card text-center">
-          <h3 className="text-xl font-semibold mb-2">
-            AI Integration and Deployment
-          </h3>
-          <p className="text-[var(--text-secondary)]">
-            Seamless integration into workflows.
-          </p>
-        </div>
-      </div>
-    </motion.div>
-  </section>
-);
-
-// Dedicated Pricing page
-const Pricing: React.FC = () => (
-  <section className="section bg-[var(--primary-bg)]" id="pricing">
-    <motion.div
-      variants={fadeInVariants}
-      initial="hidden"
-      animate="visible"
-      className="container"
-    >
-      <h2 className="text-4xl font-bold mb-8 text-center">Flexible Pricing</h2>
-      <p className="text-lg text-center mb-12 text-[var(--text-secondary)]">
-        Affordable Pricing Plan
-      </p>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-        <div className="card text-center">
-          <h3 className="text-2xl font-bold mb-4">Teams</h3>
-          <p className="text-3xl font-bold mb-2">$69.00/month</p>
-          <p className="text-[var(--text-secondary)] mb-6">
-            Perfect for freelancers and startups automating workflows on a
-            budget.
-          </p>
-          <ul className="text-left mb-6">
-            <li className="mb-2">Basic AI Tools</li>
-            <li className="mb-2">Limited API Access</li>
-            <li className="mb-2">5 Prebuilt Templates</li>
-            <li className="mb-2">Basic Support</li>
-            <li className="mb-2">AI Assistance</li>
-          </ul>
-          <Link to="/subscribe" className="button">
-            Get Started
-          </Link>
-        </div>
-        <div className="card text-center">
-          <h3 className="text-2xl font-bold mb-4">Business</h3>
-          <p className="text-3xl font-bold mb-2">$99.00/month</p>
-          <p className="text-[var(--text-secondary)] mb-6">
-            For growing teams needing advanced AI automation.
-          </p>
-          <ul className="text-left mb-6">
-            <li className="mb-2">Advanced AI Tools</li>
-            <li className="mb-2">Unlimited API Access</li>
-            <li className="mb-2">20+ Prebuilt Templates</li>
-            <li className="mb-2">Priority Support</li>
-            <li className="mb-2">Custom Integration</li>
-          </ul>
-          <Link to="/subscribe" className="button">
-            Get Started
-          </Link>
-        </div>
-      </div>
-    </motion.div>
-  </section>
-);
-
-// App with updated navigation for new routes
 const App: React.FC = () => {
   const location = useLocation();
+  const [isNavOpen, setIsNavOpen] = useState(false);
+
+  const toggleNav = () => {
+    setIsNavOpen(!isNavOpen);
+  };
 
   return (
     <div className="bg-[var(--primary-bg)] text-[var(--text-primary)] font-inter relative overflow-hidden">
@@ -548,32 +1039,51 @@ const App: React.FC = () => {
               src="/assets/autolinium-logo.png"
               alt="Autolinium Logo"
               className="h-10 mr-2 drop-shadow-lg"
+              onError={() => console.error("Logo failed to load")}
             />
             <h1 className="text-2xl md:text-3xl font-bold">Autolinium</h1>
           </motion.div>
-          <ul className="flex space-x-4 md:space-x-6 text-sm md:text-base">
-            {["Home", "About", "Services", "Pricing", "Blog", "Contact"].map(
-              (item) => (
-                <motion.li
-                  key={item}
-                  whileHover={{ scale: 1.05 }}
-                  className="relative"
+          <button
+            className="hamburger md:hidden"
+            onClick={toggleNav}
+            aria-label={isNavOpen ? "Close menu" : "Open menu"}
+          >
+            <i className={isNavOpen ? "fas fa-times" : "fas fa-bars"}></i>
+          </button>
+          <ul
+            className={`md:flex space-x-4 md:space-x-6 text-sm md:text-base ${
+              isNavOpen ? "nav-active" : "hidden md:block"
+            }`}
+          >
+            {[
+              "Home",
+              "About",
+              "Services",
+              "Tools",
+              "Pricing",
+              "Blog",
+              "Contact",
+            ].map((item) => (
+              <motion.li
+                key={item}
+                whileHover={{ scale: 1.05 }}
+                className="relative"
+              >
+                <Link
+                  to={item === "Home" ? "/" : `/${item.toLowerCase()}`}
+                  className="hover:text-[var(--accent-blue)]"
+                  aria-current={
+                    location.pathname ===
+                    (item === "Home" ? "/" : `/${item.toLowerCase()}`)
+                      ? "page"
+                      : undefined
+                  }
+                  onClick={() => setIsNavOpen(false)}
                 >
-                  <Link
-                    to={item === "Home" ? "/" : `/${item.toLowerCase()}`}
-                    className="hover:text-[var(--accent-blue)]"
-                    aria-current={
-                      location.pathname ===
-                      (item === "Home" ? "/" : `/${item.toLowerCase()}`)
-                        ? "page"
-                        : undefined
-                    }
-                  >
-                    {item}
-                  </Link>
-                </motion.li>
-              )
-            )}
+                  {item}
+                </Link>
+              </motion.li>
+            ))}
           </ul>
         </nav>
       </header>
@@ -592,6 +1102,7 @@ const App: React.FC = () => {
             <Route path="/" element={<Home />} />
             <Route path="/about" element={<About />} />
             <Route path="/services" element={<Services />} />
+            <Route path="/tools" element={<Tools />} />
             <Route path="/pricing" element={<Pricing />} />
             <Route path="/blog" element={<Blog />} />
             <Route path="/blog/:id" element={<BlogPost />} />
@@ -626,9 +1137,11 @@ const App: React.FC = () => {
             <i className="fab fa-linkedin-in"></i>
           </a>
         </div>
-        <Link to="/contact" className="button">
-          Drop A Line
-        </Link>
+        <motion.div variants={buttonVariants} animate="pulse">
+          <Link to="/contact" className="button">
+            Drop A Line
+          </Link>
+        </motion.div>
       </footer>
     </div>
   );

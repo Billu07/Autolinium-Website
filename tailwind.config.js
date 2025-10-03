@@ -1,33 +1,19 @@
 /** @type {import('tailwindcss').Config} */
-export default {
+module.exports = {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
     extend: {
+      colors: {
+        "primary-bg": "#1A202C",
+        "text-primary": "#FFFFFF", // For white headers
+        "text-secondary": "#A0AEC0",
+        "accent-blue": "#3B82F6",
+        "accent-pink": "#DB2777", // For pink borders, replacing purple
+        "accent-deep-teal": "#004D40", // For buttons
+        "card-border": "rgba(219, 39, 119, 0.5)", // Matches App.css pink border
+      },
       fontFamily: {
         inter: ["Inter", "sans-serif"],
-      },
-      colors: {
-        primary: {
-          bg: "#1A202C",
-        },
-        card: "#F3F4F6",
-        text: {
-          primary: "#FFFFFF",
-          secondary: "#A0AEC0",
-        },
-        accent: {
-          blue: "#3B82F6",
-          "blue-hover": "#2563EB",
-        },
-      },
-      animation: {
-        "fade-in": "fadeIn 0.6s ease-out",
-      },
-      keyframes: {
-        fadeIn: {
-          "0%": { opacity: "0", transform: "translateY(20px)" },
-          "100%": { opacity: "1", transform: "translateY(0)" },
-        },
       },
     },
   },
