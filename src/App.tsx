@@ -1,5 +1,10 @@
 import React, { useState } from "react";
-import { motion, useMotionValue, useTransform } from "framer-motion";
+import {
+  motion,
+  useMotionValue,
+  useTransform,
+  type Variants,
+} from "framer-motion";
 import { Routes, Route, useLocation, Link } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
 import VideoCard from "./components/VideoCard";
@@ -16,7 +21,7 @@ import Tools from "./pages/Tools";
 import "./App.css";
 
 // Fade-in with bounce for sections
-const fadeInVariants = {
+const fadeInVariants: Variants = {
   hidden: { opacity: 0, y: 20 },
   visible: {
     opacity: 1,
@@ -31,7 +36,7 @@ const fadeInVariants = {
 };
 
 // Slide-in for review/team cards
-const slideInVariants = {
+const slideInVariants: Variants = {
   hidden: { opacity: 0, x: -50 },
   visible: {
     opacity: 1,
@@ -44,7 +49,7 @@ const slideInVariants = {
 };
 
 // Staggered animation for cards
-const staggerContainer = {
+const staggerContainer: Variants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
@@ -54,6 +59,7 @@ const staggerContainer = {
     },
   },
 };
+
 // Card tilt animation (disabled on mobile)
 const cardVariants: Variants = {
   hidden: { opacity: 0, y: 20, rotate: 0 },
@@ -69,7 +75,7 @@ const cardVariants: Variants = {
 };
 
 // Button pulse animation
-const buttonVariants = {
+const buttonVariants: Variants = {
   hover: {
     scale: 1.1,
     boxShadow: "0 4px 8px rgba(0, 77, 64, 0.3)",
@@ -77,12 +83,17 @@ const buttonVariants = {
   },
   pulse: {
     scale: [1, 1.05, 1],
-    transition: { duration: 2, repeat: Infinity, ease: "easeInOut" },
+    transition: {
+      duration: 2,
+      repeat: Infinity,
+      ease: "easeInOut",
+      times: [0, 0.5, 1],
+    },
   },
 };
 
 // News ticker animation
-const tickerVariants = {
+const tickerVariants: Variants = {
   animate: {
     x: ["0%", "-100%"],
     transition: {
@@ -97,7 +108,7 @@ const tickerVariants = {
 };
 
 // FAQ answer animation
-const faqAnswerVariants = {
+const faqAnswerVariants: Variants = {
   hidden: { opacity: 0, height: 0, marginTop: 0 },
   visible: {
     opacity: 1,
