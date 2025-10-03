@@ -93,7 +93,7 @@ const buttonVariants: Variants = {
   },
 };
 
-// News ticker animation
+// News ticker animation - optimized for mobile
 const tickerVariants: Variants = {
   animate: {
     x: ["0%", "-100%"],
@@ -101,7 +101,7 @@ const tickerVariants: Variants = {
       x: {
         repeat: Infinity,
         repeatType: "loop",
-        duration: 30,
+        duration: 40, // Slower for better mobile performance
         ease: "linear",
       },
     },
@@ -123,6 +123,26 @@ const faqAnswerVariants: Variants = {
   },
 };
 
+// Mobile menu animation
+const mobileMenuVariants: Variants = {
+  closed: {
+    opacity: 0,
+    height: 0,
+    transition: {
+      duration: 0.3,
+      ease: "easeInOut",
+    },
+  },
+  open: {
+    opacity: 1,
+    height: "auto",
+    transition: {
+      duration: 0.3,
+      ease: "easeInOut",
+    },
+  },
+};
+
 // Scroll progress component
 const ScrollProgress: React.FC = () => {
   const [scrollY, setScrollY] = React.useState(0);
@@ -140,7 +160,7 @@ const ScrollProgress: React.FC = () => {
 
   return (
     <motion.div
-      className="fixed top-0 left-0 h-1 bg-[var(--accent-blue)] z-20"
+      className="fixed top-0 left-0 h-1 bg-[var(--accent-blue)] z-50"
       style={{ width: `${scrollY}%` }}
       initial={{ width: 0 }}
       animate={{ width: `${scrollY}%` }}
@@ -176,6 +196,11 @@ const Home: React.FC = () => {
     y.set(0);
   };
 
+  // Start ticker animation on component mount
+  React.useEffect(() => {
+    tickerControls.start("animate");
+  }, [tickerControls]);
+
   // How We Help data with funny content
   const helpItems = [
     {
@@ -199,7 +224,7 @@ const Home: React.FC = () => {
       link: "/services/workflow-automations",
     },
     {
-      text: "Dashboards so clear, you’ll feel like a data wizard!",
+      text: "Dashboards so clear, you'll feel like a data wizard!",
       icon: "fas fa-hat-wizard",
       link: "/services/custom-crms",
     },
@@ -215,7 +240,7 @@ const Home: React.FC = () => {
     {
       question: "Will your AI steal my job?",
       answer:
-        "Nah, it’ll just make you look like a superstar by handling the boring stuff while you sip coffee!",
+        "Nah, it'll just make you look like a superstar by handling the boring stuff while you sip coffee!",
     },
     {
       question: "How fast can you build my custom CRM?",
@@ -225,22 +250,22 @@ const Home: React.FC = () => {
     {
       question: "Can your chatbots handle my sassy customers?",
       answer:
-        "Oh, they’re sass-proof! Our AI chats quicker and wittier than your wittiest team member.",
+        "Oh, they're sass-proof! Our AI chats quicker and wittier than your wittiest team member.",
     },
     {
-      question: "What if I’m not tech-savvy?",
+      question: "What if I'm not tech-savvy?",
       answer:
         "No tech degree needed! We make it so easy, even your grandma could run your biz from her phone.",
     },
     {
       question: "Are your solutions affordable for small businesses?",
       answer:
-        "Yup, we’ve got plans that won’t break the bank—think rocket fuel prices, not rocket ship!",
+        "Yup, we've got plans that won't break the bank—think rocket fuel prices, not rocket ship!",
     },
     {
       question: "Can you integrate with my existing tools?",
       answer:
-        "Like peanut butter and jelly! We’ll hook up Slack, Gmail, or whatever you’re using in a snap.",
+        "Like peanut butter and jelly! We'll hook up Slack, Gmail, or whatever you're using in a snap.",
     },
   ];
 
@@ -587,7 +612,7 @@ const Home: React.FC = () => {
                   ></i>
                   <Link
                     to={item.link}
-                    className="hover:text-[var(--accent-blue)]"
+                    className="hover:text-[var(--accent-blue)] whitespace-nowrap"
                     aria-label={item.text}
                   >
                     {item.text}
@@ -1012,7 +1037,7 @@ const Home: React.FC = () => {
             Ready to Scale?
           </h2>
           <p className="text-lg mb-8 text-[var(--text-secondary)]">
-            Invite Autolinium to your job or message us today – let’s build the
+            Invite Autolinium to your job or message us today – let's build the
             backbone of your business.
           </p>
           <motion.div variants={buttonVariants} animate="pulse">
@@ -1037,10 +1062,15 @@ const App: React.FC = () => {
     setIsNavOpen(!isNavOpen);
   };
 
+  // Close mobile menu when route changes
+  React.useEffect(() => {
+    setIsNavOpen(false);
+  }, [location]);
+
   return (
     <div className="bg-[var(--primary-bg)] text-[var(--text-primary)] font-inter relative overflow-hidden">
       {/* Header */}
-      <header className="fixed top-0 w-full bg-[var(--primary-bg)] bg-opacity-95 p-4 z-10 shadow-[var(--shadow)]">
+      <header className="fixed top-0 w-full bg-[var(--primary-bg)] bg-opacity-95 p-4 z-40 shadow-[var(--shadow)]">
         <ScrollProgress />
         <nav className="container mx-auto flex justify-between items-center">
           <motion.div
@@ -1056,18 +1086,22 @@ const App: React.FC = () => {
             />
             <h1 className="text-2xl md:text-3xl font-bold">Autolinium</h1>
           </motion.div>
+
+          {/* Mobile Menu Button */}
           <button
-            className="hamburger md:hidden"
+            className="hamburger md:hidden z-50 relative w-8 h-8 flex items-center justify-center"
             onClick={toggleNav}
             aria-label={isNavOpen ? "Close menu" : "Open menu"}
           >
-            <i className={isNavOpen ? "fas fa-times" : "fas fa-bars"}></i>
+            <i
+              className={
+                isNavOpen ? "fas fa-times text-xl" : "fas fa-bars text-xl"
+              }
+            ></i>
           </button>
-          <ul
-            className={`md:flex space-x-4 md:space-x-6 text-sm md:text-base ${
-              isNavOpen ? "nav-active" : "hidden md:block"
-            }`}
-          >
+
+          {/* Desktop Navigation */}
+          <ul className="hidden md:flex space-x-4 md:space-x-6 text-sm md:text-base">
             {[
               "Home",
               "About",
@@ -1084,7 +1118,46 @@ const App: React.FC = () => {
               >
                 <Link
                   to={item === "Home" ? "/" : `/${item.toLowerCase()}`}
-                  className="hover:text-[var(--accent-blue)]"
+                  className="hover:text-[var(--accent-blue)] transition-colors duration-200"
+                  aria-current={
+                    location.pathname ===
+                    (item === "Home" ? "/" : `/${item.toLowerCase()}`)
+                      ? "page"
+                      : undefined
+                  }
+                >
+                  {item}
+                </Link>
+              </motion.li>
+            ))}
+          </ul>
+        </nav>
+
+        {/* Mobile Navigation Menu */}
+        <motion.div
+          variants={mobileMenuVariants}
+          initial="closed"
+          animate={isNavOpen ? "open" : "closed"}
+          className="md:hidden absolute top-full left-0 w-full bg-[var(--primary-bg)] bg-opacity-95 backdrop-blur-sm shadow-lg z-30 overflow-hidden"
+        >
+          <ul className="flex flex-col space-y-4 p-6">
+            {[
+              "Home",
+              "About",
+              "Services",
+              "Tools",
+              "Pricing",
+              "Blog",
+              "Contact",
+            ].map((item) => (
+              <motion.li
+                key={item}
+                whileHover={{ scale: 1.05 }}
+                className="border-b border-[var(--card-border)] pb-2 last:border-b-0"
+              >
+                <Link
+                  to={item === "Home" ? "/" : `/${item.toLowerCase()}`}
+                  className="block py-2 text-lg font-semibold hover:text-[var(--accent-blue)] transition-colors duration-200"
                   aria-current={
                     location.pathname ===
                     (item === "Home" ? "/" : `/${item.toLowerCase()}`)
@@ -1098,7 +1171,7 @@ const App: React.FC = () => {
               </motion.li>
             ))}
           </ul>
-        </nav>
+        </motion.div>
       </header>
 
       {/* Page Content with Transitions */}
