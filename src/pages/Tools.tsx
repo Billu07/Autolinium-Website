@@ -138,19 +138,19 @@ const Tools: React.FC = () => {
                 title: "Airtable & Softr",
                 description: "For custom CRMs and databases.",
                 slug: "airtable-softr",
-                icon: "/assets/tool-logo-placeholder.png",
+                icon: "/assets/softair.png",
               },
               {
                 title: "Make, n8n, Zapier",
                 description: "For seamless automations.",
                 slug: "make-n8n-zapier",
-                icon: "/assets/tool-logo-placeholder.png",
+                icon: "/assets/manier.png",
               },
               {
                 title: "React Native & AWS",
                 description: "For mobile apps and scalable backends.",
                 slug: "react-native-aws",
-                icon: "/assets/tool-logo-placeholder.png",
+                icon: "/assets/reaws.png",
               },
             ].map((tool, index) => (
               <motion.div

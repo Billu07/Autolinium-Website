@@ -139,21 +139,21 @@ const Services: React.FC = () => {
                 description:
                   "Built with Airtable, Softr, or full-code stacks like Postgres/React/Node.",
                 slug: "custom-crms",
-                icon: "/assets/service-logo-placeholder.png",
+                icon: "/assets/crm.png",
               },
               {
                 title: "Workflow Automations",
                 description:
                   "Integrate Slack, Gmail, Stripe, and more with Make, n8n, Zapier.",
                 slug: "workflow-automations",
-                icon: "/assets/service-logo-placeholder.png",
+                icon: "/assets/process.png",
               },
               {
                 title: "AI-Driven Agents & Chatbots",
                 description:
                   "Voice, text, multi-channel bots with ChatGPT, Botpress, Vapi.",
                 slug: "ai-agents-chatbots",
-                icon: "/assets/service-logo-placeholder.png",
+                icon: "/assets/robot.png",
               },
             ].map((service, index) => (
               <motion.div
