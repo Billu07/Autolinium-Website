@@ -54,18 +54,16 @@ const staggerContainer = {
     },
   },
 };
-
 // Card tilt animation (disabled on mobile)
-const cardVariants = {
+const cardVariants: Variants = {
   hidden: { opacity: 0, y: 20, rotate: 0 },
   visible: {
     opacity: 1,
     y: 0,
-    rotate: [0, 2, -2, 0],
+    rotate: 0, // No rotation, or set to a single value if needed
     transition: {
       duration: 0.6,
       ease: "easeOut",
-      rotate: { duration: 1.5, ease: "easeInOut" },
     },
   },
 };
