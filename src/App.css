@@ -335,3 +335,21 @@ img {
 a {
   @apply min-w-[48px] min-h-[48px] flex items-center justify-center;
 }
+
+/* Hero Section image overrides */
+.hero-section .card img {
+  width: 100%;
+  max-height: 150px;
+  height: auto;
+  object-fit: contain;
+  display: block !important;
+}
+
+@media (max-width: 640px) {
+  .hero-section .card img {
+    max-height: 100px;
+    width: 100%;
+    object-fit: contain;
+    display: block !important;
+  }
+}
