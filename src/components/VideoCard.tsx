@@ -59,14 +59,6 @@ const VideoCard: React.FC<VideoCardProps> = ({
       className="card text-center relative overflow-hidden"
       style={{ borderColor: "var(--card-border)" }}
     >
-      {/* Logo Placeholder */}
-      <img
-        src="/assets/card-logo-placeholder.png"
-        alt={`${title} Logo`}
-        className="mx-auto mb-4 h-10 w-10 sm:h-12 sm:w-12 object-contain"
-        loading="lazy"
-        onError={() => console.error(`Failed to load logo for ${title}`)}
-      />
       {/* Responsive Image */}
       <div className="relative aspect-w-16 aspect-h-9 mb-4">
         <picture>
