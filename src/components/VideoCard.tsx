@@ -1,5 +1,5 @@
 import React from "react";
-import { motion } from "framer-motion";
+import { motion, type Variants } from "framer-motion";
 import { Link } from "react-router-dom";
 
 interface VideoCardProps {
@@ -12,7 +12,7 @@ interface VideoCardProps {
   index?: number;
 }
 
-const cardVariants = {
+const cardVariants: Variants = {
   hidden: { opacity: 0, y: 20 },
   visible: (index: number = 0) => ({
     opacity: 1,
@@ -25,7 +25,7 @@ const cardVariants = {
   }),
   hover: {
     scale: 1.05,
-    boxShadow: "0 8px 16px rgba(0, 77, 64, 0.2)", // Deep teal glow
+    boxShadow: "0 8px 16px rgba(0, 77, 64, 0.3)", // Consistent with other components
     borderColor: "var(--accent-deep-teal)",
     transition: { duration: 0.3 },
   },
