@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useCallback, useRef } from "react";
 import {
   motion,
   useMotionValue,
@@ -101,7 +101,7 @@ const tickerVariants: Variants = {
       x: {
         repeat: Infinity,
         repeatType: "loop",
-        duration: 40, // Slower for better mobile performance
+        duration: 40,
         ease: "linear",
       },
     },
@@ -154,8 +154,21 @@ const ScrollProgress: React.FC = () => {
       const progress = (window.scrollY / totalHeight) * 100;
       setScrollY(progress);
     };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+
+    // Throttle scroll events for better performance
+    let ticking = false;
+    const throttledScroll = () => {
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          handleScroll();
+          ticking = false;
+        });
+        ticking = true;
+      }
+    };
+
+    window.addEventListener("scroll", throttledScroll, { passive: true });
+    return () => window.removeEventListener("scroll", throttledScroll);
   }, []);
 
   return (
@@ -169,112 +182,147 @@ const ScrollProgress: React.FC = () => {
   );
 };
 
-// Updated Home component
-const Home: React.FC = () => {
-  // Mouse-based tilt for cards (disabled on mobile)
+// Custom hook for mouse tilt animation
+const useTiltAnimation = () => {
   const x = useMotionValue(0);
   const y = useMotionValue(0);
   const rotateX = useTransform(y, [-100, 100], [10, -10]);
   const rotateY = useTransform(x, [-100, 100], [-10, 10]);
-  // Animation controls for ticker
-  const tickerControls = useAnimationControls();
 
-  const handleMouseMove = (event: React.MouseEvent<HTMLDivElement>) => {
-    if (window.innerWidth >= 640) {
-      const rect = event.currentTarget.getBoundingClientRect();
-      const centerX = rect.left + rect.width / 2;
-      const centerY = rect.top + rect.height / 2;
-      const mouseX = event.clientX - centerX;
-      const mouseY = event.clientY - centerY;
-      x.set(mouseX);
-      y.set(mouseY);
-    }
-  };
+  const handleMouseMove = useCallback(
+    (event: React.MouseEvent<HTMLDivElement>) => {
+      if (window.innerWidth >= 640) {
+        const rect = event.currentTarget.getBoundingClientRect();
+        const centerX = rect.left + rect.width / 2;
+        const centerY = rect.top + rect.height / 2;
+        const mouseX = event.clientX - centerX;
+        const mouseY = event.clientY - centerY;
+        x.set(mouseX);
+        y.set(mouseY);
+      }
+    },
+    [x, y]
+  );
 
-  const handleMouseLeave = () => {
+  const handleMouseLeave = useCallback(() => {
     x.set(0);
     y.set(0);
-  };
+  }, [x, y]);
+
+  return { rotateX, rotateY, handleMouseMove, handleMouseLeave };
+};
+
+// Loading skeleton component
+const SkeletonCard: React.FC = () => (
+  <div className="card animate-pulse">
+    <div className="h-16 bg-gray-600 rounded mx-auto mb-4"></div>
+    <div className="h-6 bg-gray-600 rounded mb-2"></div>
+    <div className="h-4 bg-gray-600 rounded mb-4"></div>
+    <div className="h-10 bg-gray-600 rounded"></div>
+  </div>
+);
+
+// Updated Home component with performance optimizations
+const Home: React.FC = () => {
+  const tiltAnimation = useTiltAnimation();
+  const tickerControls = useAnimationControls();
+  const [imagesLoaded, setImagesLoaded] = useState(false);
 
   // Start ticker animation on component mount
   React.useEffect(() => {
     tickerControls.start("animate");
+
+    // Simulate image loading
+    const timer = setTimeout(() => {
+      setImagesLoaded(true);
+    }, 500);
+
+    return () => clearTimeout(timer);
   }, [tickerControls]);
 
   // How We Help data with funny content
-  const helpItems = [
-    {
-      text: "Zap repetitive tasks faster than you can say 'coffee break'!",
-      icon: "fas fa-magic",
-      link: "/services/workflow-automations",
-    },
-    {
-      text: "Turn leads into fans with AI that chats quicker than your auntie!",
-      icon: "fas fa-heart",
-      link: "/services/ai-agents-chatbots",
-    },
-    {
-      text: "No more oopsies—our systems keep your data tighter than a drum!",
-      icon: "fas fa-lock",
-      link: "/services/custom-crms",
-    },
-    {
-      text: "Scale your biz like a rocket without the crash landing!",
-      icon: "fas fa-rocket",
-      link: "/services/workflow-automations",
-    },
-    {
-      text: "Dashboards so clear, you'll feel like a data wizard!",
-      icon: "fas fa-hat-wizard",
-      link: "/services/custom-crms",
-    },
-    {
-      text: "Mobile apps that let you run your empire from the beach!",
-      icon: "fas fa-umbrella-beach",
-      link: "/services/mobile-apps",
-    },
-  ];
+  const helpItems = React.useMemo(
+    () => [
+      {
+        text: "Zap repetitive tasks faster than you can say 'coffee break'!",
+        icon: "fas fa-magic",
+        link: "/services/workflow-automations",
+      },
+      {
+        text: "Turn leads into fans with AI that chats quicker than your auntie!",
+        icon: "fas fa-heart",
+        link: "/services/ai-agents-chatbots",
+      },
+      {
+        text: "No more oopsies—our systems keep your data tighter than a drum!",
+        icon: "fas fa-lock",
+        link: "/services/custom-crms",
+      },
+      {
+        text: "Scale your biz like a rocket without the crash landing!",
+        icon: "fas fa-rocket",
+        link: "/services/workflow-automations",
+      },
+      {
+        text: "Dashboards so clear, you'll feel like a data wizard!",
+        icon: "fas fa-hat-wizard",
+        link: "/services/custom-crms",
+      },
+      {
+        text: "Mobile apps that let you run your empire from the beach!",
+        icon: "fas fa-umbrella-beach",
+        link: "/services/mobile-apps",
+      },
+    ],
+    []
+  );
 
   // FAQ data
-  const faqItems = [
-    {
-      question: "Will your AI steal my job?",
-      answer:
-        "Nah, it'll just make you look like a superstar by handling the boring stuff while you sip coffee!",
-    },
-    {
-      question: "How fast can you build my custom CRM?",
-      answer:
-        "Faster than you can say 'spreadsheet nightmare'—usually in weeks, depending on your needs!",
-    },
-    {
-      question: "Can your chatbots handle my sassy customers?",
-      answer:
-        "Oh, they're sass-proof! Our AI chats quicker and wittier than your wittiest team member.",
-    },
-    {
-      question: "What if I'm not tech-savvy?",
-      answer:
-        "No tech degree needed! We make it so easy, even your grandma could run your biz from her phone.",
-    },
-    {
-      question: "Are your solutions affordable for small businesses?",
-      answer:
-        "Yup, we've got plans that won't break the bank—think rocket fuel prices, not rocket ship!",
-    },
-    {
-      question: "Can you integrate with my existing tools?",
-      answer:
-        "Like peanut butter and jelly! We'll hook up Slack, Gmail, or whatever you're using in a snap.",
-    },
-  ];
+  const faqItems = React.useMemo(
+    () => [
+      {
+        question: "Will your AI steal my job?",
+        answer:
+          "Nah, it'll just make you look like a superstar by handling the boring stuff while you sip coffee!",
+      },
+      {
+        question: "How fast can you build my custom CRM?",
+        answer:
+          "Faster than you can say 'spreadsheet nightmare'—usually in weeks, depending on your needs!",
+      },
+      {
+        question: "Can your chatbots handle my sassy customers?",
+        answer:
+          "Oh, they're sass-proof! Our AI chats quicker and wittier than your wittiest team member.",
+      },
+      {
+        question: "What if I'm not tech-savvy?",
+        answer:
+          "No tech degree needed! We make it so easy, even your grandma could run your biz from her phone.",
+      },
+      {
+        question: "Are your solutions affordable for small businesses?",
+        answer:
+          "Yup, we've got plans that won't break the bank—think rocket fuel prices, not rocket ship!",
+      },
+      {
+        question: "Can you integrate with my existing tools?",
+        answer:
+          "Like peanut butter and jelly! We'll hook up Slack, Gmail, or whatever you're using in a snap.",
+      },
+    ],
+    []
+  );
 
   // State for FAQ accordion
   const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(null);
 
-  const toggleFaq = (index: number) => {
-    setOpenFaqIndex(openFaqIndex === index ? null : index);
-  };
+  const toggleFaq = useCallback(
+    (index: number) => {
+      setOpenFaqIndex(openFaqIndex === index ? null : index);
+    },
+    [openFaqIndex]
+  );
 
   return (
     <div>
@@ -294,70 +342,96 @@ const Home: React.FC = () => {
             Automations, and Mobile Apps that run your business 24/7.
           </p>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 mb-8">
-            <motion.div
-              variants={cardVariants}
-              style={{ rotateX, rotateY, perspective: 1000 }}
-              onMouseMove={handleMouseMove}
-              onMouseLeave={handleMouseLeave}
-            >
-              <VideoCard
-                src="/assets/hero-card-img-01.png"
-                title="AI Agents"
-                description="Intelligent agents for 24/7 operations."
-                buttonText="Explore"
-                color="var(--accent-blue)"
-                icon="fas fa-robot"
-                index={0}
-              />
-            </motion.div>
-            <motion.div
-              variants={cardVariants}
-              style={{ rotateX, rotateY, perspective: 1000 }}
-              onMouseMove={handleMouseMove}
-              onMouseLeave={handleMouseLeave}
-            >
-              <VideoCard
-                src="/assets/hero-card-img-02.png"
-                title="Custom CRMs"
-                description="Integrated systems to streamline data."
-                buttonText="Learn More"
-                color="var(--accent-blue)"
-                icon="fas fa-database"
-                index={1}
-              />
-            </motion.div>
-            <motion.div
-              variants={cardVariants}
-              style={{ rotateX, rotateY, perspective: 1000 }}
-              onMouseMove={handleMouseMove}
-              onMouseLeave={handleMouseLeave}
-            >
-              <VideoCard
-                src="/assets/hero-card-img-03.png"
-                title="Automations"
-                description="Reduce manual work by up to 90%."
-                buttonText="Discover"
-                color="var(--accent-blue)"
-                icon="fas fa-cogs"
-                index={2}
-              />
-            </motion.div>
-            <motion.div
-              variants={cardVariants}
-              style={{ rotateX, rotateY, perspective: 1000 }}
-              onMouseMove={handleMouseMove}
-              onMouseLeave={handleMouseLeave}
-            >
-              <VideoCard
-                src="/assets/hero-card-img-04.png"
-                title="Mobile Apps"
-                description="On-the-go solutions for Android & iOS."
-                buttonText="Try Now"
-                color="var(--accent-blue)"
-                icon="fas fa-mobile-alt"
-                index={3}
-              />
-            </motion.div>
+            {!imagesLoaded ? (
+              // Show skeleton loaders while images load
+              Array.from({ length: 4 }).map((_, index) => (
+                <SkeletonCard key={index} />
+              ))
+            ) : (
+              // Actual cards
+              <>
+                <motion.div
+                  variants={cardVariants}
+                  style={{
+                    rotateX: tiltAnimation.rotateX,
+                    rotateY: tiltAnimation.rotateY,
+                    perspective: 1000,
+                  }}
+                  onMouseMove={tiltAnimation.handleMouseMove}
+                  onMouseLeave={tiltAnimation.handleMouseLeave}
+                >
+                  <VideoCard
+                    src="/assets/hero-card-img-01.png"
+                    title="AI Agents"
+                    description="Intelligent agents for 24/7 operations."
+                    buttonText="Explore"
+                    color="var(--accent-blue)"
+                    icon="fas fa-robot"
+                    index={0}
+                  />
+                </motion.div>
+                <motion.div
+                  variants={cardVariants}
+                  style={{
+                    rotateX: tiltAnimation.rotateX,
+                    rotateY: tiltAnimation.rotateY,
+                    perspective: 1000,
+                  }}
+                  onMouseMove={tiltAnimation.handleMouseMove}
+                  onMouseLeave={tiltAnimation.handleMouseLeave}
+                >
+                  <VideoCard
+                    src="/assets/hero-card-img-02.png"
+                    title="Custom CRMs"
+                    description="Integrated systems to streamline data."
+                    buttonText="Learn More"
+                    color="var(--accent-blue)"
+                    icon="fas fa-database"
+                    index={1}
+                  />
+                </motion.div>
+                <motion.div
+                  variants={cardVariants}
+                  style={{
+                    rotateX: tiltAnimation.rotateX,
+                    rotateY: tiltAnimation.rotateY,
+                    perspective: 1000,
+                  }}
+                  onMouseMove={tiltAnimation.handleMouseMove}
+                  onMouseLeave={tiltAnimation.handleMouseLeave}
+                >
+                  <VideoCard
+                    src="/assets/hero-card-img-03.png"
+                    title="Automations"
+                    description="Reduce manual work by up to 90%."
+                    buttonText="Discover"
+                    color="var(--accent-blue)"
+                    icon="fas fa-cogs"
+                    index={2}
+                  />
+                </motion.div>
+                <motion.div
+                  variants={cardVariants}
+                  style={{
+                    rotateX: tiltAnimation.rotateX,
+                    rotateY: tiltAnimation.rotateY,
+                    perspective: 1000,
+                  }}
+                  onMouseMove={tiltAnimation.handleMouseMove}
+                  onMouseLeave={tiltAnimation.handleMouseLeave}
+                >
+                  <VideoCard
+                    src="/assets/hero-card-img-04.png"
+                    title="Mobile Apps"
+                    description="On-the-go solutions for Android & iOS."
+                    buttonText="Try Now"
+                    color="var(--accent-blue)"
+                    icon="fas fa-mobile-alt"
+                    index={3}
+                  />
+                </motion.div>
+              </>
+            )}
           </div>
           <p className="text-2xl mb-8">
             Proven solutions across real estate, finance, consulting, marketing,
@@ -391,15 +465,20 @@ const Home: React.FC = () => {
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
             <motion.div
               variants={cardVariants}
-              style={{ rotateX, rotateY, perspective: 1000 }}
-              onMouseMove={handleMouseMove}
-              onMouseLeave={handleMouseLeave}
+              style={{
+                rotateX: tiltAnimation.rotateX,
+                rotateY: tiltAnimation.rotateY,
+                perspective: 1000,
+              }}
+              onMouseMove={tiltAnimation.handleMouseMove}
+              onMouseLeave={tiltAnimation.handleMouseLeave}
             >
               <motion.div variants={cardVariants} className="card text-center">
                 <img
                   src="/assets/crm.png"
                   alt="Service Logo"
                   className="mx-auto mb-4 h-16"
+                  loading="lazy"
                 />
                 <h3 className="text-xl font-semibold mb-2">Custom CRMs</h3>
                 <p className="text-[var(--text-secondary)] mb-4">
@@ -418,15 +497,20 @@ const Home: React.FC = () => {
             </motion.div>
             <motion.div
               variants={cardVariants}
-              style={{ rotateX, rotateY, perspective: 1000 }}
-              onMouseMove={handleMouseMove}
-              onMouseLeave={handleMouseLeave}
+              style={{
+                rotateX: tiltAnimation.rotateX,
+                rotateY: tiltAnimation.rotateY,
+                perspective: 1000,
+              }}
+              onMouseMove={tiltAnimation.handleMouseMove}
+              onMouseLeave={tiltAnimation.handleMouseLeave}
             >
               <motion.div variants={cardVariants} className="card text-center">
                 <img
                   src="/assets/process.png"
                   alt="Service Logo"
                   className="mx-auto mb-4 h-16"
+                  loading="lazy"
                 />
                 <h3 className="text-xl font-semibold mb-2">
                   Workflow Automations
@@ -447,15 +531,20 @@ const Home: React.FC = () => {
             </motion.div>
             <motion.div
               variants={cardVariants}
-              style={{ rotateX, rotateY, perspective: 1000 }}
-              onMouseMove={handleMouseMove}
-              onMouseLeave={handleMouseLeave}
+              style={{
+                rotateX: tiltAnimation.rotateX,
+                rotateY: tiltAnimation.rotateY,
+                perspective: 1000,
+              }}
+              onMouseMove={tiltAnimation.handleMouseMove}
+              onMouseLeave={tiltAnimation.handleMouseLeave}
             >
               <motion.div variants={cardVariants} className="card text-center">
                 <img
                   src="/assets/robot.png"
                   alt="Service Logo"
                   className="mx-auto mb-4 h-16"
+                  loading="lazy"
                 />
                 <h3 className="text-xl font-semibold mb-2">
                   AI-Driven Agents & Chatbots
@@ -494,15 +583,20 @@ const Home: React.FC = () => {
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
             <motion.div
               variants={cardVariants}
-              style={{ rotateX, rotateY, perspective: 1000 }}
-              onMouseMove={handleMouseMove}
-              onMouseLeave={handleMouseLeave}
+              style={{
+                rotateX: tiltAnimation.rotateX,
+                rotateY: tiltAnimation.rotateY,
+                perspective: 1000,
+              }}
+              onMouseMove={tiltAnimation.handleMouseMove}
+              onMouseLeave={tiltAnimation.handleMouseLeave}
             >
               <motion.div variants={cardVariants} className="card text-center">
                 <img
                   src="/assets/softair.png"
                   alt="Tool Logo"
                   className="mx-auto mb-4 h-16"
+                  loading="lazy"
                 />
                 <h3 className="text-xl font-semibold mb-2">Airtable & Softr</h3>
                 <p className="text-[var(--text-secondary)] mb-4">
@@ -520,15 +614,20 @@ const Home: React.FC = () => {
             </motion.div>
             <motion.div
               variants={cardVariants}
-              style={{ rotateX, rotateY, perspective: 1000 }}
-              onMouseMove={handleMouseMove}
-              onMouseLeave={handleMouseLeave}
+              style={{
+                rotateX: tiltAnimation.rotateX,
+                rotateY: tiltAnimation.rotateY,
+                perspective: 1000,
+              }}
+              onMouseMove={tiltAnimation.handleMouseMove}
+              onMouseLeave={tiltAnimation.handleMouseLeave}
             >
               <motion.div variants={cardVariants} className="card text-center">
                 <img
                   src="/assets/manier.png"
                   alt="Tool Logo"
                   className="mx-auto mb-4 h-16"
+                  loading="lazy"
                 />
                 <h3 className="text-xl font-semibold mb-2">
                   Make, n8n, Zapier
@@ -548,15 +647,20 @@ const Home: React.FC = () => {
             </motion.div>
             <motion.div
               variants={cardVariants}
-              style={{ rotateX, rotateY, perspective: 1000 }}
-              onMouseMove={handleMouseMove}
-              onMouseLeave={handleMouseLeave}
+              style={{
+                rotateX: tiltAnimation.rotateX,
+                rotateY: tiltAnimation.rotateY,
+                perspective: 1000,
+              }}
+              onMouseMove={tiltAnimation.handleMouseMove}
+              onMouseLeave={tiltAnimation.handleMouseLeave}
             >
               <motion.div variants={cardVariants} className="card text-center">
                 <img
                   src="/assets/reaws.png"
                   alt="Tool Logo"
                   className="mx-auto mb-4 h-16"
+                  loading="lazy"
                 />
                 <h3 className="text-xl font-semibold mb-2">
                   React Native & AWS
@@ -641,15 +745,20 @@ const Home: React.FC = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             <motion.div
               variants={cardVariants}
-              style={{ rotateX, rotateY, perspective: 1000 }}
-              onMouseMove={handleMouseMove}
-              onMouseLeave={handleMouseLeave}
+              style={{
+                rotateX: tiltAnimation.rotateX,
+                rotateY: tiltAnimation.rotateY,
+                perspective: 1000,
+              }}
+              onMouseMove={tiltAnimation.handleMouseMove}
+              onMouseLeave={tiltAnimation.handleMouseLeave}
             >
               <motion.div variants={cardVariants} className="card">
                 <img
                   src="/assets/project-placeholder.png"
                   alt="Project Logo"
                   className="mx-auto mb-4 h-16"
+                  loading="lazy"
                 />
                 <h3 className="text-xl font-semibold mb-2">
                   Real Estate CRM (USA)
@@ -662,15 +771,20 @@ const Home: React.FC = () => {
             </motion.div>
             <motion.div
               variants={cardVariants}
-              style={{ rotateX, rotateY, perspective: 1000 }}
-              onMouseMove={handleMouseMove}
-              onMouseLeave={handleMouseLeave}
+              style={{
+                rotateX: tiltAnimation.rotateX,
+                rotateY: tiltAnimation.rotateY,
+                perspective: 1000,
+              }}
+              onMouseMove={tiltAnimation.handleMouseMove}
+              onMouseLeave={tiltAnimation.handleMouseLeave}
             >
               <motion.div variants={cardVariants} className="card">
                 <img
                   src="/assets/project-placeholder.png"
                   alt="Project Logo"
                   className="mx-auto mb-4 h-16"
+                  loading="lazy"
                 />
                 <h3 className="text-xl font-semibold mb-2">
                   Investor Deal Flow (USA)
@@ -683,15 +797,20 @@ const Home: React.FC = () => {
             </motion.div>
             <motion.div
               variants={cardVariants}
-              style={{ rotateX, rotateY, perspective: 1000 }}
-              onMouseMove={handleMouseMove}
-              onMouseLeave={handleMouseLeave}
+              style={{
+                rotateX: tiltAnimation.rotateX,
+                rotateY: tiltAnimation.rotateY,
+                perspective: 1000,
+              }}
+              onMouseMove={tiltAnimation.handleMouseMove}
+              onMouseLeave={tiltAnimation.handleMouseLeave}
             >
               <motion.div variants={cardVariants} className="card">
                 <img
                   src="/assets/project-placeholder.png"
                   alt="Project Logo"
                   className="mx-auto mb-4 h-16"
+                  loading="lazy"
                 />
                 <h3 className="text-xl font-semibold mb-2">
                   Construction Site Bot (Mexico)
@@ -720,9 +839,13 @@ const Home: React.FC = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             <motion.div
               variants={slideInVariants}
-              style={{ rotateX, rotateY, perspective: 1000 }}
-              onMouseMove={handleMouseMove}
-              onMouseLeave={handleMouseLeave}
+              style={{
+                rotateX: tiltAnimation.rotateX,
+                rotateY: tiltAnimation.rotateY,
+                perspective: 1000,
+              }}
+              onMouseMove={tiltAnimation.handleMouseMove}
+              onMouseLeave={tiltAnimation.handleMouseLeave}
             >
               <div className="review-card">
                 <div className="star-rating">
@@ -742,9 +865,13 @@ const Home: React.FC = () => {
             </motion.div>
             <motion.div
               variants={slideInVariants}
-              style={{ rotateX, rotateY, perspective: 1000 }}
-              onMouseMove={handleMouseMove}
-              onMouseLeave={handleMouseLeave}
+              style={{
+                rotateX: tiltAnimation.rotateX,
+                rotateY: tiltAnimation.rotateY,
+                perspective: 1000,
+              }}
+              onMouseMove={tiltAnimation.handleMouseMove}
+              onMouseLeave={tiltAnimation.handleMouseLeave}
             >
               <div className="review-card">
                 <div className="star-rating">
@@ -764,9 +891,13 @@ const Home: React.FC = () => {
             </motion.div>
             <motion.div
               variants={slideInVariants}
-              style={{ rotateX, rotateY, perspective: 1000 }}
-              onMouseMove={handleMouseMove}
-              onMouseLeave={handleMouseLeave}
+              style={{
+                rotateX: tiltAnimation.rotateX,
+                rotateY: tiltAnimation.rotateY,
+                perspective: 1000,
+              }}
+              onMouseMove={tiltAnimation.handleMouseMove}
+              onMouseLeave={tiltAnimation.handleMouseLeave}
             >
               <div className="review-card">
                 <div className="star-rating">
@@ -852,15 +983,20 @@ const Home: React.FC = () => {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
             <motion.div
               variants={slideInVariants}
-              style={{ rotateX, rotateY, perspective: 1000 }}
-              onMouseMove={handleMouseMove}
-              onMouseLeave={handleMouseLeave}
+              style={{
+                rotateX: tiltAnimation.rotateX,
+                rotateY: tiltAnimation.rotateY,
+                perspective: 1000,
+              }}
+              onMouseMove={tiltAnimation.handleMouseMove}
+              onMouseLeave={tiltAnimation.handleMouseLeave}
             >
               <div className="team-card">
                 <img
                   src="/assets/business.png"
                   alt="Minhaz Uddin Fahim"
                   className="w-24 h-24 rounded-full mx-auto mb-4 object-cover"
+                  loading="lazy"
                 />
                 <h3 className="text-xl font-semibold mb-2">
                   Minhaz Uddin Fahim
@@ -886,15 +1022,20 @@ const Home: React.FC = () => {
             </motion.div>
             <motion.div
               variants={slideInVariants}
-              style={{ rotateX, rotateY, perspective: 1000 }}
-              onMouseMove={handleMouseMove}
-              onMouseLeave={handleMouseLeave}
+              style={{
+                rotateX: tiltAnimation.rotateX,
+                rotateY: tiltAnimation.rotateY,
+                perspective: 1000,
+              }}
+              onMouseMove={tiltAnimation.handleMouseMove}
+              onMouseLeave={tiltAnimation.handleMouseLeave}
             >
               <div className="team-card">
                 <img
                   src="/assets/nerd.png"
                   alt="Masum Billah Tuhin"
                   className="w-24 h-24 rounded-full mx-auto mb-4 object-cover"
+                  loading="lazy"
                 />
                 <h3 className="text-xl font-semibold mb-2">
                   Masum Billah Tuhin
@@ -920,15 +1061,20 @@ const Home: React.FC = () => {
             </motion.div>
             <motion.div
               variants={slideInVariants}
-              style={{ rotateX, rotateY, perspective: 1000 }}
-              onMouseMove={handleMouseMove}
-              onMouseLeave={handleMouseLeave}
+              style={{
+                rotateX: tiltAnimation.rotateX,
+                rotateY: tiltAnimation.rotateY,
+                perspective: 1000,
+              }}
+              onMouseMove={tiltAnimation.handleMouseMove}
+              onMouseLeave={tiltAnimation.handleMouseLeave}
             >
               <div className="team-card">
                 <img
                   src="/assets/coding.png"
                   alt="Rohit Roy"
                   className="w-24 h-24 rounded-full mx-auto mb-4 object-cover"
+                  loading="lazy"
                 />
                 <h3 className="text-xl font-semibold mb-2">Rohit Roy</h3>
                 <p className="text-[var(--text-secondary)] mb-4">
@@ -952,15 +1098,20 @@ const Home: React.FC = () => {
             </motion.div>
             <motion.div
               variants={slideInVariants}
-              style={{ rotateX, rotateY, perspective: 1000 }}
-              onMouseMove={handleMouseMove}
-              onMouseLeave={handleMouseLeave}
+              style={{
+                rotateX: tiltAnimation.rotateX,
+                rotateY: tiltAnimation.rotateY,
+                perspective: 1000,
+              }}
+              onMouseMove={tiltAnimation.handleMouseMove}
+              onMouseLeave={tiltAnimation.handleMouseLeave}
             >
               <div className="team-card">
                 <img
                   src="/assets/coding.png"
                   alt="Md. Zahidul Hasan"
                   className="w-24 h-24 rounded-full mx-auto mb-4 object-cover"
+                  loading="lazy"
                 />
                 <h3 className="text-xl font-semibold mb-2">
                   Md. Zahidul Hasan
@@ -1058,9 +1209,9 @@ const App: React.FC = () => {
   const location = useLocation();
   const [isNavOpen, setIsNavOpen] = useState(false);
 
-  const toggleNav = () => {
+  const toggleNav = useCallback(() => {
     setIsNavOpen(!isNavOpen);
-  };
+  }, [isNavOpen]);
 
   // Close mobile menu when route changes
   React.useEffect(() => {

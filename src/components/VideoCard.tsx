@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { motion, type Variants } from "framer-motion";
 import { Link } from "react-router-dom";
 
@@ -25,7 +25,7 @@ const cardVariants: Variants = {
   }),
   hover: {
     scale: 1.05,
-    boxShadow: "0px 8px 16px rgba(0, 77, 64, 0.3)", // Added "px" for clarity
+    boxShadow: "0px 8px 16px rgba(0, 77, 64, 0.3)",
     borderColor: "var(--accent-deep-teal)",
     transition: { duration: 0.3 },
   },
@@ -40,11 +40,18 @@ const VideoCard: React.FC<VideoCardProps> = ({
   icon,
   index = 0,
 }) => {
-  // Debug index and image source
-  console.log(`VideoCard ${title} index: ${index}, src: ${src}`);
-
   // Fallback image
   const fallbackImage = "/assets/fallback-image.jpg";
+
+  const handleImageError = useCallback(
+    (event: React.SyntheticEvent<HTMLImageElement, Event>) => {
+      console.error(`Failed to load image for ${title}: ${src}`);
+      event.currentTarget.src = fallbackImage;
+    },
+    [title, src]
+  );
+
+  const isMobile = typeof window !== "undefined" && window.innerWidth < 640;
 
   return (
     <motion.div
@@ -52,7 +59,8 @@ const VideoCard: React.FC<VideoCardProps> = ({
       variants={cardVariants}
       initial="hidden"
       animate="visible"
-      whileHover={window.innerWidth >= 640 ? "hover" : undefined}
+      whileHover={!isMobile ? "hover" : undefined}
+      whileTap={isMobile ? { scale: 0.98 } : undefined}
       className="card text-center relative overflow-hidden"
       style={{ borderColor: "var(--card-border)" }}
     >
@@ -63,10 +71,7 @@ const VideoCard: React.FC<VideoCardProps> = ({
           alt={title}
           className="w-full max-h-[150px] sm:max-h-[200px] object-contain rounded-lg"
           loading="lazy"
-          onError={(e) => {
-            console.error(`Failed to load image for ${title}: ${src}`);
-            e.currentTarget.src = fallbackImage;
-          }}
+          onError={handleImageError}
         />
       </div>
       {/* Content */}
