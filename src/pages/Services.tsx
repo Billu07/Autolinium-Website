@@ -172,7 +172,7 @@ const Services: React.FC = () => {
             </p>
             <Link
               to="/contact"
-              className="button bg-transparent border-2 border-[var(--accent-blue)] text-[var(--accent-blue)] hover:bg-[var(--accent-blue)] hover:text-white transition-colors"
+              className="button bg-transparent border-2 border-[var(--accent-pink)] text-[var(--accent-red)] hover:bg-[var(--accent-red)] hover:text-white transition-colors"
             >
               Get Free Consultation
             </Link>
