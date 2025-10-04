@@ -57,7 +57,14 @@ export const cardVariantsWithIndex: Variants = {
 // ✅ Button states
 export const buttonVariants: Variants = {
   hover: { scale: 1.05 },
-  pulse: { scale: [1, 1.05, 1] },
+  pulse: {
+    scale: [1, 1.05, 1],
+    transition: {
+      duration: 1.4,
+      repeat: Infinity,
+      ease: easeOut,
+    },
+  },
 };
 
 // ✅ Mobile menu open/close
@@ -70,6 +77,14 @@ export const mobileMenuVariants: Variants = {
 export const tickerVariants: Variants = {
   animate: {
     x: ["0%", "-100%"],
+    transition: {
+      x: {
+        repeat: Infinity,
+        repeatType: "loop",
+        duration: 10, // adjust speed
+        ease: "linear",
+      },
+    },
   },
 };
 

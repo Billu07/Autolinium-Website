@@ -14,10 +14,7 @@ const HeroSection: React.FC = () => {
   const [imagesLoaded, setImagesLoaded] = useState(false);
 
   React.useEffect(() => {
-    const timer = setTimeout(() => {
-      setImagesLoaded(true);
-    }, 800);
-
+    const timer = setTimeout(() => setImagesLoaded(true), 800);
     return () => clearTimeout(timer);
   }, []);
 
@@ -121,19 +118,20 @@ const HeroSection: React.FC = () => {
           and e-commerce.
         </motion.p>
 
+        {/* Fixed Button with entrance + pulse */}
         <motion.div
-          variants={buttonVariants}
-          animate="pulse"
           initial={{ opacity: 0, scale: 0.8 }}
-          // animate={{ opacity: 1, scale: 1 }}
+          animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.8, delay: 0.8 }}
         >
-          <Link
-            to="/pricing"
-            className="button text-lg bg-[var(--accent-deep-teal)] hover:bg-[var(--accent-deep-teal)]"
-          >
-            Start Your 30-Day Free Trial
-          </Link>
+          <motion.div variants={buttonVariants} animate="pulse">
+            <Link
+              to="/pricing"
+              className="button text-lg text-white bg-[var(--accent-deep-teal)] hover:bg-[var(--accent-blue)] transition-colors duration-200"
+            >
+              Start Your 30-Day Free Trial
+            </Link>
+          </motion.div>
         </motion.div>
       </motion.div>
     </section>
