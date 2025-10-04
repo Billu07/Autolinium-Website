@@ -1,57 +1,15 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
+import {
+  fadeInVariants,
+  cardVariants,
+  buttonVariants,
+  staggerContainer,
+} from "../utils/animationVariants";
 import ErrorBoundary from "../components/ErrorBoundary";
 import { useScrollAnimation } from "../hooks/useScrollAnimation";
 import ROICalculator from "../components/ROICalculator";
-
-const fadeInVariants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.6,
-      ease: "easeOut",
-      type: "spring",
-      stiffness: 100,
-    },
-  },
-};
-
-const staggerContainer = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: { staggerChildren: 0.2, delayChildren: 0.3 },
-  },
-};
-
-const cardVariants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.6, ease: "easeOut" },
-  },
-};
-
-const buttonVariants = {
-  hover: {
-    scale: 1.05,
-    boxShadow: "0 4px 8px rgba(0, 77, 64, 0.3)",
-    transition: { duration: 0.3 },
-  },
-  pulse: {
-    scale: [1, 1.05, 1],
-    transition: {
-      duration: 2,
-      repeat: Infinity,
-      ease: "easeInOut",
-      times: [0, 0.5, 1],
-    },
-  },
-};
 
 const Pricing: React.FC = () => {
   const [billingPeriod, setBillingPeriod] = useState<"monthly" | "annual">(
@@ -205,7 +163,7 @@ const Pricing: React.FC = () => {
             animate={isVisible ? "visible" : "hidden"}
             className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16"
           >
-            {plans.map((plan, index) => (
+            {plans.map((plan) => (
               <motion.div
                 key={plan.name}
                 variants={cardVariants}

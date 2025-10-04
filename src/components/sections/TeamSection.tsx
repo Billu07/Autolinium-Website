@@ -2,29 +2,10 @@ import React from "react";
 import { motion } from "framer-motion";
 import { useTiltAnimation } from "../../hooks/useTiltAnimation";
 import { useScrollAnimation } from "../../hooks/useScrollAnimation";
-
-const staggerContainer = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.2,
-      delayChildren: 0.3,
-    },
-  },
-};
-
-const slideInVariants = {
-  hidden: { opacity: 0, x: -50 },
-  visible: {
-    opacity: 1,
-    x: 0,
-    transition: {
-      duration: 0.5,
-      ease: "easeOut",
-    },
-  },
-};
+import {
+  staggerContainer,
+  slideInVariants,
+} from "../../utils/animationVariants";
 
 const TeamSection: React.FC = () => {
   const tiltAnimation = useTiltAnimation();
@@ -77,7 +58,7 @@ const TeamSection: React.FC = () => {
         </motion.h2>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-          {teamMembers.map((member, index) => (
+          {teamMembers.map((member) => (
             <motion.div
               key={member.name}
               variants={slideInVariants}

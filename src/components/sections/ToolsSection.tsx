@@ -3,37 +3,11 @@ import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { useTiltAnimation } from "../../hooks/useTiltAnimation";
 import { useScrollAnimation } from "../../hooks/useScrollAnimation";
-
-const staggerContainer = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.2,
-      delayChildren: 0.3,
-    },
-  },
-};
-
-const cardVariants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.6,
-      ease: "easeOut",
-    },
-  },
-};
-
-const buttonVariants = {
-  hover: {
-    scale: 1.1,
-    boxShadow: "0 4px 8px rgba(0, 77, 64, 0.3)",
-    transition: { duration: 0.3 },
-  },
-};
+import {
+  staggerContainer,
+  cardVariants,
+  buttonVariants,
+} from "../../utils/animationVariants";
 
 const ToolsSection: React.FC = () => {
   const tiltAnimation = useTiltAnimation();
@@ -83,7 +57,7 @@ const ToolsSection: React.FC = () => {
         </motion.p>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
-          {tools.map((tool, index) => (
+          {tools.map((tool) => (
             <motion.div
               key={tool.title}
               variants={cardVariants}

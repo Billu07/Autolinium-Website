@@ -1,6 +1,7 @@
 import React, { useCallback } from "react";
-import { motion, type Variants } from "framer-motion";
+import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
+import { cardVariantsWithIndex } from "../utils/animationVariants";
 
 interface VideoCardProps {
   src: string;
@@ -11,25 +12,6 @@ interface VideoCardProps {
   icon: string;
   index?: number;
 }
-
-const cardVariants: Variants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: (index: number = 0) => ({
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.6,
-      ease: "easeOut",
-      delay: index * 0.2,
-    },
-  }),
-  hover: {
-    scale: 1.05,
-    boxShadow: "0px 8px 16px rgba(0, 77, 64, 0.3)",
-    borderColor: "var(--accent-deep-teal)",
-    transition: { duration: 0.3 },
-  },
-};
 
 const VideoCard: React.FC<VideoCardProps> = ({
   src,
@@ -56,7 +38,7 @@ const VideoCard: React.FC<VideoCardProps> = ({
   return (
     <motion.div
       custom={index}
-      variants={cardVariants}
+      variants={cardVariantsWithIndex}
       initial="hidden"
       animate="visible"
       whileHover={!isMobile ? "hover" : undefined}

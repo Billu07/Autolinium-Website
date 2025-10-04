@@ -1,32 +1,9 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
+import { fadeInVariants, buttonVariants } from "../../utils/animationVariants";
 import { useScrollAnimation } from "../../hooks/useScrollAnimation";
 import ROICalculator from "../ROICalculator";
-
-const fadeInVariants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.6,
-      ease: "easeOut",
-    },
-  },
-};
-
-const buttonVariants = {
-  pulse: {
-    scale: [1, 1.05, 1],
-    transition: {
-      duration: 2,
-      repeat: Infinity,
-      ease: "easeInOut",
-      times: [0, 0.5, 1],
-    },
-  },
-};
 
 const CTASection: React.FC = () => {
   const { ref, isVisible } = useScrollAnimation();

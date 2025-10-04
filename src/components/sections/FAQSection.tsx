@@ -1,32 +1,10 @@
 import React, { useState, useCallback } from "react";
 import { motion } from "framer-motion";
 import { useScrollAnimation } from "../../hooks/useScrollAnimation";
-
-const fadeInVariants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.6,
-      ease: "easeOut",
-    },
-  },
-};
-
-const faqAnswerVariants = {
-  hidden: { opacity: 0, height: 0, marginTop: 0 },
-  visible: {
-    opacity: 1,
-    height: "auto",
-    marginTop: "0.5rem",
-    transition: {
-      opacity: { duration: 0.3 },
-      height: { duration: 0.3, ease: "easeOut" },
-      marginTop: { duration: 0.3 },
-    },
-  },
-};
+import {
+  fadeInVariants,
+  faqAnswerVariants,
+} from "../../utils/animationVariants";
 
 const FAQSection: React.FC = () => {
   const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(null);

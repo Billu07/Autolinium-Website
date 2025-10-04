@@ -2,32 +2,7 @@ import React from "react";
 import { motion, useAnimationControls } from "framer-motion";
 import { Link } from "react-router-dom";
 import { useScrollAnimation } from "../../hooks/useScrollAnimation";
-
-const fadeInVariants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.6,
-      ease: "easeOut",
-    },
-  },
-};
-
-const tickerVariants = {
-  animate: {
-    x: ["0%", "-100%"],
-    transition: {
-      x: {
-        repeat: Infinity,
-        repeatType: "loop",
-        duration: 40,
-        ease: "linear",
-      },
-    },
-  },
-};
+import { fadeInVariants, tickerVariants } from "../../utils/animationVariants";
 
 const HowWeHelpSection: React.FC = () => {
   const tickerControls = useAnimationControls();

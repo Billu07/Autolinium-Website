@@ -1,6 +1,8 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { useParams, Link } from "react-router-dom";
+import { fadeInVariants, buttonVariants } from "../utils/animationVariants";
+
 import ErrorBoundary from "../components/ErrorBoundary";
 import { useScrollAnimation } from "../hooks/useScrollAnimation";
 
@@ -84,29 +86,6 @@ const blogPostsData = {
     author: "Masum Billah Tuhin",
     authorRole: "No-Code Specialist",
     tags: ["No-Code", "Automation", "Productivity", "Tools"],
-  },
-};
-
-// Animation variants
-const fadeInVariants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.6,
-      ease: "easeOut",
-      type: "spring",
-      stiffness: 100,
-    },
-  },
-};
-
-const buttonVariants = {
-  hover: {
-    scale: 1.05,
-    boxShadow: "0 4px 8px rgba(0, 77, 64, 0.3)",
-    transition: { duration: 0.3 },
   },
 };
 

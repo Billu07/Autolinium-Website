@@ -1,49 +1,16 @@
 import React from "react";
 import { motion } from "framer-motion";
+import {
+  fadeInVariants,
+  cardVariants,
+  buttonVariants,
+  staggerContainer,
+} from "../utils/animationVariants";
+
 import { Link } from "react-router-dom";
 import ErrorBoundary from "../components/ErrorBoundary";
 import { useTiltAnimation } from "../hooks/useTiltAnimation";
 import { useScrollAnimation } from "../hooks/useScrollAnimation";
-
-// Animation variants
-const fadeInVariants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.6,
-      ease: "easeOut",
-      type: "spring",
-      stiffness: 100,
-    },
-  },
-};
-
-const staggerContainer = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: { staggerChildren: 0.2, delayChildren: 0.3 },
-  },
-};
-
-const cardVariants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.6, ease: "easeOut" },
-  },
-};
-
-const buttonVariants = {
-  hover: {
-    scale: 1.1,
-    boxShadow: "0 4px 8px rgba(0, 77, 64, 0.3)",
-    transition: { duration: 0.3 },
-  },
-};
 
 const Tools: React.FC = () => {
   const tiltAnimation = useTiltAnimation();

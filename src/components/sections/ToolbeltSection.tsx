@@ -1,18 +1,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { useScrollAnimation } from "../../hooks/useScrollAnimation";
-
-const fadeInVariants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.6,
-      ease: "easeOut",
-    },
-  },
-};
+import { fadeInVariants } from "../../utils/animationVariants";
 
 const ToolbeltSection: React.FC = () => {
   const { ref, isVisible } = useScrollAnimation();

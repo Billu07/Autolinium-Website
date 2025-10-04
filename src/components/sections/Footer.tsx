@@ -1,20 +1,9 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
+import { buttonVariants } from "../../utils/animationVariants";
 
 const Footer: React.FC = () => {
-  const buttonVariants = {
-    pulse: {
-      scale: [1, 1.05, 1],
-      transition: {
-        duration: 2,
-        repeat: Infinity,
-        ease: "easeInOut",
-        times: [0, 0.5, 1],
-      },
-    },
-  };
-
   return (
     <footer className="bg-gray-800 p-6 text-center">
       <p className="mb-4">&copy; 2025 Autolinium. All rights reserved.</p>

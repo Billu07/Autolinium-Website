@@ -2,29 +2,7 @@ import React from "react";
 import { motion } from "framer-motion";
 import { useTiltAnimation } from "../../hooks/useTiltAnimation";
 import { useScrollAnimation } from "../../hooks/useScrollAnimation";
-
-const staggerContainer = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.2,
-      delayChildren: 0.3,
-    },
-  },
-};
-
-const cardVariants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.6,
-      ease: "easeOut",
-    },
-  },
-};
+import { staggerContainer, cardVariants } from "../../utils/animationVariants";
 
 const FeaturedProjects: React.FC = () => {
   const tiltAnimation = useTiltAnimation();
@@ -67,7 +45,7 @@ const FeaturedProjects: React.FC = () => {
         </motion.h2>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {projects.map((project, index) => (
+          {projects.map((project) => (
             <motion.div
               key={project.title}
               variants={cardVariants}

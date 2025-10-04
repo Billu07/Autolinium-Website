@@ -2,6 +2,7 @@ import React, { useState, useCallback } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
 import ThemeToggle from "../ThemeToggle";
+import { mobileMenuVariants } from "../../utils/animationVariants";
 
 const Header: React.FC = () => {
   const location = useLocation();
@@ -25,25 +26,6 @@ const Header: React.FC = () => {
     "Blog",
     "Contact",
   ];
-
-  const mobileMenuVariants = {
-    closed: {
-      opacity: 0,
-      height: 0,
-      transition: {
-        duration: 0.3,
-        ease: "easeInOut",
-      },
-    },
-    open: {
-      opacity: 1,
-      height: "auto",
-      transition: {
-        duration: 0.3,
-        ease: "easeInOut",
-      },
-    },
-  };
 
   return (
     <header className="fixed top-0 w-full bg-[var(--primary-bg)] bg-opacity-95 p-4 z-40 shadow-[var(--shadow)] backdrop-blur-sm">

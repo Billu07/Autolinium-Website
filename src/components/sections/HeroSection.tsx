@@ -4,32 +4,10 @@ import { Link } from "react-router-dom";
 import VideoCard from "../VideoCard";
 import SkeletonCard from "../SkeletonCard";
 import { useTiltAnimation } from "../../hooks/useTiltAnimation";
-
-const fadeInVariants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.6,
-      ease: "easeOut",
-      type: "spring",
-      stiffness: 100,
-    },
-  },
-};
-
-const buttonVariants = {
-  pulse: {
-    scale: [1, 1.05, 1],
-    transition: {
-      duration: 2,
-      repeat: Infinity,
-      ease: "easeInOut",
-      times: [0, 0.5, 1],
-    },
-  },
-};
+import {
+  fadeInSpringVariants,
+  buttonVariants,
+} from "../../utils/animationVariants";
 
 const HeroSection: React.FC = () => {
   const tiltAnimation = useTiltAnimation();
@@ -77,7 +55,7 @@ const HeroSection: React.FC = () => {
   return (
     <section className="min-h-screen flex items-center justify-center hero-section pt-20">
       <motion.div
-        variants={fadeInVariants}
+        variants={fadeInSpringVariants}
         initial="hidden"
         animate="visible"
         className="text-center px-4 max-w-4xl"
@@ -147,7 +125,7 @@ const HeroSection: React.FC = () => {
           variants={buttonVariants}
           animate="pulse"
           initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
+          // animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.8, delay: 0.8 }}
         >
           <Link
