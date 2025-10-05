@@ -1,139 +1,226 @@
-import React, { useState } from "react";
+import React from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import VideoCard from "../VideoCard";
-import SkeletonCard from "../SkeletonCard";
-import { useTiltAnimation } from "../../hooks/useTiltAnimation";
-import {
-  fadeInSpringVariants,
-  buttonVariants,
-} from "../../utils/animationVariants";
 
 const HeroSection: React.FC = () => {
-  const tiltAnimation = useTiltAnimation();
-  const [imagesLoaded, setImagesLoaded] = useState(false);
+  const stats = [
+    { number: "24/7", label: "AI Operations" },
+    { number: "90%", label: "Efficiency Gain" },
+    { number: "50+", label: "Automations" },
+    { number: "100%", label: "Custom Solutions" },
+  ];
 
-  React.useEffect(() => {
-    const timer = setTimeout(() => setImagesLoaded(true), 800);
-    return () => clearTimeout(timer);
-  }, []);
-
-  const heroCards = [
+  const saasProducts = [
     {
-      src: "/assets/hero-card-img-01.png",
-      title: "AI Agents",
-      description: "Intelligent agents for 24/7 operations.",
-      buttonText: "Explore",
-      icon: "fas fa-robot",
-    },
-    {
-      src: "/assets/hero-card-img-02.png",
-      title: "Custom CRMs",
-      description: "Integrated systems to streamline data.",
-      buttonText: "Learn More",
+      name: "AutoCRM",
       icon: "fas fa-database",
+      color: "text-blue-400",
+      bgColor: "bg-blue-400/10",
     },
     {
-      src: "/assets/hero-card-img-03.png",
-      title: "Automations",
-      description: "Reduce manual work by up to 90%.",
-      buttonText: "Discover",
-      icon: "fas fa-cogs",
+      name: "BotFlow",
+      icon: "fas fa-robot",
+      color: "text-green-400",
+      bgColor: "bg-green-400/10",
     },
     {
-      src: "/assets/hero-card-img-04.png",
-      title: "Mobile Apps",
-      description: "On-the-go solutions for Android & iOS.",
-      buttonText: "Try Now",
-      icon: "fas fa-mobile-alt",
+      name: "DataSync",
+      icon: "fas fa-sync-alt",
+      color: "text-purple-400",
+      bgColor: "bg-purple-400/10",
+    },
+    {
+      name: "CloudAI",
+      icon: "fas fa-cloud",
+      color: "text-cyan-400",
+      bgColor: "bg-cyan-400/10",
     },
   ];
 
   return (
-    <section className="min-h-screen flex items-center justify-center hero-section pt-20">
-      <motion.div
-        variants={fadeInSpringVariants}
-        initial="hidden"
-        animate="visible"
-        className="text-center px-4 max-w-4xl"
-      >
-        <motion.h1
-          className="text-5xl md:text-7xl font-bold mb-4 text-white"
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-        >
-          Welcome To Autolinium
-        </motion.h1>
+    <section className="min-h-screen flex items-center justify-center hero-section pt-20 relative overflow-hidden">
+      <div className="container mx-auto px-4">
+        <div className="flex flex-col items-center text-center">
+          {/* Value Proposition First - No Brand Name */}
+          <motion.div
+            className="max-w-3xl mb-12"
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+          >
+            {/* Benefit-focused Headline */}
+            <motion.h1
+              className="text-4xl sm:text-5xl md:text-6xl font-bold mb-6"
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+            >
+              <span className="bg-gradient-to-r from-blue-400 via-cyan-400 to-purple-400 bg-clip-text text-transparent">
+                Automate Your Business
+              </span>
+              <br />
+              <span className="text-white text-3xl sm:text-4xl md:text-5xl">
+                With AI-Powered Solutions
+              </span>
+            </motion.h1>
 
-        <motion.p
-          className="text-xl md:text-2xl mb-8 text-[var(--text-secondary)]"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
-        >
-          AI Based Software Agency: We build AI Agents, Custom CRMs,
-          Automations, and Mobile Apps that run your business 24/7.
-        </motion.p>
+            {/* Problem-Solution Subtitle */}
+            <motion.p
+              className="text-xl sm:text-2xl text-gray-300 mb-8 leading-relaxed"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.4 }}
+            >
+              Streamline operations, reduce costs, and scale faster with our
+              intelligent automation platform built for modern businesses.
+            </motion.p>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 mb-8">
-          {!imagesLoaded
-            ? Array.from({ length: 4 }).map((_, index) => (
-                <SkeletonCard key={index} />
-              ))
-            : heroCards.map((card, index) => (
+            {/* Stats - Social Proof */}
+            <motion.div
+              className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-8"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.6 }}
+            >
+              {stats.map((stat, index) => (
                 <motion.div
-                  key={card.title}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: index * 0.1 }}
-                  style={{
-                    rotateX: tiltAnimation.rotateX,
-                    rotateY: tiltAnimation.rotateY,
-                    perspective: 1000,
-                  }}
-                  onMouseMove={tiltAnimation.handleMouseMove}
-                  onMouseLeave={tiltAnimation.handleMouseLeave}
+                  key={stat.label}
+                  className="text-center"
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.5, delay: 0.8 + index * 0.1 }}
                 >
-                  <VideoCard
-                    src={card.src}
-                    title={card.title}
-                    description={card.description}
-                    buttonText={card.buttonText}
-                    color="var(--accent-blue)"
-                    icon={card.icon}
-                    index={index}
-                  />
+                  <div className="text-2xl md:text-3xl font-bold text-white">
+                    {stat.number}
+                  </div>
+                  <div className="text-sm text-gray-400 font-medium mt-1">
+                    {stat.label}
+                  </div>
                 </motion.div>
               ))}
-        </div>
+            </motion.div>
+          </motion.div>
 
-        <motion.p
-          className="text-2xl mb-8"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.8, delay: 0.6 }}
-        >
-          Proven solutions across real estate, finance, consulting, marketing,
-          and e-commerce.
-        </motion.p>
+          {/* Product Ecosystem */}
+          <motion.div
+            className="mb-12"
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.8, delay: 0.8 }}
+          >
+            <div className="text-center mb-8">
+              <h2 className="text-2xl sm:text-3xl font-bold text-white mb-4">
+                Our AI Product Suite
+              </h2>
+              <p className="text-gray-400 max-w-2xl mx-auto">
+                Integrated solutions that work together to transform your entire
+                operation
+              </p>
+            </div>
 
-        {/* Fixed Button with entrance + pulse */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.8, delay: 0.8 }}
-        >
-          <motion.div variants={buttonVariants} animate="pulse">
+            <div className="relative w-64 h-64 sm:w-80 sm:h-80 mx-auto">
+              {/* Central Integration Hub */}
+              <motion.div
+                className="absolute inset-0 m-auto w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-gradient-to-br from-blue-500 to-cyan-400 flex items-center justify-center shadow-2xl"
+                animate={{
+                  scale: [1, 1.05, 1],
+                  rotate: [0, 5, 0],
+                }}
+                transition={{
+                  duration: 4,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                }}
+              >
+                <i className="fas fa-brain text-white text-xl sm:text-2xl"></i>
+              </motion.div>
+
+              {/* Products */}
+              {saasProducts.map((product, index) => {
+                const angle = (index * 360) / saasProducts.length;
+                const radius = 100;
+                const x = radius * Math.cos((angle * Math.PI) / 180);
+                const y = radius * Math.sin((angle * Math.PI) / 180);
+
+                return (
+                  <motion.div
+                    key={product.name}
+                    className={`absolute w-16 h-16 sm:w-20 sm:h-20 rounded-xl ${product.bgColor} border border-white/10 backdrop-blur-sm flex flex-col items-center justify-center shadow-lg`}
+                    style={{
+                      left: `calc(50% + ${x}px - 32px)`,
+                      top: `calc(50% + ${y}px - 32px)`,
+                    }}
+                    initial={{ scale: 0, opacity: 0 }}
+                    animate={{
+                      scale: 1,
+                      opacity: 1,
+                      y: [0, -8, 0],
+                    }}
+                    transition={{
+                      duration: 0.6,
+                      delay: 1 + index * 0.2,
+                      y: {
+                        duration: 3,
+                        repeat: Infinity,
+                        ease: "easeInOut",
+                      },
+                    }}
+                    whileHover={{
+                      scale: 1.15,
+                      y: -12,
+                      transition: { duration: 0.2 },
+                    }}
+                  >
+                    <i
+                      className={`${product.icon} text-lg sm:text-xl ${product.color} mb-1`}
+                    ></i>
+                    <span className="text-xs font-medium text-gray-300">
+                      {product.name}
+                    </span>
+                  </motion.div>
+                );
+              })}
+            </div>
+          </motion.div>
+
+          {/* Primary CTA */}
+          <motion.div
+            className="mb-12"
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.8, delay: 1.2 }}
+          >
             <Link
-              to="/pricing"
-              className="button text-lg text-white bg-[var(--accent-deep-teal)] hover:bg-[var(--accent-blue)] transition-colors duration-200"
+              to="/services"
+              className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-blue-500 to-cyan-400 text-white rounded-xl font-semibold text-lg hover:shadow-2xl hover:shadow-blue-500/25 transition-all duration-300 transform hover:scale-105"
             >
-              Start Your 30-Day Free Trial
+              <i className="fas fa-rocket mr-3"></i>
+              Explore Our Solutions
             </Link>
           </motion.div>
-        </motion.div>
-      </motion.div>
+
+          {/* Trust Indicators */}
+          <motion.div
+            className="flex flex-wrap justify-center gap-6 sm:gap-8 border-t border-gray-800/50 pt-8 max-w-2xl"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.8, delay: 1.4 }}
+          >
+            <div className="flex items-center gap-3 text-gray-400">
+              <i className="fas fa-shield-check text-green-400"></i>
+              <span className="text-sm font-medium">Enterprise Grade</span>
+            </div>
+            <div className="flex items-center gap-3 text-gray-400">
+              <i className="fas fa-bolt text-yellow-400"></i>
+              <span className="text-sm font-medium">Fast Implementation</span>
+            </div>
+            <div className="flex items-center gap-3 text-gray-400">
+              <i className="fas fa-chart-line text-blue-400"></i>
+              <span className="text-sm font-medium">Proven Results</span>
+            </div>
+          </motion.div>
+        </div>
+      </div>
     </section>
   );
 };
