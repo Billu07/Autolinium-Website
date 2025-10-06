@@ -1024,3 +1024,45 @@ select:focus {
   background: rgba(59, 130, 246, 0.3);
   color: var(--text-primary);
 }
+
+/* ===== ENHANCED HERO GRID ===== */
+.hero-section {
+  position: relative;
+  background: transparent !important;
+}
+
+.hero-section::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(
+      ellipse at 20% 30%,
+      rgba(59, 130, 246, 0.1) 0%,
+      transparent 50%
+    ),
+    radial-gradient(
+      ellipse at 80% 20%,
+      rgba(139, 92, 246, 0.08) 0%,
+      transparent 50%
+    );
+  z-index: -1;
+}
+
+/* Floating Geometric Shapes */
+.floating-shape {
+  position: absolute;
+  border: 1px solid;
+  opacity: 0.2;
+  pointer-events: none;
+}
+
+/* Orbital Rings */
+.orbital-ring {
+  position: absolute;
+  border: 1px solid;
+  border-radius: 50%;
+  pointer-events: none;
+}
