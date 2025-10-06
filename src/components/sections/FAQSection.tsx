@@ -1,10 +1,7 @@
 import React, { useState, useCallback } from "react";
 import { motion } from "framer-motion";
 import { useScrollAnimation } from "../../hooks/useScrollAnimation";
-import {
-  fadeInVariants,
-  faqAnswerVariants,
-} from "../../utils/animationVariants";
+import { staggerContainer, cardVariants } from "../../utils/animationVariants";
 
 const FAQSection: React.FC = () => {
   const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(null);
@@ -19,91 +16,189 @@ const FAQSection: React.FC = () => {
 
   const faqItems = [
     {
-      question: "Will your AI steal my job?",
+      question: "How does AI automation integrate with our existing team?",
       answer:
-        "Nah, it'll just make you look like a superstar by handling the boring stuff while you sip coffee!",
+        "Our AI solutions are designed to augment human capabilities, not replace them. We focus on automating repetitive tasks, allowing your team to focus on strategic work that requires human creativity and decision-making. Most clients see improved job satisfaction as employees transition to more meaningful work.",
+      category: "Implementation",
     },
     {
-      question: "How fast can you build my custom CRM?",
+      question:
+        "What's the typical timeline for custom automation development?",
       answer:
-        "Faster than you can say 'spreadsheet nightmare'—usually in weeks, depending on your needs!",
+        "Most custom CRM and automation projects are delivered within 2-6 weeks, depending on complexity. We follow an agile methodology with weekly progress updates. Simple workflow automations can often be deployed in as little as 1-2 weeks.",
+      category: "Timeline",
     },
     {
-      question: "Can your chatbots handle my sassy customers?",
+      question: "How sophisticated are your AI chatbots for customer service?",
       answer:
-        "Oh, they're sass-proof! Our AI chats quicker and wittier than your wittiest team member.",
+        "Our AI chatbots handle complex customer queries with contextual understanding and can seamlessly escalate to human agents when needed. They're trained on your specific business knowledge and can integrate with your existing support systems for a unified customer experience.",
+      category: "AI Capabilities",
     },
     {
-      question: "What if I'm not tech-savvy?",
+      question: "What technical expertise is required from our team?",
       answer:
-        "No tech degree needed! We make it so easy, even your grandma could run your biz from her phone.",
+        "None required. We handle all technical implementation and provide comprehensive training and documentation. Our solutions are designed for business users with intuitive interfaces. We also offer ongoing support to ensure your team feels confident using the new systems.",
+      category: "Technical Requirements",
     },
     {
-      question: "Are your solutions affordable for small businesses?",
+      question: "Are your solutions scalable for growing businesses?",
       answer:
-        "Yup, we've got plans that won't break the bank—think rocket fuel prices, not rocket ship!",
+        "Absolutely. We build all solutions with scalability in mind, using cloud infrastructure that grows with your business. Whether you're processing 100 or 100,000 customer interactions monthly, our systems maintain performance and reliability.",
+      category: "Scalability",
     },
     {
-      question: "Can you integrate with my existing tools?",
+      question: "What integrations do you support with existing tools?",
       answer:
-        "Like peanut butter and jelly! We'll hook up Slack, Gmail, or whatever you're using in a snap.",
+        "We integrate with popular platforms including Slack, Gmail, Stripe, Shopify, Airtable, and many more. Our team can also build custom integrations for proprietary systems. We ensure seamless data flow between all your business tools.",
+      category: "Integrations",
+    },
+    {
+      question: "What kind of support and maintenance do you provide?",
+      answer:
+        "We offer comprehensive support packages including 24/7 monitoring, regular updates, and dedicated account management. Our SLA guarantees 99.9% uptime and rapid response times for any issues that may arise.",
+      category: "Support",
+    },
+    {
+      question: "How do you ensure data security and compliance?",
+      answer:
+        "We implement enterprise-grade security measures including encryption, access controls, and regular security audits. Our solutions are compliant with major regulations like GDPR and CCPA, and we can help you maintain industry-specific compliance requirements.",
+      category: "Security",
     },
   ];
 
   return (
-    <section ref={ref} className="section bg-[var(--primary-bg)]">
-      <motion.div
-        variants={fadeInVariants}
-        initial="hidden"
-        animate={isVisible ? "visible" : "hidden"}
-        className="container"
-      >
-        <h2 className="text-4xl font-bold mb-8 text-center text-white">
-          Frequently Asked Questions
-        </h2>
+    <section
+      ref={ref}
+      className="section section-bg section-bg-primary py-16 sm:py-20 lg:py-24"
+    >
+      <div className="container mx-auto px-4 sm:px-6">
+        <motion.div
+          variants={staggerContainer}
+          initial="hidden"
+          animate={isVisible ? "visible" : "hidden"}
+          className="text-center mb-12 sm:mb-16"
+        >
+          <motion.h2
+            className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4 sm:mb-6"
+            variants={cardVariants}
+          >
+            Frequently{" "}
+            <span className="bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
+              Asked Questions
+            </span>
+          </motion.h2>
 
-        <div
-          className="faq-container"
+          <motion.p
+            className="text-lg sm:text-xl text-[var(--text-secondary)] max-w-2xl mx-auto leading-relaxed"
+            variants={cardVariants}
+          >
+            Get answers to common questions about our automation solutions and
+            implementation process.
+          </motion.p>
+        </motion.div>
+
+        {/* FAQ Grid */}
+        <motion.div
+          variants={staggerContainer}
+          initial="hidden"
+          animate={isVisible ? "visible" : "hidden"}
+          className="max-w-4xl mx-auto"
           role="region"
           aria-label="Frequently Asked Questions"
         >
           {faqItems.map((item, index) => (
             <motion.div
               key={index}
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="faq-item border-b border-[var(--card-border)]"
+              variants={cardVariants}
+              className="mb-4 sm:mb-6"
             >
-              <button
-                onClick={() => toggleFaq(index)}
-                className="faq-question w-full text-left py-4 text-[var(--accent-blue)] text-lg sm:text-xl font-semibold flex justify-between items-center hover:text-[var(--card-border)] transition-colors duration-200"
-                aria-expanded={openFaqIndex === index}
-                aria-controls={`faq-answer-${index}`}
-              >
-                <span>{item.question}</span>
-                <motion.i
-                  className={`fas ${
-                    openFaqIndex === index ? "fa-chevron-up" : "fa-chevron-down"
-                  } text-[var(--accent-blue)]`}
-                  animate={{ rotate: openFaqIndex === index ? 180 : 0 }}
-                  transition={{ duration: 0.3 }}
-                ></motion.i>
-              </button>
-
               <motion.div
-                id={`faq-answer-${index}`}
-                variants={faqAnswerVariants}
-                initial="hidden"
-                animate={openFaqIndex === index ? "visible" : "hidden"}
-                className="faq-answer text-[var(--text-secondary)] text-sm sm:text-base overflow-hidden"
+                className="card p-6 sm:p-8 hover:border-blue-400/40 transition-all duration-300 cursor-pointer group"
+                whileHover={{ y: -2 }}
+                onClick={() => toggleFaq(index)}
               >
-                <p className="pb-4">{item.answer}</p>
+                <button
+                  className="w-full text-left flex justify-between items-start gap-4 sm:gap-6"
+                  aria-expanded={openFaqIndex === index}
+                  aria-controls={`faq-answer-${index}`}
+                >
+                  <div className="flex-1">
+                    {/* Category Badge */}
+                    <div className="inline-flex items-center px-3 py-1 rounded-full bg-blue-500/20 text-blue-300 text-xs font-semibold mb-3 border border-blue-400/30">
+                      {item.category}
+                    </div>
+
+                    {/* Question */}
+                    <h3 className="text-lg sm:text-xl font-semibold text-white group-hover:text-blue-300 transition-colors duration-200 text-left leading-relaxed">
+                      {item.question}
+                    </h3>
+
+                    {/* Answer */}
+                    <motion.div
+                      id={`faq-answer-${index}`}
+                      initial={{ opacity: 0, height: 0 }}
+                      animate={
+                        openFaqIndex === index
+                          ? {
+                              opacity: 1,
+                              height: "auto",
+                            }
+                          : {
+                              opacity: 0,
+                              height: 0,
+                            }
+                      }
+                      transition={{ duration: 0.3, ease: "easeInOut" }}
+                      className="overflow-hidden"
+                    >
+                      <p className="text-[var(--text-secondary)] text-base sm:text-lg leading-relaxed mt-4 pt-4 border-t border-[var(--card-border)]">
+                        {item.answer}
+                      </p>
+                    </motion.div>
+                  </div>
+
+                  {/* Chevron Icon */}
+                  <motion.div
+                    className="flex-shrink-0 w-8 h-8 sm:w-10 sm:h-10 rounded-lg bg-blue-500/20 flex items-center justify-center group-hover:bg-blue-500/30 transition-colors duration-200 mt-6"
+                    animate={{ rotate: openFaqIndex === index ? 180 : 0 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    <i className="fas fa-chevron-down text-blue-400 text-sm"></i>
+                  </motion.div>
+                </button>
               </motion.div>
             </motion.div>
           ))}
-        </div>
-      </motion.div>
+        </motion.div>
+
+        {/* Bottom CTA */}
+        <motion.div
+          variants={staggerContainer}
+          initial="hidden"
+          animate={isVisible ? "visible" : "hidden"}
+          className="text-center mt-12 sm:mt-16"
+        >
+          <div className="bg-gradient-to-r from-[var(--secondary-bg)] to-[var(--tertiary-bg)] rounded-xl sm:rounded-2xl border border-[var(--card-border)] p-6 sm:p-8 backdrop-blur-sm max-w-2xl mx-auto">
+            <h3 className="text-xl sm:text-2xl font-bold text-white mb-3 sm:mb-4">
+              Still Have Questions?
+            </h3>
+            <p className="text-[var(--text-secondary)] text-sm sm:text-base mb-4 sm:mb-6">
+              Our automation experts are here to help you find the perfect
+              solution for your business needs.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center">
+              <button className="inline-flex items-center justify-center px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-blue-500 to-cyan-400 text-white rounded-xl font-semibold text-sm sm:text-base hover:shadow-lg hover:shadow-blue-500/25 transition-all duration-300 transform hover:scale-105">
+                <i className="fas fa-comments mr-2 sm:mr-3"></i>
+                Contact Support
+              </button>
+              <button className="inline-flex items-center justify-center px-6 sm:px-8 py-3 sm:py-4 border-2 border-blue-400 text-blue-400 rounded-xl font-semibold text-sm sm:text-base hover:bg-blue-400 hover:text-white transition-all duration-300">
+                Schedule Demo
+                <i className="fas fa-calendar ml-2 sm:ml-3"></i>
+              </button>
+            </div>
+          </div>
+        </motion.div>
+      </div>
     </section>
   );
 };

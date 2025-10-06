@@ -45,7 +45,9 @@ const Header: React.FC = () => {
                   alt="Autolinium"
                   onError={(e) => {
                     e.currentTarget.style.display = "none";
-                    e.currentTarget.nextSibling.style.display = "block";
+                    const nextEl = e.currentTarget
+                      .nextSibling as HTMLElement | null;
+                    if (nextEl) nextEl.style.display = "block";
                   }}
                 />
                 {/* Fallback if logo doesn't load */}
@@ -91,7 +93,7 @@ const Header: React.FC = () => {
               transition={{ duration: 0.5, delay: 0.2 }}
             >
               <Link
-                to="/get-started"
+                to="/pricing" // Changed from "/get-started" to "/pricing"
                 className="px-4 py-2 bg-gradient-to-r from-blue-500 to-cyan-400 text-white rounded-lg text-sm font-semibold hover:shadow-lg hover:shadow-blue-500/25 transition-all duration-300"
               >
                 Get Started
@@ -160,11 +162,11 @@ const Header: React.FC = () => {
                   Ready to automate?
                 </p>
                 <Link
-                  to="/get-started"
+                  to="/pricing" // Changed from "/get-started" to "/pricing"
                   className="block w-full px-4 py-3 bg-gradient-to-r from-blue-500 to-cyan-400 text-white rounded-lg text-center font-semibold hover:shadow-lg hover:shadow-blue-500/25 transition-all duration-300"
                   onClick={() => setIsNavOpen(false)}
                 >
-                  Start Free Trial
+                  View Pricing
                 </Link>
               </motion.div>
 

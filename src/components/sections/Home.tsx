@@ -6,7 +6,6 @@ import HowWeHelpSection from "./HowWeHelpSection";
 import ReviewsSection from "./ReviewsSection";
 import FAQSection from "./FAQSection";
 import TeamSection from "./TeamSection";
-import ToolbeltSection from "./ToolbeltSection";
 import CTASection from "./CTASection";
 
 const Home: React.FC = () => {
@@ -19,7 +18,6 @@ const Home: React.FC = () => {
       <ReviewsSection />
       <FAQSection />
       <TeamSection />
-      <ToolbeltSection />
       <CTASection />
     </div>
   );

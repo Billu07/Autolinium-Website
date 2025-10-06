@@ -1,8 +1,11 @@
 import React from "react";
 import { motion } from "framer-motion";
-import { fadeInVariants, buttonVariants } from "../utils/animationVariants";
-
 import { useParams, Link } from "react-router-dom";
+import {
+  staggerContainer,
+  cardVariants,
+  buttonVariants,
+} from "../utils/animationVariants";
 import ErrorBoundary from "../components/ErrorBoundary";
 import { useScrollAnimation } from "../hooks/useScrollAnimation";
 
@@ -16,7 +19,8 @@ const toolData: {
     useCases: { scenario: string; outcome: string }[];
     integration: string[];
     benefits: string[];
-    image: string;
+    gradient: string;
+    icon: string;
   };
 } = {
   "airtable-softr": {
@@ -76,7 +80,8 @@ const toolData: {
       "Scalable from small business to enterprise needs",
       "Cost-effective solution with predictable pricing",
     ],
-    image: "/assets/softair.png",
+    gradient: "from-blue-500 to-cyan-400",
+    icon: "fas fa-database",
   },
   "make-n8n-zapier": {
     title: "Make, n8n, Zapier",
@@ -133,7 +138,8 @@ const toolData: {
       "Scale operations without adding staff",
       "Gain real-time insights across all systems",
     ],
-    image: "/assets/manier.png",
+    gradient: "from-purple-500 to-pink-500",
+    icon: "fas fa-cogs",
   },
   "react-native-aws": {
     title: "React Native & AWS",
@@ -190,7 +196,8 @@ const toolData: {
       "99.9% uptime guarantee with AWS",
       "Lower maintenance costs with single codebase",
     ],
-    image: "/assets/reaws.png",
+    gradient: "from-green-500 to-teal-400",
+    icon: "fas fa-mobile-alt",
   },
 };
 
@@ -202,25 +209,28 @@ const ToolDetail: React.FC = () => {
   if (!tool) {
     return (
       <ErrorBoundary>
-        <section className="section bg-[var(--primary-bg)] min-h-screen pt-20">
-          <div className="container text-center">
+        <section className="section section-bg section-bg-primary min-h-screen pt-20 flex items-center">
+          <div className="container mx-auto px-4 sm:px-6 text-center">
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
             >
-              <i className="fas fa-tools text-6xl text-[var(--accent-blue)] mb-6"></i>
-              <h2 className="text-4xl font-bold mb-4 text-white">
+              <div className="w-24 h-24 mx-auto mb-6 rounded-2xl bg-gradient-to-br from-blue-500 to-cyan-400 flex items-center justify-center shadow-lg">
+                <i className="fas fa-tools text-white text-3xl"></i>
+              </div>
+              <h2 className="text-3xl sm:text-4xl font-bold mb-4 text-white">
                 Tool Not Found
               </h2>
-              <p className="text-lg text-[var(--text-secondary)] mb-8">
+              <p className="text-lg text-[var(--text-secondary)] mb-8 max-w-md mx-auto">
                 The tool you're looking for doesn't exist in our portfolio.
               </p>
               <motion.div variants={buttonVariants} whileHover="hover">
                 <Link
                   to="/tools"
-                  className="button bg-[var(--accent-deep-teal)]"
+                  className="inline-flex items-center px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-blue-500 to-cyan-400 text-white rounded-xl font-semibold hover:shadow-lg hover:shadow-blue-500/25 transition-all duration-300"
                 >
+                  <i className="fas fa-arrow-left mr-2 sm:mr-3"></i>
                   Back to Tools
                 </Link>
               </motion.div>
@@ -235,117 +245,132 @@ const ToolDetail: React.FC = () => {
     <ErrorBoundary>
       <section
         ref={ref}
-        className="section bg-[var(--primary-bg)] min-h-screen pt-20"
+        className="section section-bg section-bg-tertiary min-h-screen pt-20"
       >
-        <motion.div
-          variants={fadeInVariants}
-          initial="hidden"
-          animate={isVisible ? "visible" : "hidden"}
-          className="container max-w-6xl"
-        >
+        <div className="container mx-auto px-4 sm:px-6 max-w-6xl">
           {/* Back Button */}
           <motion.div
-            className="mb-8"
+            className="mb-8 sm:mb-12"
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6 }}
           >
             <Link
               to="/tools"
-              className="inline-flex items-center text-[var(--accent-blue)] hover:text-[var(--accent-deep-teal)] transition-colors"
+              className="inline-flex items-center text-[var(--accent-blue)] hover:text-cyan-400 transition-colors text-sm sm:text-base"
             >
-              <i className="fas fa-arrow-left mr-2"></i>
-              Back to Tools
+              <i className="fas fa-arrow-left mr-2 sm:mr-3"></i>
+              Back to All Tools
             </Link>
           </motion.div>
 
           {/* Header Section */}
           <motion.div
-            className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-16 items-center"
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
+            variants={staggerContainer}
+            initial="hidden"
+            animate={isVisible ? "visible" : "hidden"}
+            className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12 mb-12 sm:mb-16 items-start"
           >
             <div>
-              <h1 className="text-4xl font-bold mb-6 text-white">
+              <motion.div
+                className={`w-20 h-20 sm:w-24 sm:h-24 rounded-2xl bg-gradient-to-br ${tool.gradient} flex items-center justify-center shadow-lg mb-6`}
+                variants={cardVariants}
+              >
+                <i
+                  className={`${tool.icon} text-white text-2xl sm:text-3xl`}
+                ></i>
+              </motion.div>
+
+              <motion.h1
+                className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4 sm:mb-6 text-white"
+                variants={cardVariants}
+              >
                 {tool.title}
-              </h1>
-              <p className="text-xl text-[var(--text-secondary)] mb-6 leading-relaxed">
+              </motion.h1>
+
+              <motion.p
+                className="text-lg sm:text-xl text-[var(--text-secondary)] mb-4 sm:mb-6 leading-relaxed"
+                variants={cardVariants}
+              >
                 {tool.description}
-              </p>
-              <p className="text-[var(--text-secondary)] mb-8">
+              </motion.p>
+
+              <motion.p
+                className="text-[var(--text-secondary)] mb-6 sm:mb-8 leading-relaxed"
+                variants={cardVariants}
+              >
                 {tool.longDescription}
-              </p>
-              <motion.div variants={buttonVariants} whileHover="hover">
+              </motion.p>
+
+              <motion.div variants={cardVariants}>
                 <Link
                   to="/contact"
-                  className="button bg-[var(--accent-deep-teal)] text-lg"
+                  className="inline-flex items-center px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-cyan-500 to-blue-500 text-white rounded-xl font-semibold hover:shadow-lg hover:shadow-cyan-500/25 transition-all duration-300 transform hover:scale-105 text-sm sm:text-base"
                 >
+                  <i className="fas fa-rocket mr-2 sm:mr-3"></i>
                   Start Project with {tool.title}
                 </Link>
               </motion.div>
             </div>
 
-            <div className="flex justify-center">
-              <motion.div
-                className="card p-8 text-center"
-                whileHover={{ y: -5 }}
-                transition={{ duration: 0.3 }}
-              >
-                <img
-                  src={tool.image}
-                  alt={tool.title}
-                  className="mx-auto mb-6 h-32 w-32 object-contain"
-                  onError={(e) => {
-                    e.currentTarget.src = "/assets/fallback-image.jpg";
-                  }}
-                />
-                <h3 className="text-xl font-semibold text-white mb-4">
-                  Perfect For
-                </h3>
-                <div className="space-y-3">
-                  {tool.benefits.map((benefit, index) => (
-                    <div
-                      key={index}
-                      className="flex items-center text-[var(--text-secondary)]"
-                    >
-                      <i className="fas fa-check text-green-400 mr-3"></i>
-                      <span>{benefit}</span>
-                    </div>
-                  ))}
-                </div>
-              </motion.div>
-            </div>
+            {/* Benefits Card */}
+            <motion.div
+              className="card p-6 sm:p-8"
+              variants={cardVariants}
+              whileHover={{ y: -4 }}
+            >
+              <h3 className="text-xl sm:text-2xl font-bold text-white mb-4 sm:mb-6 text-center">
+                Key Benefits
+              </h3>
+              <div className="space-y-3 sm:space-y-4">
+                {tool.benefits.map((benefit, index) => (
+                  <div
+                    key={index}
+                    className="flex items-start text-[var(--text-secondary)] text-sm sm:text-base"
+                  >
+                    <i className="fas fa-check-circle text-green-400 mr-3 mt-0.5 text-sm sm:text-base flex-shrink-0"></i>
+                    <span>{benefit}</span>
+                  </div>
+                ))}
+              </div>
+            </motion.div>
           </motion.div>
 
           {/* Features Grid */}
           <motion.div
-            className="mb-16"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
+            variants={staggerContainer}
+            initial="hidden"
+            animate={isVisible ? "visible" : "hidden"}
+            className="mb-12 sm:mb-16"
           >
-            <h2 className="text-3xl font-bold mb-8 text-center text-white">
+            <motion.h2
+              className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-8 sm:mb-12 text-center text-white"
+              variants={cardVariants}
+            >
               Key Features
-            </h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            </motion.h2>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
               {tool.features.map((feature, index) => (
                 <motion.div
                   key={index}
-                  className="card p-6 flex items-start space-x-4 group hover:transform hover:scale-105 transition-all duration-300"
-                  whileHover={{ y: -5 }}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: index * 0.1 }}
+                  variants={cardVariants}
+                  custom={index}
+                  className="card p-6 sm:p-8 flex items-start space-x-4 sm:space-x-6 group hover:border-cyan-400/40 transition-all duration-300"
+                  whileHover={{ y: -4 }}
                 >
-                  <div className="w-12 h-12 bg-gradient-to-br from-[var(--accent-blue)] to-[var(--accent-deep-teal)] rounded-full flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
-                    <i className={`${feature.icon} text-white text-lg`}></i>
+                  <div
+                    className={`w-12 h-12 sm:w-14 sm:h-14 rounded-xl bg-gradient-to-br ${tool.gradient} flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform duration-200`}
+                  >
+                    <i
+                      className={`${feature.icon} text-white text-lg sm:text-xl`}
+                    ></i>
                   </div>
-                  <div>
-                    <h3 className="text-lg font-semibold text-white mb-2">
+                  <div className="flex-1">
+                    <h3 className="text-lg sm:text-xl font-semibold text-white mb-2 sm:mb-3">
                       {feature.name}
                     </h3>
-                    <p className="text-[var(--text-secondary)]">
+                    <p className="text-[var(--text-secondary)] text-sm sm:text-base leading-relaxed">
                       {feature.description}
                     </p>
                   </div>
@@ -356,34 +381,38 @@ const ToolDetail: React.FC = () => {
 
           {/* Use Cases */}
           <motion.div
-            className="mb-16"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
+            variants={staggerContainer}
+            initial="hidden"
+            animate={isVisible ? "visible" : "hidden"}
+            className="mb-12 sm:mb-16"
           >
-            <h2 className="text-3xl font-bold mb-8 text-center text-white">
+            <motion.h2
+              className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-8 sm:mb-12 text-center text-white"
+              variants={cardVariants}
+            >
               Real-World Success Stories
-            </h2>
-            <div className="space-y-6">
+            </motion.h2>
+
+            <div className="space-y-6 sm:space-y-8">
               {tool.useCases.map((useCase, index) => (
                 <motion.div
                   key={index}
-                  className="card p-6"
-                  initial={{ opacity: 0, x: index % 2 === 0 ? -20 : 20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.6, delay: 0.6 + index * 0.2 }}
+                  variants={cardVariants}
+                  custom={index}
+                  className="card p-6 sm:p-8"
+                  whileHover={{ y: -2 }}
                 >
-                  <div className="flex items-start space-x-4">
-                    <div className="w-8 h-8 bg-[var(--accent-blue)] rounded-full flex items-center justify-center flex-shrink-0 mt-1">
-                      <span className="text-white font-bold text-sm">
+                  <div className="flex items-start space-x-4 sm:space-x-6">
+                    <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-gradient-to-br from-cyan-500 to-blue-500 flex items-center justify-center flex-shrink-0 mt-1">
+                      <span className="text-white font-bold text-sm sm:text-base">
                         {index + 1}
                       </span>
                     </div>
-                    <div>
-                      <h3 className="text-xl font-semibold text-white mb-3">
+                    <div className="flex-1">
+                      <h3 className="text-xl sm:text-2xl font-semibold text-white mb-3 sm:mb-4">
                         {useCase.scenario}
                       </h3>
-                      <p className="text-[var(--text-secondary)] leading-relaxed">
+                      <p className="text-[var(--text-secondary)] leading-relaxed text-sm sm:text-base">
                         {useCase.outcome}
                       </p>
                     </div>
@@ -395,38 +424,39 @@ const ToolDetail: React.FC = () => {
 
           {/* Integration & CTA */}
           <motion.div
-            className="grid grid-cols-1 lg:grid-cols-2 gap-8"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.6 }}
+            variants={staggerContainer}
+            initial="hidden"
+            animate={isVisible ? "visible" : "hidden"}
+            className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8"
           >
             {/* Integration Partners */}
-            <div className="card p-6">
-              <h3 className="text-xl font-semibold mb-6 text-white">
+            <motion.div className="card p-6 sm:p-8" variants={cardVariants}>
+              <h3 className="text-xl sm:text-2xl font-semibold mb-6 text-white">
                 Common Integrations
               </h3>
               <div className="flex flex-wrap gap-3">
                 {tool.integration.map((integration, index) => (
                   <span
                     key={index}
-                    className="px-4 py-2 bg-gray-700 text-[var(--text-secondary)] rounded-full text-sm hover:bg-gray-600 transition-colors cursor-pointer"
+                    className="px-3 sm:px-4 py-2 bg-[var(--tertiary-bg)] text-[var(--text-secondary)] rounded-lg text-xs sm:text-sm border border-[var(--card-border)] hover:border-cyan-400/50 transition-colors cursor-pointer"
                   >
                     {integration}
                   </span>
                 ))}
               </div>
-            </div>
+            </motion.div>
 
             {/* CTA Card */}
             <motion.div
-              className="card p-6 bg-gradient-to-br from-[var(--accent-deep-teal)] to-[var(--accent-blue)] text-center"
+              className="card p-6 sm:p-8 bg-gradient-to-br from-cyan-500 to-blue-500 text-center"
+              variants={cardVariants}
               whileHover={{ scale: 1.02 }}
               transition={{ duration: 0.3 }}
             >
-              <h3 className="text-2xl font-bold mb-4 text-white">
+              <h3 className="text-xl sm:text-2xl font-bold mb-4 text-white">
                 Ready to Get Started?
               </h3>
-              <p className="text-blue-100 mb-6">
+              <p className="text-cyan-100 mb-6 text-sm sm:text-base">
                 Let's discuss how {tool.title} can transform your business
                 operations.
               </p>
@@ -434,18 +464,19 @@ const ToolDetail: React.FC = () => {
                 <motion.div variants={buttonVariants} whileHover="hover">
                   <Link
                     to="/contact"
-                    className="button bg-white text-[var(--accent-deep-teal)] hover:bg-gray-100 font-semibold w-full"
+                    className="inline-flex items-center justify-center px-6 py-3 bg-white text-cyan-600 rounded-xl font-semibold hover:bg-gray-100 transition-all duration-300 w-full text-sm sm:text-base"
                   >
+                    <i className="fas fa-calendar-check mr-2 sm:mr-3"></i>
                     Start Your Project
                   </Link>
                 </motion.div>
-                <p className="text-blue-200 text-sm">
+                <p className="text-cyan-200 text-xs sm:text-sm">
                   Free consultation • No commitment • Expert guidance
                 </p>
               </div>
             </motion.div>
           </motion.div>
-        </motion.div>
+        </div>
       </section>
     </ErrorBoundary>
   );

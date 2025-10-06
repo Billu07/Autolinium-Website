@@ -2,10 +2,9 @@ import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import {
-  fadeInVariants,
+  staggerContainer,
   cardVariants,
   buttonVariants,
-  staggerContainer,
 } from "../utils/animationVariants";
 import ErrorBoundary from "../components/ErrorBoundary";
 import { useScrollAnimation } from "../hooks/useScrollAnimation";
@@ -39,7 +38,8 @@ const Pricing: React.FC = () => {
         "White-label Solutions",
       ],
       popular: false,
-      color: "from-gray-600 to-gray-700",
+      gradient: "from-gray-600 to-gray-700",
+      icon: "fas fa-rocket",
     },
     {
       name: "Business",
@@ -63,7 +63,8 @@ const Pricing: React.FC = () => {
         "Full Custom Development",
       ],
       popular: true,
-      color: "from-[var(--accent-deep-teal)] to-[var(--accent-blue)]",
+      gradient: "from-blue-500 to-cyan-400",
+      icon: "fas fa-chart-line",
     },
     {
       name: "Enterprise",
@@ -85,7 +86,8 @@ const Pricing: React.FC = () => {
       ],
       notIncluded: [],
       popular: false,
-      color: "from-purple-600 to-pink-600",
+      gradient: "from-purple-500 to-pink-500",
+      icon: "fas fa-crown",
     },
   ];
 
@@ -102,41 +104,60 @@ const Pricing: React.FC = () => {
     <ErrorBoundary>
       <section
         ref={ref}
-        className="section bg-[var(--primary-bg)] min-h-screen pt-20"
+        className="section section-bg section-bg-primary min-h-screen pt-20 flex items-center"
       >
-        <motion.div
-          variants={fadeInVariants}
-          initial="hidden"
-          animate={isVisible ? "visible" : "hidden"}
-          className="container"
-        >
+        {/* Background Particles */}
+        <div className="section-particles">
+          {[...Array(6)].map((_, i) => (
+            <div
+              key={i}
+              className="section-particle"
+              style={{
+                left: `${Math.random() * 100}%`,
+                width: `${Math.random() * 3 + 1}px`,
+                height: `${Math.random() * 3 + 1}px`,
+                animationDelay: `${Math.random() * 15}s`,
+                animationDuration: `${Math.random() * 8 + 12}s`,
+              }}
+            />
+          ))}
+        </div>
+
+        <div className="container mx-auto px-4 sm:px-6">
           {/* Header */}
           <motion.div
-            className="text-center mb-12"
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
+            variants={staggerContainer}
+            initial="hidden"
+            animate={isVisible ? "visible" : "hidden"}
+            className="text-center mb-12 sm:mb-16"
           >
-            <h1 className="text-4xl font-bold mb-4 text-white">
-              Flexible Pricing Plans
-            </h1>
-            <p className="text-lg text-[var(--text-secondary)] max-w-2xl mx-auto mb-8">
+            <motion.h1
+              className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4 sm:mb-6 text-white"
+              variants={cardVariants}
+            >
+              Flexible{" "}
+              <span className="bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
+                Pricing Plans
+              </span>
+            </motion.h1>
+            <motion.p
+              className="text-lg sm:text-xl text-[var(--text-secondary)] max-w-2xl mx-auto leading-relaxed"
+              variants={cardVariants}
+            >
               Choose the plan that fits your business needs. All plans include
               our core features with scalable options.
-            </p>
+            </motion.p>
 
             {/* Billing Toggle */}
             <motion.div
-              className="inline-flex items-center bg-gray-800 rounded-lg p-1"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.6, delay: 0.3 }}
+              className="inline-flex items-center bg-[var(--tertiary-bg)] rounded-xl p-1 border border-[var(--card-border)] mt-6 sm:mt-8"
+              variants={cardVariants}
             >
               <button
                 onClick={() => setBillingPeriod("monthly")}
-                className={`px-6 py-2 rounded-md transition-all duration-200 ${
+                className={`px-4 sm:px-6 py-2 sm:py-3 rounded-lg transition-all duration-200 text-sm sm:text-base ${
                   billingPeriod === "monthly"
-                    ? "bg-[var(--accent-blue)] text-white"
+                    ? "bg-gradient-to-r from-blue-500 to-cyan-400 text-white shadow-lg shadow-blue-500/25"
                     : "text-[var(--text-secondary)] hover:text-white"
                 }`}
               >
@@ -144,14 +165,16 @@ const Pricing: React.FC = () => {
               </button>
               <button
                 onClick={() => setBillingPeriod("annual")}
-                className={`px-6 py-2 rounded-md transition-all duration-200 ${
+                className={`px-4 sm:px-6 py-2 sm:py-3 rounded-lg transition-all duration-200 text-sm sm:text-base ${
                   billingPeriod === "annual"
-                    ? "bg-[var(--accent-blue)] text-white"
+                    ? "bg-gradient-to-r from-blue-500 to-cyan-400 text-white shadow-lg shadow-blue-500/25"
                     : "text-[var(--text-secondary)] hover:text-white"
                 }`}
               >
                 Annual{" "}
-                <span className="text-green-400 text-sm ml-1">(Save 16%)</span>
+                <span className="text-green-400 text-xs sm:text-sm ml-1">
+                  (Save 16%)
+                </span>
               </button>
             </motion.div>
           </motion.div>
@@ -161,64 +184,74 @@ const Pricing: React.FC = () => {
             variants={staggerContainer}
             initial="hidden"
             animate={isVisible ? "visible" : "hidden"}
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16"
+            className="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8 max-w-7xl mx-auto mb-12 sm:mb-16"
           >
-            {plans.map((plan) => (
+            {plans.map((plan, index) => (
               <motion.div
                 key={plan.name}
                 variants={cardVariants}
-                className={`relative ${plan.popular ? "scale-105 z-10" : ""}`}
+                custom={index}
+                className={`relative ${
+                  plan.popular ? "lg:scale-105 lg:z-10" : ""
+                }`}
               >
                 {plan.popular && (
-                  <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
-                    <span className="bg-gradient-to-r from-[var(--accent-deep-teal)] to-[var(--accent-blue)] text-white px-4 py-1 rounded-full text-sm font-semibold">
+                  <div className="absolute -top-3 sm:-top-4 left-1/2 transform -translate-x-1/2 z-20">
+                    <span className="bg-gradient-to-r from-blue-500 to-cyan-400 text-white px-4 py-1 sm:px-6 sm:py-2 rounded-full text-xs sm:text-sm font-semibold shadow-lg">
                       Most Popular
                     </span>
                   </div>
                 )}
 
                 <motion.div
-                  className={`card h-full flex flex-col ${
-                    plan.popular ? "border-2 border-[var(--accent-blue)]" : ""
+                  className={`card h-full flex flex-col p-6 sm:p-8 group ${
+                    plan.popular
+                      ? "border-2 border-blue-400 shadow-2xl shadow-blue-500/25"
+                      : "hover:border-blue-400/50"
                   }`}
-                  whileHover={{ y: -5 }}
-                  transition={{ duration: 0.3 }}
+                  whileHover={{ y: -8 }}
+                  transition={{ duration: 0.4, ease: "easeOut" }}
                 >
                   {/* Plan Header */}
-                  <div
-                    className={`bg-gradient-to-r ${plan.color} p-6 rounded-t-lg -mx-6 -mt-6 mb-6`}
-                  >
-                    <h3 className="text-2xl font-bold text-white mb-2">
+                  <div className="text-center mb-6 sm:mb-8">
+                    <div
+                      className={`w-16 h-16 sm:w-20 sm:h-20 mx-auto mb-4 rounded-2xl bg-gradient-to-br ${plan.gradient} flex items-center justify-center shadow-lg`}
+                    >
+                      <i
+                        className={`${plan.icon} text-white text-xl sm:text-2xl`}
+                      ></i>
+                    </div>
+                    <h3 className="text-2xl sm:text-3xl font-bold text-white mb-2">
                       {plan.name}
                     </h3>
-                    <div className="flex items-baseline mb-2">
-                      <span className="text-3xl font-bold text-white">
+                    <div className="flex items-baseline justify-center mb-2">
+                      <span className="text-3xl sm:text-4xl font-bold text-white">
                         ${getPrice(plan)}
                       </span>
-                      <span className="text-blue-100 ml-2">
+                      <span className="text-[var(--text-muted)] ml-2 text-sm sm:text-base">
                         /{billingPeriod === "annual" ? "year" : "month"}
                       </span>
                     </div>
                     {billingPeriod === "annual" && (
-                      <p className="text-green-300 text-sm">
+                      <p className="text-green-400 text-sm">
                         Save ${getSavings(plan)} annually
                       </p>
                     )}
-                    <p className="text-blue-100 text-sm mt-2">
+                    <p className="text-[var(--text-secondary)] text-sm sm:text-base mt-3 leading-relaxed">
                       {plan.description}
                     </p>
                   </div>
 
                   {/* Features */}
-                  <div className="flex-1 mb-6">
-                    <h4 className="font-semibold text-white mb-4">
+                  <div className="flex-1 mb-6 sm:mb-8">
+                    <h4 className="font-semibold text-white mb-4 text-lg">
                       What's Included:
                     </h4>
                     <ul className="space-y-3">
                       {plan.features.map((feature, featureIndex) => (
                         <li key={featureIndex} className="flex items-start">
-                          <i className="fas fa-check text-green-400 mt-1 mr-3 flex-shrink-0"></i>
-                          <span className="text-[var(--text-secondary)] text-sm">
+                          <i className="fas fa-check text-green-400 mt-1 mr-3 flex-shrink-0 text-sm"></i>
+                          <span className="text-[var(--text-secondary)] text-sm sm:text-base leading-relaxed">
                             {feature}
                           </span>
                         </li>
@@ -227,14 +260,14 @@ const Pricing: React.FC = () => {
 
                     {plan.notIncluded.length > 0 && (
                       <>
-                        <h4 className="font-semibold text-white mb-4 mt-6">
+                        <h4 className="font-semibold text-white mb-4 mt-6 text-lg">
                           Not Included:
                         </h4>
                         <ul className="space-y-3">
                           {plan.notIncluded.map((feature, featureIndex) => (
                             <li key={featureIndex} className="flex items-start">
-                              <i className="fas fa-times text-red-400 mt-1 mr-3 flex-shrink-0"></i>
-                              <span className="text-[var(--text-secondary)] text-sm">
+                              <i className="fas fa-times text-red-400 mt-1 mr-3 flex-shrink-0 text-sm"></i>
+                              <span className="text-[var(--text-muted)] text-sm sm:text-base leading-relaxed">
                                 {feature}
                               </span>
                             </li>
@@ -244,23 +277,31 @@ const Pricing: React.FC = () => {
                     )}
                   </div>
 
-                  {/* CTA Button */}
+                  {/* CTA Button - Fixed to link to Subscribe page */}
                   <motion.div
                     variants={buttonVariants}
                     whileHover="hover"
                     className="mt-auto"
                   >
                     <Link
-                      to="/contact"
-                      className={`button w-full text-center ${
+                      to="/subscribe"
+                      className={`inline-flex items-center justify-center w-full px-6 py-3 rounded-xl font-semibold transition-all duration-300 text-sm sm:text-base ${
                         plan.popular
-                          ? "bg-[var(--accent-blue)] hover:bg-[var(--accent-deep-teal)]"
-                          : "bg-[var(--accent-deep-teal)] hover:bg-[var(--accent-blue)]"
+                          ? "bg-gradient-to-r from-blue-500 to-cyan-400 text-white hover:shadow-lg hover:shadow-blue-500/25"
+                          : "border-2 border-blue-400 text-blue-400 hover:bg-blue-400 hover:text-white"
                       }`}
                     >
-                      {plan.name === "Enterprise"
-                        ? "Contact Sales"
-                        : "Get Started"}
+                      {plan.name === "Enterprise" ? (
+                        <>
+                          <i className="fas fa-headset mr-2 sm:mr-3"></i>
+                          Contact Sales
+                        </>
+                      ) : (
+                        <>
+                          <i className="fas fa-rocket mr-2 sm:mr-3"></i>
+                          Get Started
+                        </>
+                      )}
                     </Link>
                   </motion.div>
                 </motion.div>
@@ -270,66 +311,96 @@ const Pricing: React.FC = () => {
 
           {/* ROI Calculator Section */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.6 }}
-            className="text-center mb-12"
+            variants={staggerContainer}
+            initial="hidden"
+            animate={isVisible ? "visible" : "hidden"}
+            className="text-center mb-12 sm:mb-16"
           >
-            <h2 className="text-3xl font-bold mb-4 text-white">
-              Calculate Your Potential Savings
-            </h2>
-            <p className="text-[var(--text-secondary)] mb-8 max-w-2xl mx-auto">
+            <motion.h2
+              className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-4 sm:mb-6 text-white"
+              variants={cardVariants}
+            >
+              Calculate Your{" "}
+              <span className="bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
+                Potential Savings
+              </span>
+            </motion.h2>
+            <motion.p
+              className="text-lg sm:text-xl text-[var(--text-secondary)] mb-6 sm:mb-8 max-w-2xl mx-auto leading-relaxed"
+              variants={cardVariants}
+            >
               See how much time and money you can save with our automation
               solutions. Most businesses see ROI within the first 3 months.
-            </p>
-            <ROICalculator />
+            </motion.p>
+            <motion.div variants={cardVariants}>
+              <ROICalculator />
+            </motion.div>
           </motion.div>
 
           {/* FAQ Section */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.8 }}
-            className="card"
+            variants={staggerContainer}
+            initial="hidden"
+            animate={isVisible ? "visible" : "hidden"}
+            className="card p-6 sm:p-8"
           >
-            <h2 className="text-2xl font-bold mb-6 text-center text-white">
+            <motion.h2
+              className="text-2xl sm:text-3xl font-bold mb-6 sm:mb-8 text-center text-white"
+              variants={cardVariants}
+            >
               Frequently Asked Questions
-            </h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            </motion.h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
               {[
                 {
                   question: "Can I change plans later?",
                   answer:
                     "Yes! You can upgrade or downgrade your plan at any time. Changes take effect immediately.",
+                  icon: "fas fa-sync",
                 },
                 {
                   question: "Is there a free trial?",
                   answer:
                     "We offer a 14-day free trial on all plans. No credit card required to start.",
+                  icon: "fas fa-gift",
                 },
                 {
                   question: "What support do you offer?",
                   answer:
                     "All plans include email support. Business and Enterprise plans include priority support with faster response times.",
+                  icon: "fas fa-headset",
                 },
                 {
                   question: "Do you offer custom solutions?",
                   answer:
                     "Yes! Our Enterprise plan includes custom development, and we offer standalone custom projects for specific needs.",
+                  icon: "fas fa-cogs",
                 },
               ].map((faq, index) => (
-                <div key={index} className="text-left">
-                  <h3 className="font-semibold text-white mb-2">
-                    {faq.question}
-                  </h3>
-                  <p className="text-[var(--text-secondary)] text-sm">
-                    {faq.answer}
-                  </p>
-                </div>
+                <motion.div
+                  key={index}
+                  variants={cardVariants}
+                  custom={index}
+                  className="bg-[var(--tertiary-bg)] rounded-xl p-4 sm:p-6 border border-[var(--card-border)] hover:border-blue-400/50 transition-colors duration-300"
+                >
+                  <div className="flex items-start space-x-4">
+                    <div className="w-10 h-10 rounded-lg bg-blue-500/20 flex items-center justify-center flex-shrink-0">
+                      <i className={`${faq.icon} text-blue-400 text-sm`}></i>
+                    </div>
+                    <div>
+                      <h3 className="font-semibold text-white mb-2 text-lg">
+                        {faq.question}
+                      </h3>
+                      <p className="text-[var(--text-secondary)] text-sm sm:text-base leading-relaxed">
+                        {faq.answer}
+                      </p>
+                    </div>
+                  </div>
+                </motion.div>
               ))}
             </div>
           </motion.div>
-        </motion.div>
+        </div>
       </section>
     </ErrorBoundary>
   );

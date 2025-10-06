@@ -19,7 +19,7 @@ import Footer from "./components/sections/Footer";
 import ChatWidget from "./components/ChatWidget";
 import Home from "./components/sections/Home";
 
-// Performance monitor (unchanged)
+// Performance monitor
 const PerformanceMonitor: React.FC = () => {
   React.useEffect(() => {
     if ("connection" in navigator) {
@@ -50,10 +50,13 @@ const App: React.FC = () => {
 
   return (
     <ErrorBoundary>
-      <div className="relative min-h-screen bg-[var(--primary-bg)] text-[var(--text-primary)] font-inter overflow-hidden">
+      <div className="app-container relative min-h-screen bg-[var(--primary-bg)] text-[var(--text-primary)] font-inter overflow-hidden">
         <PerformanceMonitor />
 
-        {/* ✨ Futuristic floating orbs background */}
+        {/* Enhanced Background System */}
+        <div className="neural-grid"></div>
+
+        {/* KEEP YOUR EXISTING PARTICLE SYSTEM */}
         <motion.div
           className="fixed inset-0 z-0 pointer-events-none"
           initial={{ opacity: 0 }}
@@ -84,7 +87,17 @@ const App: React.FC = () => {
           ))}
         </motion.div>
 
-        {/* ✨ Header + Page Transitions */}
+        {/* ADDITIONAL FLOATING PARTICLES FOR DENSITY */}
+        <div className="particles-container">
+          <div className="particle small"></div>
+          <div className="particle medium"></div>
+          <div className="particle large"></div>
+          <div className="particle small"></div>
+          <div className="particle medium"></div>
+          <div className="particle large"></div>
+        </div>
+
+        {/* Header + Page Transitions */}
         <Header />
         <ScrollProgress />
 
@@ -112,4 +125,5 @@ const App: React.FC = () => {
     </ErrorBoundary>
   );
 };
+
 export default App;

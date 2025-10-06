@@ -12,45 +12,42 @@ const HeroSection: React.FC = () => {
 
   const saasProducts = [
     {
-      name: "AutoCRM",
-      icon: "fas fa-database",
+      name: "AI Voice Assistant",
+      icon: "fas fa-microphone-alt",
       color: "text-blue-400",
       bgColor: "bg-blue-400/10",
+      description: "Powered by Vapi",
     },
     {
-      name: "BotFlow",
-      icon: "fas fa-robot",
+      name: "Business Chatbot",
+      icon: "fas fa-comments",
       color: "text-green-400",
       bgColor: "bg-green-400/10",
+      description: "Intelligent support",
     },
     {
-      name: "DataSync",
-      icon: "fas fa-sync-alt",
+      name: "Short Generator",
+      icon: "fas fa-video",
       color: "text-purple-400",
       bgColor: "bg-purple-400/10",
-    },
-    {
-      name: "CloudAI",
-      icon: "fas fa-cloud",
-      color: "text-cyan-400",
-      bgColor: "bg-cyan-400/10",
+      description: "Content creation",
     },
   ];
 
   return (
-    <section className="min-h-screen flex items-center justify-center hero-section pt-20 relative overflow-hidden">
-      <div className="container mx-auto px-4">
+    <section className="min-h-screen flex items-center justify-center hero-section pt-16 sm:pt-20 relative overflow-hidden">
+      <div className="container mx-auto px-4 sm:px-6">
         <div className="flex flex-col items-center text-center">
           {/* Value Proposition First - No Brand Name */}
           <motion.div
-            className="max-w-3xl mb-12"
+            className="max-w-3xl mb-8 sm:mb-12"
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
           >
             {/* Benefit-focused Headline */}
             <motion.h1
-              className="text-4xl sm:text-5xl md:text-6xl font-bold mb-6"
+              className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6"
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
@@ -59,14 +56,14 @@ const HeroSection: React.FC = () => {
                 Automate Your Business
               </span>
               <br />
-              <span className="text-white text-3xl sm:text-4xl md:text-5xl">
+              <span className="text-white text-2xl sm:text-3xl md:text-4xl lg:text-5xl">
                 With AI-Powered Solutions
               </span>
             </motion.h1>
 
             {/* Problem-Solution Subtitle */}
             <motion.p
-              className="text-xl sm:text-2xl text-gray-300 mb-8 leading-relaxed"
+              className="text-lg sm:text-xl lg:text-2xl text-gray-300 mb-6 sm:mb-8 leading-relaxed"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.4 }}
@@ -77,7 +74,7 @@ const HeroSection: React.FC = () => {
 
             {/* Stats - Social Proof */}
             <motion.div
-              className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-8"
+              className="grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-6 mb-6 sm:mb-8"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.6 }}
@@ -90,10 +87,10 @@ const HeroSection: React.FC = () => {
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ duration: 0.5, delay: 0.8 + index * 0.1 }}
                 >
-                  <div className="text-2xl md:text-3xl font-bold text-white">
+                  <div className="text-xl sm:text-2xl lg:text-3xl font-bold text-white">
                     {stat.number}
                   </div>
-                  <div className="text-sm text-gray-400 font-medium mt-1">
+                  <div className="text-xs sm:text-sm text-gray-400 font-medium mt-1">
                     {stat.label}
                   </div>
                 </motion.div>
@@ -101,18 +98,18 @@ const HeroSection: React.FC = () => {
             </motion.div>
           </motion.div>
 
-          {/* Product Ecosystem */}
+          {/* Product Ecosystem - Updated with 3 products */}
           <motion.div
-            className="mb-12"
+            className="mb-8 sm:mb-12"
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8, delay: 0.8 }}
           >
-            <div className="text-center mb-8">
-              <h2 className="text-2xl sm:text-3xl font-bold text-white mb-4">
+            <div className="text-center mb-6 sm:mb-8">
+              <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-white mb-3 sm:mb-4">
                 Our AI Product Suite
               </h2>
-              <p className="text-gray-400 max-w-2xl mx-auto">
+              <p className="text-gray-400 text-sm sm:text-base max-w-2xl mx-auto">
                 Integrated solutions that work together to transform your entire
                 operation
               </p>
@@ -135,7 +132,7 @@ const HeroSection: React.FC = () => {
                 <i className="fas fa-brain text-white text-xl sm:text-2xl"></i>
               </motion.div>
 
-              {/* Products */}
+              {/* Products - 3 items with equal spacing */}
               {saasProducts.map((product, index) => {
                 const angle = (index * 360) / saasProducts.length;
                 const radius = 100;
@@ -145,10 +142,10 @@ const HeroSection: React.FC = () => {
                 return (
                   <motion.div
                     key={product.name}
-                    className={`absolute w-16 h-16 sm:w-20 sm:h-20 rounded-xl ${product.bgColor} border border-white/10 backdrop-blur-sm flex flex-col items-center justify-center shadow-lg`}
+                    className={`absolute w-20 h-20 sm:w-24 sm:h-24 rounded-xl ${product.bgColor} border border-white/10 backdrop-blur-sm flex flex-col items-center justify-center shadow-lg`}
                     style={{
-                      left: `calc(50% + ${x}px - 32px)`,
-                      top: `calc(50% + ${y}px - 32px)`,
+                      left: `calc(50% + ${x}px - 40px)`,
+                      top: `calc(50% + ${y}px - 40px)`,
                     }}
                     initial={{ scale: 0, opacity: 0 }}
                     animate={{
@@ -174,8 +171,11 @@ const HeroSection: React.FC = () => {
                     <i
                       className={`${product.icon} text-lg sm:text-xl ${product.color} mb-1`}
                     ></i>
-                    <span className="text-xs font-medium text-gray-300">
+                    <span className="text-xs font-medium text-gray-300 text-center leading-tight px-1">
                       {product.name}
+                    </span>
+                    <span className="text-[10px] text-gray-400 mt-1">
+                      {product.description}
                     </span>
                   </motion.div>
                 );
@@ -185,38 +185,44 @@ const HeroSection: React.FC = () => {
 
           {/* Primary CTA */}
           <motion.div
-            className="mb-12"
+            className="mb-8 sm:mb-12"
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8, delay: 1.2 }}
           >
             <Link
               to="/services"
-              className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-blue-500 to-cyan-400 text-white rounded-xl font-semibold text-lg hover:shadow-2xl hover:shadow-blue-500/25 transition-all duration-300 transform hover:scale-105"
+              className="inline-flex items-center px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-blue-500 to-cyan-400 text-white rounded-xl font-semibold text-sm sm:text-base hover:shadow-2xl hover:shadow-blue-500/25 transition-all duration-300 transform hover:scale-105"
             >
-              <i className="fas fa-rocket mr-3"></i>
+              <i className="fas fa-rocket mr-2 sm:mr-3"></i>
               Explore Our Solutions
             </Link>
           </motion.div>
 
           {/* Trust Indicators */}
           <motion.div
-            className="flex flex-wrap justify-center gap-6 sm:gap-8 border-t border-gray-800/50 pt-8 max-w-2xl"
+            className="flex flex-col sm:flex-row flex-wrap justify-center gap-4 sm:gap-6 border-t border-gray-800/50 pt-6 sm:pt-8 max-w-2xl"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.8, delay: 1.4 }}
           >
-            <div className="flex items-center gap-3 text-gray-400">
-              <i className="fas fa-shield-check text-green-400"></i>
-              <span className="text-sm font-medium">Enterprise Grade</span>
+            <div className="flex items-center gap-2 sm:gap-3 text-gray-400">
+              <i className="fas fa-shield-check text-green-400 text-sm sm:text-base"></i>
+              <span className="text-xs sm:text-sm font-medium">
+                Enterprise Grade
+              </span>
             </div>
-            <div className="flex items-center gap-3 text-gray-400">
-              <i className="fas fa-bolt text-yellow-400"></i>
-              <span className="text-sm font-medium">Fast Implementation</span>
+            <div className="flex items-center gap-2 sm:gap-3 text-gray-400">
+              <i className="fas fa-bolt text-yellow-400 text-sm sm:text-base"></i>
+              <span className="text-xs sm:text-sm font-medium">
+                Fast Implementation
+              </span>
             </div>
-            <div className="flex items-center gap-3 text-gray-400">
-              <i className="fas fa-chart-line text-blue-400"></i>
-              <span className="text-sm font-medium">Proven Results</span>
+            <div className="flex items-center gap-2 sm:gap-3 text-gray-400">
+              <i className="fas fa-chart-line text-blue-400 text-sm sm:text-base"></i>
+              <span className="text-xs sm:text-sm font-medium">
+                Proven Results
+              </span>
             </div>
           </motion.div>
         </div>

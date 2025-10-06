@@ -1,8 +1,11 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { useParams, Link } from "react-router-dom";
-import { fadeInVariants, buttonVariants } from "../utils/animationVariants";
-
+import {
+  staggerContainer,
+  cardVariants,
+  buttonVariants,
+} from "../utils/animationVariants";
 import ErrorBoundary from "../components/ErrorBoundary";
 import { useScrollAnimation } from "../hooks/useScrollAnimation";
 
@@ -32,6 +35,7 @@ const blogPostsData = {
     author: "Minhaz Uddin Fahim",
     authorRole: "Founder & AI Specialist",
     tags: ["AI", "Automation", "Future Trends", "Business"],
+    gradient: "from-blue-500 to-cyan-400",
   },
   "chatbot-trends": {
     title: "Top 5 Chatbot Trends for Modern Businesses",
@@ -59,6 +63,7 @@ const blogPostsData = {
     author: "Rohit Roy",
     authorRole: "AI Developer",
     tags: ["Chatbots", "AI", "Customer Service", "Technology"],
+    gradient: "from-purple-500 to-pink-500",
   },
   "no-code-revolution": {
     title: "The No-Code Revolution: Building Without Developers",
@@ -86,6 +91,7 @@ const blogPostsData = {
     author: "Masum Billah Tuhin",
     authorRole: "No-Code Specialist",
     tags: ["No-Code", "Automation", "Productivity", "Tools"],
+    gradient: "from-green-500 to-teal-400",
   },
 };
 
@@ -97,27 +103,34 @@ const BlogPost: React.FC = () => {
   if (!post) {
     return (
       <ErrorBoundary>
-        <section className="section bg-[var(--primary-bg)] min-h-screen pt-20">
-          <motion.div
-            variants={fadeInVariants}
-            initial="hidden"
-            animate={isVisible ? "visible" : "hidden"}
-            className="container text-center"
-          >
-            <i className="fas fa-exclamation-triangle text-6xl text-yellow-400 mb-6"></i>
-            <h2 className="text-4xl font-bold mb-4 text-white">
-              Post Not Found
-            </h2>
-            <p className="text-lg text-[var(--text-secondary)] mb-8">
-              The blog post you're looking for doesn't exist or may have been
-              moved.
-            </p>
-            <motion.div variants={buttonVariants} whileHover="hover">
-              <Link to="/blog" className="button bg-[var(--accent-deep-teal)]">
-                Back to Blog
-              </Link>
+        <section className="section section-bg section-bg-primary min-h-screen pt-20 flex items-center">
+          <div className="container mx-auto px-4 sm:px-6 text-center">
+            <motion.div
+              variants={staggerContainer}
+              initial="hidden"
+              animate={isVisible ? "visible" : "hidden"}
+            >
+              <div className="w-24 h-24 mx-auto mb-6 rounded-2xl bg-gradient-to-br from-yellow-500 to-orange-400 flex items-center justify-center shadow-lg">
+                <i className="fas fa-exclamation-triangle text-white text-3xl"></i>
+              </div>
+              <h2 className="text-3xl sm:text-4xl font-bold mb-4 text-white">
+                Post Not Found
+              </h2>
+              <p className="text-lg text-[var(--text-secondary)] mb-8 max-w-md mx-auto">
+                The blog post you're looking for doesn't exist or may have been
+                moved.
+              </p>
+              <motion.div variants={buttonVariants} whileHover="hover">
+                <Link
+                  to="/blog"
+                  className="inline-flex items-center px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-blue-500 to-cyan-400 text-white rounded-xl font-semibold hover:shadow-lg hover:shadow-blue-500/25 transition-all duration-300"
+                >
+                  <i className="fas fa-arrow-left mr-2 sm:mr-3"></i>
+                  Back to Blog
+                </Link>
+              </motion.div>
             </motion.div>
-          </motion.div>
+          </div>
         </section>
       </ErrorBoundary>
     );
@@ -127,47 +140,53 @@ const BlogPost: React.FC = () => {
     <ErrorBoundary>
       <section
         ref={ref}
-        className="section bg-[var(--primary-bg)] min-h-screen pt-20"
+        className="section section-bg section-bg-secondary min-h-screen pt-20"
       >
-        <motion.div
-          variants={fadeInVariants}
-          initial="hidden"
-          animate={isVisible ? "visible" : "hidden"}
-          className="container max-w-4xl"
-        >
+        <div className="container mx-auto px-4 sm:px-6 max-w-4xl">
           {/* Back Button */}
           <motion.div
-            className="mb-8"
+            className="mb-8 sm:mb-12"
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6 }}
           >
             <Link
               to="/blog"
-              className="inline-flex items-center text-[var(--accent-blue)] hover:text-[var(--accent-deep-teal)] transition-colors"
+              className="inline-flex items-center text-blue-400 hover:text-cyan-400 transition-colors text-sm sm:text-base"
             >
-              <i className="fas fa-arrow-left mr-2"></i>
+              <i className="fas fa-arrow-left mr-2 sm:mr-3"></i>
               Back to Blog
             </Link>
           </motion.div>
 
           {/* Article Header */}
           <motion.header
-            className="mb-8 text-center"
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
+            variants={staggerContainer}
+            initial="hidden"
+            animate={isVisible ? "visible" : "hidden"}
+            className="mb-8 sm:mb-12 text-center"
           >
-            <span className="inline-block px-3 py-1 bg-[var(--accent-blue)] text-white text-sm rounded-full mb-4">
+            <motion.span
+              className="inline-block px-3 py-1 bg-gradient-to-r from-blue-500 to-cyan-400 text-white text-sm rounded-full mb-4 sm:mb-6 font-semibold"
+              variants={cardVariants}
+            >
               {post.category}
-            </span>
-            <h1 className="text-4xl font-bold mb-6 text-white leading-tight">
+            </motion.span>
+            <motion.h1
+              className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-6 text-white leading-tight"
+              variants={cardVariants}
+            >
               {post.title}
-            </h1>
+            </motion.h1>
 
-            <div className="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-8 text-[var(--text-secondary)]">
-              <div className="flex items-center space-x-3">
-                <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center">
+            <motion.div
+              className="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-8 text-[var(--text-secondary)]"
+              variants={cardVariants}
+            >
+              <div className="flex items-center space-x-3 sm:space-x-4">
+                <div
+                  className={`w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-gradient-to-br ${post.gradient} flex items-center justify-center shadow-lg`}
+                >
                   <span className="text-white text-sm font-bold">
                     {post.author
                       .split(" ")
@@ -176,123 +195,145 @@ const BlogPost: React.FC = () => {
                   </span>
                 </div>
                 <div className="text-left">
-                  <p className="font-semibold text-white">{post.author}</p>
-                  <p className="text-sm">{post.authorRole}</p>
+                  <p className="font-semibold text-white text-sm sm:text-base">
+                    {post.author}
+                  </p>
+                  <p className="text-xs sm:text-sm">{post.authorRole}</p>
                 </div>
               </div>
 
-              <div className="flex items-center space-x-4 text-sm">
+              <div className="flex items-center space-x-4 sm:space-x-6 text-sm">
                 <span className="flex items-center">
-                  <i className="fas fa-calendar mr-2"></i>
+                  <i className="fas fa-calendar mr-2 text-blue-400"></i>
                   {post.date}
                 </span>
                 <span className="flex items-center">
-                  <i className="fas fa-clock mr-2"></i>
+                  <i className="fas fa-clock mr-2 text-cyan-400"></i>
                   {post.readTime}
                 </span>
               </div>
-            </div>
+            </motion.div>
           </motion.header>
 
           {/* Tags */}
           <motion.div
-            className="flex flex-wrap gap-2 justify-center mb-8"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.6, delay: 0.3 }}
+            variants={staggerContainer}
+            initial="hidden"
+            animate={isVisible ? "visible" : "hidden"}
+            className="flex flex-wrap gap-2 justify-center mb-8 sm:mb-12"
           >
             {post.tags.map((tag, index) => (
-              <span
+              <motion.span
                 key={index}
-                className="px-3 py-1 bg-gray-700 text-[var(--text-secondary)] text-sm rounded-full hover:bg-gray-600 transition-colors cursor-pointer"
+                variants={cardVariants}
+                custom={index}
+                className="px-3 py-1 bg-[var(--tertiary-bg)] text-[var(--text-muted)] text-xs sm:text-sm rounded-lg border border-[var(--card-border)] hover:border-blue-400/50 transition-colors cursor-pointer"
               >
                 #{tag}
-              </span>
+              </motion.span>
             ))}
           </motion.div>
 
           {/* Article Content */}
           <motion.article
-            className="card p-8 mb-8"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
+            variants={staggerContainer}
+            initial="hidden"
+            animate={isVisible ? "visible" : "hidden"}
+            className="mb-8 sm:mb-12"
           >
-            <div
-              className="prose prose-invert max-w-none"
-              dangerouslySetInnerHTML={{ __html: post.content }}
-              style={{
-                color: "var(--text-secondary)",
-              }}
-            />
+            <motion.div
+              className="card p-6 sm:p-8"
+              variants={cardVariants}
+              whileHover={{ y: -4 }}
+            >
+              <div
+                className="prose prose-invert max-w-none text-[var(--text-secondary)] text-sm sm:text-base leading-relaxed"
+                dangerouslySetInnerHTML={{ __html: post.content }}
+              />
+            </motion.div>
           </motion.article>
 
           {/* Author Bio */}
           <motion.div
-            className="card p-6 mb-8"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.6 }}
+            variants={staggerContainer}
+            initial="hidden"
+            animate={isVisible ? "visible" : "hidden"}
+            className="mb-8 sm:mb-12"
           >
-            <div className="flex items-start space-x-4">
-              <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center flex-shrink-0">
-                <span className="text-white font-bold text-lg">
-                  {post.author
-                    .split(" ")
-                    .map((n) => n[0])
-                    .join("")}
-                </span>
+            <motion.div
+              className="card p-6 sm:p-8"
+              variants={cardVariants}
+              whileHover={{ y: -4 }}
+            >
+              <div className="flex items-start space-x-4 sm:space-x-6">
+                <div
+                  className={`w-12 h-12 sm:w-16 sm:h-16 rounded-xl bg-gradient-to-br ${post.gradient} flex items-center justify-center flex-shrink-0 shadow-lg`}
+                >
+                  <span className="text-white font-bold text-sm sm:text-base">
+                    {post.author
+                      .split(" ")
+                      .map((n) => n[0])
+                      .join("")}
+                  </span>
+                </div>
+                <div className="flex-1">
+                  <h3 className="text-xl sm:text-2xl font-semibold text-white mb-2">
+                    {post.author}
+                  </h3>
+                  <p className="text-[var(--text-secondary)] text-sm sm:text-base mb-3">
+                    {post.authorRole}
+                  </p>
+                  <p className="text-[var(--text-secondary)] text-sm sm:text-base leading-relaxed">
+                    {post.author} is an expert in {post.category.toLowerCase()}{" "}
+                    with years of experience helping businesses transform their
+                    operations through technology.
+                  </p>
+                </div>
               </div>
-              <div>
-                <h3 className="text-xl font-semibold text-white mb-2">
-                  {post.author}
-                </h3>
-                <p className="text-[var(--text-secondary)] mb-3">
-                  {post.authorRole}
-                </p>
-                <p className="text-[var(--text-secondary)] text-sm">
-                  {post.author} is an expert in {post.category.toLowerCase()}{" "}
-                  with years of experience helping businesses transform their
-                  operations through technology.
-                </p>
-              </div>
-            </div>
+            </motion.div>
           </motion.div>
 
           {/* CTA Section */}
           <motion.div
-            className="card text-center bg-gradient-to-r from-[var(--accent-deep-teal)] to-[var(--accent-blue)] p-8"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.8 }}
+            variants={staggerContainer}
+            initial="hidden"
+            animate={isVisible ? "visible" : "hidden"}
           >
-            <h3 className="text-2xl font-bold mb-4 text-white">
-              Ready to Transform Your Business?
-            </h3>
-            <p className="text-blue-100 mb-6">
-              Let's discuss how we can help you implement these strategies in
-              your organization.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <motion.div variants={buttonVariants} whileHover="hover">
-                <Link
-                  to="/contact"
-                  className="button bg-white text-[var(--accent-deep-teal)] hover:bg-gray-100 font-semibold"
-                >
-                  Get Free Consultation
-                </Link>
-              </motion.div>
-              <motion.div variants={buttonVariants} whileHover="hover">
-                <Link
-                  to="/services"
-                  className="button bg-transparent border-2 border-white text-white hover:bg-white hover:text-[var(--accent-deep-teal)] font-semibold"
-                >
-                  Explore Services
-                </Link>
-              </motion.div>
-            </div>
+            <motion.div
+              className="card p-6 sm:p-8 bg-gradient-to-r from-blue-500 to-cyan-400 text-white text-center"
+              variants={cardVariants}
+              whileHover={{ scale: 1.02 }}
+            >
+              <h3 className="text-xl sm:text-2xl font-bold mb-3 sm:mb-4">
+                Ready to Transform Your Business?
+              </h3>
+              <p className="text-blue-100 text-sm sm:text-base mb-4 sm:mb-6 leading-relaxed">
+                Let's discuss how we can help you implement these strategies in
+                your organization.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center">
+                <motion.div variants={buttonVariants} whileHover="hover">
+                  <Link
+                    to="/contact"
+                    className="inline-flex items-center justify-center px-6 sm:px-8 py-3 bg-white text-cyan-600 rounded-xl font-semibold hover:bg-gray-100 transition-all duration-300 text-sm sm:text-base"
+                  >
+                    <i className="fas fa-calendar-check mr-2 sm:mr-3"></i>
+                    Get Free Consultation
+                  </Link>
+                </motion.div>
+                <motion.div variants={buttonVariants} whileHover="hover">
+                  <Link
+                    to="/services"
+                    className="inline-flex items-center justify-center px-6 sm:px-8 py-3 border-2 border-white text-white rounded-xl font-semibold hover:bg-white hover:text-cyan-600 transition-all duration-300 text-sm sm:text-base"
+                  >
+                    Explore Services
+                    <i className="fas fa-arrow-right ml-2 sm:ml-3"></i>
+                  </Link>
+                </motion.div>
+              </div>
+            </motion.div>
           </motion.div>
-        </motion.div>
+        </div>
       </section>
     </ErrorBoundary>
   );
