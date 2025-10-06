@@ -29,28 +29,10 @@ const FAQSection: React.FC = () => {
       category: "Timeline",
     },
     {
-      question: "How sophisticated are your AI chatbots for customer service?",
-      answer:
-        "Our AI chatbots handle complex customer queries with contextual understanding and can seamlessly escalate to human agents when needed. They're trained on your specific business knowledge and can integrate with your existing support systems for a unified customer experience.",
-      category: "AI Capabilities",
-    },
-    {
       question: "What technical expertise is required from our team?",
       answer:
         "None required. We handle all technical implementation and provide comprehensive training and documentation. Our solutions are designed for business users with intuitive interfaces. We also offer ongoing support to ensure your team feels confident using the new systems.",
       category: "Technical Requirements",
-    },
-    {
-      question: "Are your solutions scalable for growing businesses?",
-      answer:
-        "Absolutely. We build all solutions with scalability in mind, using cloud infrastructure that grows with your business. Whether you're processing 100 or 100,000 customer interactions monthly, our systems maintain performance and reliability.",
-      category: "Scalability",
-    },
-    {
-      question: "What integrations do you support with existing tools?",
-      answer:
-        "We integrate with popular platforms including Slack, Gmail, Stripe, Shopify, Airtable, and many more. Our team can also build custom integrations for proprietary systems. We ensure seamless data flow between all your business tools.",
-      category: "Integrations",
     },
     {
       question: "What kind of support and maintenance do you provide?",

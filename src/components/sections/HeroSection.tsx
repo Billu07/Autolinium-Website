@@ -3,13 +3,6 @@ import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 
 const HeroSection: React.FC = () => {
-  const stats = [
-    { number: "24/7", label: "AI Operations" },
-    { number: "90%", label: "Efficiency Gain" },
-    { number: "50+", label: "Automations" },
-    { number: "100%", label: "Custom Solutions" },
-  ];
-
   const saasProducts = [
     {
       name: "AI Voice Assistant",
@@ -61,41 +54,13 @@ const HeroSection: React.FC = () => {
               </span>
             </motion.h1>
 
-            {/* Problem-Solution Subtitle */}
-            <motion.p
-              className="text-lg sm:text-xl lg:text-2xl text-gray-300 mb-6 sm:mb-8 leading-relaxed"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.4 }}
-            >
-              Streamline operations, reduce costs, and scale faster with our
-              intelligent automation platform built for modern businesses.
-            </motion.p>
-
             {/* Stats - Social Proof */}
             <motion.div
               className="grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-6 mb-6 sm:mb-8"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.6 }}
-            >
-              {stats.map((stat, index) => (
-                <motion.div
-                  key={stat.label}
-                  className="text-center"
-                  initial={{ opacity: 0, scale: 0.8 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ duration: 0.5, delay: 0.8 + index * 0.1 }}
-                >
-                  <div className="text-xl sm:text-2xl lg:text-3xl font-bold text-white">
-                    {stat.number}
-                  </div>
-                  <div className="text-xs sm:text-sm text-gray-400 font-medium mt-1">
-                    {stat.label}
-                  </div>
-                </motion.div>
-              ))}
-            </motion.div>
+            ></motion.div>
           </motion.div>
 
           {/* Product Ecosystem - Updated with 3 products */}

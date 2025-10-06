@@ -9,10 +9,9 @@ const Footer: React.FC = () => {
     {
       title: "Products",
       links: [
-        { name: "AutoCRM", path: "/products/autocrm" },
-        { name: "BotFlow", path: "/products/botflow" },
-        { name: "DataSync", path: "/products/datasync" },
-        { name: "CloudAI", path: "/products/cloudai" },
+        { name: "Short Generator", path: "/products/autocrm" },
+        { name: "Business Chatbot", path: "/products/botflow" },
+        { name: "Ai Voice Assistant", path: "/products/datasync" },
       ],
     },
     {
