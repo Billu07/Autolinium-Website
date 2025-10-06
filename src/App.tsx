@@ -47,55 +47,60 @@ const PerformanceMonitor: React.FC = () => {
 
 const App: React.FC = () => {
   const location = useLocation();
+  const isHomePage = location.pathname === "/";
 
   return (
     <ErrorBoundary>
       <div className="app-container relative min-h-screen bg-[var(--primary-bg)] text-[var(--text-primary)] font-inter overflow-hidden">
         <PerformanceMonitor />
 
-        {/* Enhanced Background System */}
-        <div className="neural-grid"></div>
+        {/* Enhanced Background System - HIDDEN ON HOME PAGE */}
+        {!isHomePage && <div className="neural-grid"></div>}
 
-        {/* KEEP YOUR EXISTING PARTICLE SYSTEM */}
-        <motion.div
-          className="fixed inset-0 z-0 pointer-events-none"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-        >
-          {[...Array(20)].map((_, i) => (
-            <motion.div
-              key={i}
-              className="absolute w-2 h-2 rounded-full bg-[var(--accent-blue)]"
-              style={{
-                filter: "blur(2px)",
-              }}
-              initial={{
-                x: Math.random() * window.innerWidth,
-                y: Math.random() * window.innerHeight,
-                opacity: 0.3,
-              }}
-              animate={{
-                y: [null, Math.random() * window.innerHeight],
-                opacity: [0.2, 0.7, 0.2],
-              }}
-              transition={{
-                duration: 10 + Math.random() * 10,
-                repeat: Infinity,
-                repeatType: "mirror",
-              }}
-            />
-          ))}
-        </motion.div>
+        {/* PARTICLE SYSTEM - HIDDEN ON HOME PAGE (HERO) */}
+        {!isHomePage && (
+          <motion.div
+            className="fixed inset-0 z-0 pointer-events-none"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+          >
+            {[...Array(20)].map((_, i) => (
+              <motion.div
+                key={i}
+                className="absolute w-2 h-2 rounded-full bg-[var(--accent-blue)]"
+                style={{
+                  filter: "blur(2px)",
+                }}
+                initial={{
+                  x: Math.random() * window.innerWidth,
+                  y: Math.random() * window.innerHeight,
+                  opacity: 0.3,
+                }}
+                animate={{
+                  y: [null, Math.random() * window.innerHeight],
+                  opacity: [0.2, 0.7, 0.2],
+                }}
+                transition={{
+                  duration: 10 + Math.random() * 10,
+                  repeat: Infinity,
+                  repeatType: "mirror",
+                }}
+              />
+            ))}
+          </motion.div>
+        )}
 
-        {/* ADDITIONAL FLOATING PARTICLES FOR DENSITY */}
-        <div className="particles-container">
-          <div className="particle small"></div>
-          <div className="particle medium"></div>
-          <div className="particle large"></div>
-          <div className="particle small"></div>
-          <div className="particle medium"></div>
-          <div className="particle large"></div>
-        </div>
+        {/* ADDITIONAL FLOATING PARTICLES - HIDDEN ON HOME PAGE */}
+        {!isHomePage && (
+          <div className="particles-container">
+            <div className="particle small"></div>
+            <div className="particle medium"></div>
+            <div className="particle large"></div>
+            <div className="particle small"></div>
+            <div className="particle medium"></div>
+            <div className="particle large"></div>
+          </div>
+        )}
 
         {/* Header + Page Transitions */}
         <Header />
