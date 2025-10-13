@@ -205,25 +205,24 @@ const HeroSection: React.FC = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
           >
-            {/* Main Headline */}
+            {/* Main Headline - Larger on mobile */}
             <motion.h1
-              className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold mb-4 sm:mb-6 leading-tight"
+              className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-4 sm:mb-6 leading-tight"
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
             >
-              <span className="bg-gradient-to-r from-blue-400 via-cyan-400 to-purple-400 bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-blue-400 via-cyan-400 to-purple-400 bg-clip-text text-transparent block text-3xl sm:text-4xl md:text-5xl lg:text-6xl">
                 Transform Your
               </span>
-              <br />
-              <span className="text-white text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl">
+              <span className="text-white block text-3xl sm:text-4xl md:text-5xl lg:text-6xl mt-2">
                 Business With AI
               </span>
             </motion.h1>
 
-            {/* Subtitle */}
+            {/* Subtitle - Larger on mobile */}
             <motion.p
-              className="text-base sm:text-lg md:text-xl text-gray-300 mb-6 sm:mb-8 max-w-2xl mx-auto leading-relaxed px-2"
+              className="text-lg sm:text-xl md:text-2xl text-gray-300 mb-6 sm:mb-8 max-w-2xl mx-auto leading-relaxed px-2"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.4 }}
@@ -246,10 +245,10 @@ const HeroSection: React.FC = () => {
               { number: "99%", label: "Accuracy" },
             ].map((stat, index) => (
               <div key={index} className="text-center">
-                <div className="text-lg sm:text-xl md:text-2xl font-bold text-blue-400 mb-1 whitespace-nowrap">
+                <div className="text-xl sm:text-2xl md:text-3xl font-bold text-blue-400 mb-1 whitespace-nowrap">
                   {stat.number}
                 </div>
-                <div className="text-xs text-gray-400 leading-tight whitespace-nowrap">
+                <div className="text-xs sm:text-sm text-gray-400 leading-tight whitespace-nowrap">
                   {stat.label}
                 </div>
               </div>
@@ -258,52 +257,32 @@ const HeroSection: React.FC = () => {
 
           {/* Primary CTA - Better mobile spacing */}
           <motion.div
-            className="flex flex-col sm:flex-row gap-3 sm:gap-4 items-center mb-8 sm:mb-12"
+            className="flex flex-col sm:flex-row gap-3 sm:gap-4 items-center"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.8 }}
           >
             <Link
               to="/services"
-              className="inline-flex items-center px-5 sm:px-7 py-3 bg-gradient-to-r from-blue-500 to-cyan-400 text-white rounded-xl font-semibold text-sm sm:text-base hover:shadow-lg hover:shadow-blue-500/25 transition-all duration-300 transform hover:scale-105 backdrop-blur-sm border border-blue-400/20 w-full sm:w-auto justify-center"
+              className="inline-flex items-center px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-blue-500 to-cyan-400 text-white rounded-xl font-semibold text-base sm:text-lg hover:shadow-lg hover:shadow-blue-500/25 transition-all duration-300 transform hover:scale-105 backdrop-blur-sm border border-blue-400/20 w-full sm:w-auto justify-center"
             >
-              <i className="fas fa-rocket mr-2 sm:mr-3 text-xs sm:text-sm"></i>
+              <i className="fas fa-rocket mr-2 sm:mr-3"></i>
               Explore Our Services
-              <i className="fas fa-arrow-right ml-2 text-xs sm:text-sm"></i>
+              <i className="fas fa-arrow-right ml-2"></i>
             </Link>
 
             <Link
               to="/contact"
-              className="inline-flex items-center px-5 sm:px-7 py-3 bg-white/10 text-white rounded-xl font-semibold text-sm sm:text-base hover:bg-white/20 transition-all duration-300 transform hover:scale-105 backdrop-blur-sm border border-white/20 w-full sm:w-auto justify-center"
+              className="inline-flex items-center px-6 sm:px-8 py-3 sm:py-4 bg-white/10 text-white rounded-xl font-semibold text-base sm:text-lg hover:bg-white/20 transition-all duration-300 transform hover:scale-105 backdrop-blur-sm border border-white/20 w-full sm:w-auto justify-center"
             >
-              <i className="fas fa-calendar mr-2 sm:mr-3 text-xs sm:text-sm"></i>
+              <i className="fas fa-calendar mr-2 sm:mr-3"></i>
               Book Demo
             </Link>
           </motion.div>
         </div>
       </div>
 
-      {/* Scroll Indicator - Removed on mobile to avoid overlap */}
-      {typeof window !== "undefined" && window.innerWidth >= 768 && (
-        <motion.div
-          className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 1.2 }}
-        >
-          <motion.div
-            className="w-6 h-10 border-2 border-blue-400/50 rounded-full flex justify-center"
-            animate={{ y: [0, 8, 0] }}
-            transition={{ duration: 2, repeat: Infinity }}
-          >
-            <motion.div
-              className="w-1 h-3 bg-blue-400 rounded-full mt-2"
-              animate={{ y: [0, 8, 0] }}
-              transition={{ duration: 2, repeat: Infinity }}
-            />
-          </motion.div>
-        </motion.div>
-      )}
+      {/* Scroll Indicator - COMPLETELY REMOVED as requested */}
     </section>
   );
 };
