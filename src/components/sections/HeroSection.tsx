@@ -22,7 +22,7 @@ const HeroSection: React.FC = () => {
     resizeCanvas();
     window.addEventListener("resize", resizeCanvas);
 
-    // Minimal particles for performance
+    // Minimal particles for performance - even fewer on mobile
     const particles: Array<{
       x: number;
       y: number;
@@ -35,16 +35,17 @@ const HeroSection: React.FC = () => {
     // Initialize particles
     const initParticles = () => {
       particles.length = 0;
-      const particleCount = Math.min(30, Math.floor(window.innerWidth / 50)); // Adaptive count
+      const isMobile = window.innerWidth < 768;
+      const particleCount = isMobile ? 15 : 25; // Even fewer on mobile
 
       for (let i = 0; i < particleCount; i++) {
         particles.push({
           x: Math.random() * canvas.width,
           y: Math.random() * canvas.height,
-          size: Math.random() * 2 + 1,
-          speedX: (Math.random() - 0.5) * 0.5,
-          speedY: (Math.random() - 0.5) * 0.5,
-          opacity: Math.random() * 0.3 + 0.1,
+          size: Math.random() * 1.5 + 0.5, // Smaller on mobile
+          speedX: (Math.random() - 0.5) * 0.3,
+          speedY: (Math.random() - 0.5) * 0.3,
+          opacity: Math.random() * 0.2 + 0.1,
         });
       }
     };
@@ -58,8 +59,8 @@ const HeroSection: React.FC = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
       // Draw connecting lines between close particles
-      ctx.strokeStyle = "rgba(59, 130, 246, 0.1)";
-      ctx.lineWidth = 0.5;
+      ctx.strokeStyle = "rgba(59, 130, 246, 0.08)"; // More subtle
+      ctx.lineWidth = 0.3;
 
       for (let i = 0; i < particles.length; i++) {
         for (let j = i + 1; j < particles.length; j++) {
@@ -67,7 +68,8 @@ const HeroSection: React.FC = () => {
           const dy = particles[i].y - particles[j].y;
           const distance = Math.sqrt(dx * dx + dy * dy);
 
-          if (distance < 150) {
+          if (distance < 100) {
+            // Shorter connections
             ctx.beginPath();
             ctx.moveTo(particles[i].x, particles[i].y);
             ctx.lineTo(particles[j].x, particles[j].y);
@@ -77,7 +79,7 @@ const HeroSection: React.FC = () => {
       }
 
       // Update and draw particles
-      ctx.fillStyle = "rgba(59, 130, 246, 0.6)";
+      ctx.fillStyle = "rgba(59, 130, 246, 0.4)";
 
       particles.forEach((particle) => {
         // Update position
@@ -107,48 +109,55 @@ const HeroSection: React.FC = () => {
     };
   }, []);
 
-  // Floating gradient orbs (reduced count for mobile)
+  // Floating gradient orbs (reduced count and size for mobile)
   const FloatingOrbs = () => {
+    const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
+    const orbCount = isMobile ? 2 : 4;
+
     const orbs = [
       {
-        size: "w-16 h-16",
+        size: "w-12 h-12 sm:w-16 sm:h-16",
         color: "from-blue-500/10 to-cyan-400/10",
-        position: "top-20 left-10",
+        position: "top-10 left-5 sm:top-20 sm:left-10",
         delay: 0,
       },
       {
-        size: "w-24 h-24",
+        size: "w-16 h-16 sm:w-24 sm:h-24",
         color: "from-purple-500/10 to-pink-500/10",
-        position: "top-40 right-10",
+        position: "top-20 right-5 sm:top-40 sm:right-10",
         delay: 2,
       },
-      {
-        size: "w-20 h-20",
-        color: "from-cyan-500/10 to-blue-500/10",
-        position: "bottom-40 left-20",
-        delay: 4,
-      },
-      {
-        size: "w-28 h-28",
-        color: "from-blue-500/10 to-purple-500/10",
-        position: "bottom-20 right-20",
-        delay: 6,
-      },
+      ...(!isMobile
+        ? [
+            {
+              size: "w-14 h-14 sm:w-20 sm:h-20",
+              color: "from-cyan-500/10 to-blue-500/10",
+              position: "bottom-40 left-20",
+              delay: 4,
+            },
+            {
+              size: "w-20 h-20 sm:w-28 sm:h-28",
+              color: "from-blue-500/10 to-purple-500/10",
+              position: "bottom-20 right-20",
+              delay: 6,
+            },
+          ]
+        : []),
     ];
 
     return (
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        {orbs.map((orb, index) => (
+        {orbs.slice(0, orbCount).map((orb, index) => (
           <motion.div
             key={index}
             className={`absolute ${orb.position} ${orb.size} bg-gradient-to-br ${orb.color} rounded-full blur-xl`}
             animate={{
-              y: [0, -40, 0],
-              x: [0, 20, 0],
-              scale: [1, 1.2, 1],
+              y: [0, -20, 0],
+              x: [0, 10, 0],
+              scale: [1, 1.1, 1],
             }}
             transition={{
-              duration: 20 + index * 2,
+              duration: 15 + index * 2,
               repeat: Infinity,
               ease: "easeInOut",
               delay: orb.delay,
@@ -173,13 +182,13 @@ const HeroSection: React.FC = () => {
 
       {/* Subtle grid overlay */}
       <div
-        className="absolute inset-0 opacity-10"
+        className="absolute inset-0 opacity-5 sm:opacity-10"
         style={{
           backgroundImage: `
             linear-gradient(rgba(59, 130, 246, 0.3) 1px, transparent 1px),
             linear-gradient(90deg, rgba(59, 130, 246, 0.3) 1px, transparent 1px)
           `,
-          backgroundSize: "80px 80px",
+          backgroundSize: "60px 60px",
         }}
       />
 
@@ -191,14 +200,14 @@ const HeroSection: React.FC = () => {
         <div className="flex flex-col items-center text-center">
           {/* Hero Content */}
           <motion.div
-            className="max-w-4xl mb-8 sm:mb-12"
+            className="max-w-4xl mb-6 sm:mb-12"
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
           >
             {/* Main Headline */}
             <motion.h1
-              className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-4 sm:mb-6 leading-tight"
+              className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold mb-4 sm:mb-6 leading-tight"
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
@@ -207,14 +216,14 @@ const HeroSection: React.FC = () => {
                 Transform Your
               </span>
               <br />
-              <span className="text-white text-3xl sm:text-4xl md:text-5xl lg:text-6xl">
+              <span className="text-white text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl">
                 Business With AI
               </span>
             </motion.h1>
 
             {/* Subtitle */}
             <motion.p
-              className="text-lg sm:text-xl md:text-2xl text-gray-300 mb-6 sm:mb-8 max-w-2xl mx-auto leading-relaxed"
+              className="text-base sm:text-lg md:text-xl text-gray-300 mb-6 sm:mb-8 max-w-2xl mx-auto leading-relaxed px-2"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.4 }}
@@ -224,9 +233,9 @@ const HeroSection: React.FC = () => {
             </motion.p>
           </motion.div>
 
-          {/* Stats Section - Simplified for mobile */}
+          {/* Stats Section - Fixed mobile layout */}
           <motion.div
-            className="grid grid-cols-2 sm:grid-cols-3 gap-4 sm:gap-8 mb-8 sm:mb-12 max-w-2xl"
+            className="grid grid-cols-3 gap-2 sm:gap-6 mb-6 sm:mb-10 max-w-md w-full px-2"
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8, delay: 0.6 }}
@@ -237,86 +246,64 @@ const HeroSection: React.FC = () => {
               { number: "99%", label: "Accuracy" },
             ].map((stat, index) => (
               <div key={index} className="text-center">
-                <div className="text-xl sm:text-2xl md:text-3xl font-bold text-blue-400 mb-1">
+                <div className="text-lg sm:text-xl md:text-2xl font-bold text-blue-400 mb-1 whitespace-nowrap">
                   {stat.number}
                 </div>
-                <div className="text-xs sm:text-sm text-gray-400">
+                <div className="text-xs text-gray-400 leading-tight whitespace-nowrap">
                   {stat.label}
                 </div>
               </div>
             ))}
           </motion.div>
 
-          {/* Primary CTA */}
+          {/* Primary CTA - Better mobile spacing */}
           <motion.div
-            className="flex flex-col sm:flex-row gap-4 items-center"
+            className="flex flex-col sm:flex-row gap-3 sm:gap-4 items-center mb-8 sm:mb-12"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.8 }}
           >
             <Link
               to="/services"
-              className="inline-flex items-center px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-blue-500 to-cyan-400 text-white rounded-xl font-semibold text-base sm:text-lg hover:shadow-2xl hover:shadow-blue-500/25 transition-all duration-300 transform hover:scale-105 backdrop-blur-sm border border-blue-400/20"
+              className="inline-flex items-center px-5 sm:px-7 py-3 bg-gradient-to-r from-blue-500 to-cyan-400 text-white rounded-xl font-semibold text-sm sm:text-base hover:shadow-lg hover:shadow-blue-500/25 transition-all duration-300 transform hover:scale-105 backdrop-blur-sm border border-blue-400/20 w-full sm:w-auto justify-center"
             >
-              <i className="fas fa-rocket mr-3"></i>
+              <i className="fas fa-rocket mr-2 sm:mr-3 text-xs sm:text-sm"></i>
               Explore Our Services
-              <i className="fas fa-arrow-right ml-2"></i>
+              <i className="fas fa-arrow-right ml-2 text-xs sm:text-sm"></i>
             </Link>
 
             <Link
               to="/contact"
-              className="inline-flex items-center px-6 sm:px-8 py-3 sm:py-4 bg-white/10 text-white rounded-xl font-semibold text-base sm:text-lg hover:bg-white/20 transition-all duration-300 transform hover:scale-105 backdrop-blur-sm border border-white/20"
+              className="inline-flex items-center px-5 sm:px-7 py-3 bg-white/10 text-white rounded-xl font-semibold text-sm sm:text-base hover:bg-white/20 transition-all duration-300 transform hover:scale-105 backdrop-blur-sm border border-white/20 w-full sm:w-auto justify-center"
             >
-              <i className="fas fa-calendar mr-3"></i>
+              <i className="fas fa-calendar mr-2 sm:mr-3 text-xs sm:text-sm"></i>
               Book Demo
             </Link>
-          </motion.div>
-
-          {/* Trust Indicator */}
-          <motion.div
-            className="mt-8 sm:mt-12"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.8, delay: 1 }}
-          >
-            <p className="text-gray-400 text-sm mb-4">
-              Trusted by innovative teams worldwide
-            </p>
-            <div className="flex flex-wrap justify-center gap-6 sm:gap-8 opacity-60">
-              {["Google", "Microsoft", "Amazon", "Netflix"].map(
-                (company, index) => (
-                  <div
-                    key={index}
-                    className="text-gray-300 text-xs sm:text-sm font-medium"
-                  >
-                    {company}
-                  </div>
-                )
-              )}
-            </div>
           </motion.div>
         </div>
       </div>
 
-      {/* Scroll Indicator */}
-      <motion.div
-        className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, delay: 1.2 }}
-      >
+      {/* Scroll Indicator - Removed on mobile to avoid overlap */}
+      {typeof window !== "undefined" && window.innerWidth >= 768 && (
         <motion.div
-          className="w-6 h-10 border-2 border-blue-400/50 rounded-full flex justify-center"
-          animate={{ y: [0, 10, 0] }}
-          transition={{ duration: 2, repeat: Infinity }}
+          className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 1.2 }}
         >
           <motion.div
-            className="w-1 h-3 bg-blue-400 rounded-full mt-2"
-            animate={{ y: [0, 12, 0] }}
+            className="w-6 h-10 border-2 border-blue-400/50 rounded-full flex justify-center"
+            animate={{ y: [0, 8, 0] }}
             transition={{ duration: 2, repeat: Infinity }}
-          />
+          >
+            <motion.div
+              className="w-1 h-3 bg-blue-400 rounded-full mt-2"
+              animate={{ y: [0, 8, 0] }}
+              transition={{ duration: 2, repeat: Infinity }}
+            />
+          </motion.div>
         </motion.div>
-      </motion.div>
+      )}
     </section>
   );
 };
