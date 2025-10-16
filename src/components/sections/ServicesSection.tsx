@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 
 const ServicesSection: React.FC = () => {
   const [activeCard, setActiveCard] = useState<string | null>(null);
-  const [setHoveredCard] = useState<string | null>(null);
   const dropdownRef = useRef<HTMLDivElement | null>(null);
 
   const services = [
