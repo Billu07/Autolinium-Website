@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
+  <defs>
+    <filter id="shadow" x="-50%" y="-50%" width="200%" height="200%">
+      <feDropShadow dx="0" dy="10" stdDeviation="20" flood-color="#000000" flood-opacity="0.25"/>
+    </filter>
+    <filter id="innerglow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="6" result="blur"/>
+      <feOffset dx="0" dy="2" result="offset"/>
+      <feComposite in="SourceGraphic" in2="offset" operator="over"/>
+    </filter>
+  
+<linearGradient id="softr" x1="0" y1="0" x2="1" y2="1">
+  <stop offset="0%" stop-color="#FF7A59"/>
+  <stop offset="100%" stop-color="#F6C453"/>
+</linearGradient>
+
+</defs>
+<rect x="232" y="232" width="560" height="560" rx="120" fill="url(#softr)" filter="url(#shadow)"/>
+<path d="M 360 360 C 520 300, 520 520, 664 472 C 760 440, 720 640, 560 664 C 420 684, 420 560, 360 520" fill="none" stroke="white" stroke-width="80" stroke-linecap="round" opacity="0.92"/>
+<rect x="272" y="272" width="480" height="200" rx="100" fill="white" opacity="0.12"/>
+</svg>

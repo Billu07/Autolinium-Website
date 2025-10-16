@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
+  <defs>
+    <filter id="shadow" x="-50%" y="-50%" width="200%" height="200%">
+      <feDropShadow dx="0" dy="10" stdDeviation="20" flood-color="#000000" flood-opacity="0.25"/>
+    </filter>
+    <filter id="innerglow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="6" result="blur"/>
+      <feOffset dx="0" dy="2" result="offset"/>
+      <feComposite in="SourceGraphic" in2="offset" operator="over"/>
+    </filter>
+  </defs>
+<line x1="320" y1="700" x2="512" y2="330" stroke="#F05A4F" stroke-width="120" stroke-linecap="round" filter="url(#shadow)"/>
+<line x1="512" y1="330" x2="720" y2="700" stroke="#F05A4F" stroke-width="120" stroke-linecap="round" filter="url(#shadow)"/>
+<line x1="380" y1="560" x2="644" y2="560" stroke="#F05A4F" stroke-width="54.0" stroke-linecap="round" filter="url(#shadow)"/>
+<circle cx="512" cy="330" r="70" fill="white" opacity="0.9"/>
+<circle cx="512" cy="330" r="54" fill="#F05A4F" filter="url(#shadow)"/>
+<circle cx="320" cy="700" r="70" fill="white" opacity="0.9"/>
+<circle cx="320" cy="700" r="54" fill="#F05A4F" filter="url(#shadow)"/>
+<circle cx="720" cy="700" r="70" fill="white" opacity="0.9"/>
+<circle cx="720" cy="700" r="54" fill="#F05A4F" filter="url(#shadow)"/>
+<circle cx="380" cy="560" r="50" fill="white" opacity="0.9"/>
+<circle cx="380" cy="560" r="34" fill="#F05A4F" filter="url(#shadow)"/>
+<circle cx="644" cy="560" r="50" fill="white" opacity="0.9"/>
+<circle cx="644" cy="560" r="34" fill="#F05A4F" filter="url(#shadow)"/>
+</svg>
