@@ -70,7 +70,7 @@ const Footer: React.FC = () => {
               <img
                 src="/assets/autolinium-logo.png"
                 alt="Autolinium"
-                className="w-10 h-10 object-contain"
+                className="w-10 h-8 object-contain"
                 onError={(e) => {
                   e.currentTarget.style.display = "none";
                   const nextEl = e.currentTarget
