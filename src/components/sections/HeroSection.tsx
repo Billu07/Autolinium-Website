@@ -1,12 +1,22 @@
 import React, { useEffect, useRef } from "react";
-import { motion } from "framer-motion";
+import { motion, useMotionValue, useTransform } from "framer-motion";
 import { Link } from "react-router-dom";
-import collage3D from "/src/assets/3d-collage.png"; // 👈 use your transparent 3D collage here
+import collage3D from "/src/assets/3d-collagee.png"; // Your robot image (with visible eyes)
 
 const HeroSection: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
 
-  // 🌌 Particle Background
+  const rotateX = useTransform(mouseY, [0, window.innerHeight], [10, -10]);
+  const rotateY = useTransform(mouseX, [0, window.innerWidth], [-10, 10]);
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    mouseX.set(e.clientX);
+    mouseY.set(e.clientY);
+  };
+
+  // Particle Background (unchanged)
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -20,15 +30,7 @@ const HeroSection: React.FC = () => {
     resizeCanvas();
     window.addEventListener("resize", resizeCanvas);
 
-    const particles: {
-      x: number;
-      y: number;
-      vx: number;
-      vy: number;
-      size: number;
-      opacity: number;
-    }[] = [];
-
+    const particles: any[] = [];
     const initParticles = () => {
       particles.length = 0;
       const count = window.innerWidth < 768 ? 15 : 25;
@@ -101,29 +103,30 @@ const HeroSection: React.FC = () => {
   }, []);
 
   return (
-    <section className="relative min-h-screen bg-gradient-to-br from-[#03045e] via-[#0077b6] to-[#00b4d8] text-white overflow-hidden flex flex-col justify-center">
+    <section
+      onMouseMove={handleMouseMove}
+      className="relative min-h-screen bg-[#0077b6] text-white flex flex-col justify-center overflow-hidden"
+    >
       <canvas
         ref={canvasRef}
         className="absolute inset-0 w-full h-full opacity-30 pointer-events-none"
       />
 
       <div className="relative z-10 flex flex-col-reverse lg:flex-row items-center justify-between px-8 md:px-16 gap-12">
-        {/* 🩵 Left Text Section */}
+        {/* LEFT SIDE */}
         <motion.div
           className="text-center lg:text-left max-w-xl"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1 }}
         >
-          <h1 className="text-4xl md:text-6xl font-extrabold mb-4 leading-tight">
-            <span className="bg-gradient-to-r from-[#00b4d8] to-[#90e0ef] bg-clip-text text-transparent">
-              Empower Your Business
+          <h1 className="text-4xl md:text-6xl font-bold mb-6 leading-tight">
+            <span className="text-white block mb-2">Empower Your Business</span>
+            <span className="text-[#e0f7ff] block">
+              with Intelligent Automation
             </span>
-            <br />
-            with Intelligent Automation
           </h1>
-
-          <p className="text-lg md:text-xl text-[#caf0f8]/90 mb-8">
+          <p className="text-lg md:text-xl text-white/85 mb-8 leading-relaxed">
             Streamline workflows, boost efficiency, and scale effortlessly —
             powered by Autolinium.
           </p>
@@ -131,53 +134,31 @@ const HeroSection: React.FC = () => {
           <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
             <Link
               to="/services"
-              className="px-8 py-4 rounded-xl text-lg font-semibold bg-[#00b4d8] hover:bg-[#0077b6] shadow-lg shadow-[#00b4d8]/20 transition-all duration-300 transform hover:scale-105"
+              className="px-8 py-4 rounded-xl text-lg font-semibold bg-white text-[#0077b6] border-2 border-white hover:bg-transparent hover:text-white transition-all duration-300 flex items-center gap-3 group"
             >
-              Explore Services
+              <span>Explore Services</span>
+              <i className="fas fa-arrow-right transform group-hover:translate-x-1 transition-transform duration-300" />
             </Link>
             <Link
               to="/contact"
-              className="px-8 py-4 rounded-xl text-lg font-semibold border border-[#90e0ef]/40 hover:bg-[#90e0ef]/10 transition-all duration-300 transform hover:scale-105"
+              className="px-8 py-4 rounded-xl text-lg font-semibold border-2 border-white text-white hover:bg-white hover:text-[#0077b6] transition-all duration-300 flex items-center gap-3 group"
             >
-              Book a Demo
+              <i className="fas fa-calendar" />
+              <span>Book a Demo</span>
             </Link>
-          </div>
-
-          {/* 🌟 Stats */}
-          <div className="grid grid-cols-3 gap-6 mt-12 max-w-md mx-auto lg:mx-0">
-            {[
-              { number: "50%", label: "Cost Reduction" },
-              { number: "24/7", label: "AI Support" },
-              { number: "99%", label: "Accuracy" },
-            ].map((stat, i) => (
-              <div
-                key={i}
-                className="text-center p-4 rounded-2xl bg-white/5 backdrop-blur-sm border border-white/10 hover:border-[#90e0ef]/20 transition-all duration-300"
-              >
-                <div className="text-xl font-bold text-[#00b4d8] mb-1">
-                  {stat.number}
-                </div>
-                <div className="text-sm text-[#caf0f8]/80">{stat.label}</div>
-              </div>
-            ))}
           </div>
         </motion.div>
 
-        {/* 💫 3D Collage (Desktop only) */}
+        {/* RIGHT SIDE - 3D Collage (Robot) */}
         <motion.div
-          className="relative hidden lg:flex items-center justify-center w-[520px] h-[520px]"
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 1, delay: 0.4 }}
+          className="relative hidden lg:flex items-center justify-center w-[480px] h-[480px]"
+          style={{ rotateX, rotateY }}
+          transition={{ type: "spring", stiffness: 50 }}
         >
           <motion.img
             src={collage3D}
-            alt="Automation Tools Collage"
-            className="w-full h-auto drop-shadow-[0_0_30px_rgba(0,180,216,0.4)]"
-            animate={{
-              rotate: [0, 1.5, -1.5, 0],
-              scale: [1, 1.02, 1],
-            }}
+            alt="Automation Robot"
+            className="w-full h-auto object-contain select-none drop-shadow-[0_0_25px_rgba(0,180,216,0.4)]"
             transition={{
               duration: 8,
               repeat: Infinity,
@@ -186,6 +167,8 @@ const HeroSection: React.FC = () => {
           />
         </motion.div>
       </div>
+
+      <div className="absolute bottom-0 left-0 w-full h-24 bg-[#0077b6] clip-path-wave" />
     </section>
   );
 };

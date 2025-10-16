@@ -1074,3 +1074,16 @@ select:focus {
   border-radius: 50%;
   pointer-events: none;
 }
+
+.clip-path-wave {
+  clip-path: path("M0,0 C20,40 50,60 100,80 L100,100 L0,100 Z");
+}
+
+.clip-path-wave-reverse {
+  clip-path: path("M0,80 C30,60 70,40 100,0 L100,100 L0,100 Z");
+}
+
+/* Smooth scroll behavior */
+html {
+  scroll-behavior: smooth;
+}

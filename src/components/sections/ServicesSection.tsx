@@ -1,208 +1,292 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "react-router-dom";
-import { useScrollAnimation } from "../../hooks/useScrollAnimation";
-import { staggerContainer, cardVariants } from "../../utils/animationVariants";
 
 const ServicesSection: React.FC = () => {
-  const { ref, isVisible } = useScrollAnimation();
   const [activeCard, setActiveCard] = useState<string | null>(null);
+  const [hoveredCard, setHoveredCard] = useState<string | null>(null);
+  const dropdownRef = useRef<HTMLDivElement | null>(null);
 
   const services = [
     {
       id: "automation",
       title: "Process Automation",
+      icon: "⚡",
       description:
-        "Automate CRMs and business workflows using Make, n8n, Zapier, and Airtable — increasing efficiency and scalability.",
+        "Automate CRMs, workflows, and data systems using n8n, Make, Zapier, and Airtable to enhance productivity and scalability.",
       link: "/services/process-automation",
-      thumbnail: "/assets/images/automation-thumb.jpg", // placeholder
-      projects: [
-        "Sales CRM Automation for FinTech",
-        "Lead Management Workflow",
-        "Zapier-Linked Billing Process",
+      options: [
+        {
+          label: "n8n & Make Workflows",
+          href: "/services/process-automation/n8n-make",
+        },
+        {
+          label: "Zapier Integrations",
+          href: "/services/process-automation/zapier",
+        },
+        {
+          label: "Airtable Automations",
+          href: "/services/process-automation/airtable",
+        },
       ],
-      gradient: "from-blue-500/20 to-cyan-400/10",
-    },
-    {
-      id: "chatbots",
-      title: "Business Chatbots",
-      description:
-        "Deploy WhatsApp, Facebook, and Instagram bots that interact with customers 24/7 — integrated directly with your systems.",
-      link: "/services/business-chatbots",
-      thumbnail: "/assets/images/chatbot-thumb.jpg",
-      projects: [
-        "WhatsApp Bot for Agency",
-        "Instagram DM Automation",
-        "Messenger AI Assistant",
-      ],
-      gradient: "from-green-500/20 to-teal-400/10",
     },
     {
       id: "ai-agents",
       title: "AI Agents",
+      icon: "🤖",
       description:
-        "Voice and text-based AI agents powered by GPT and Vapi — built for support, scheduling, and lead handling.",
+        "Build AI voice and text agents for support, scheduling, and lead handling — powered by GPT, Vapi, and GoHighLevel.",
       link: "/services/ai-agents",
-      thumbnail: "/assets/images/aiagent-thumb.jpg",
-      projects: [
-        "Voice Agent for Real Estate",
-        "Customer Support Bot",
-        "24/7 AI Booking Assistant",
+      options: [
+        { label: "Voice Agent (Vapi)", href: "/services/ai-agents/voice" },
+        { label: "Text Agent", href: "/services/ai-agents/text" },
+        { label: "Omnichannel Agent", href: "/services/ai-agents/omnichannel" },
       ],
-      gradient: "from-purple-500/20 to-pink-500/10",
     },
     {
       id: "dev",
       title: "App & Web Development",
+      icon: "💻",
       description:
-        "Custom web and mobile apps crafted with React, Next.js, Node, and AWS — designed for performance and security.",
+        "Custom-built web and mobile apps using React, Next.js, and Node — designed for performance, automation, and scalability.",
       link: "/services/app-web-development",
-      thumbnail: "/assets/images/dev-thumb.jpg",
-      projects: [
-        "SaaS Dashboard for Analytics",
-        "Custom Booking Platform",
-        "Marketing Website Revamp",
+      options: [
+        {
+          label: "React / Next.js Apps",
+          href: "/services/app-web-development/react-next",
+        },
+        {
+          label: "Dashboards & Portals",
+          href: "/services/app-web-development/dashboards",
+        },
+        {
+          label: "CRM & GHL Integrations",
+          href: "/services/app-web-development/crm-gohl",
+        },
       ],
-      gradient: "from-orange-500/20 to-yellow-400/10",
     },
   ];
 
+  // Close dropdown on outside click or ESC
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(e.target as Node)
+      ) {
+        setActiveCard(null);
+      }
+    };
+    const handleEsc = (e: KeyboardEvent) =>
+      e.key === "Escape" && setActiveCard(null);
+    document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener("keydown", handleEsc);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("keydown", handleEsc);
+    };
+  }, []);
+
   return (
-    <section
-      ref={ref}
-      className="relative py-24 sm:py-32 bg-gradient-to-b from-[#0A0F1A] via-[#070B12] to-[#05080E] overflow-hidden"
-    >
-      {/* Subtle Grid Overlay */}
-      <div className="absolute inset-0 opacity-[0.03] pointer-events-none">
+    <section className="relative py-28 overflow-visible bg-white" id="services">
+      {/* Premium Background Overlays */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        {/* Subtle Leaf Pattern - Top Left */}
         <div
-          className="w-full h-full"
+          className="absolute top-10 left-10 w-64 h-64 opacity-5"
           style={{
-            backgroundImage:
-              "linear-gradient(90deg, rgba(255,255,255,0.08) 1px, transparent 1px), linear-gradient(rgba(255,255,255,0.08) 1px, transparent 1px)",
-            backgroundSize: "60px 60px",
+            backgroundImage: `url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M20,40 Q40,20 60,40 Q80,60 60,80 Q40,100 20,80 Q0,60 20,40' fill='%230077b6'/%3E%3C/svg%3E")`,
+            backgroundSize: "contain",
+            backgroundRepeat: "no-repeat",
+          }}
+        />
+        {/* Organic Blob - Center Left */}
+        <div
+          className="absolute top-1/2 left-20 w-48 h-48 opacity-4"
+          style={{
+            backgroundImage: `url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30,50 C20,30 40,10 60,20 C80,30 90,50 80,70 C70,90 40,90 30,70 C20,50 40,30 30,50' fill='%2300b4d8'/%3E%3C/svg%3E")`,
+            backgroundSize: "contain",
+            backgroundRepeat: "no-repeat",
+          }}
+        />
+
+        {/* Subtle Grid Pattern - Very Light */}
+        <div
+          className="absolute inset-0 opacity-0"
+          style={{
+            backgroundImage: `radial-gradient(circle at 25% 25%, #0077b6 2px, transparent 2px)`,
+            backgroundSize: "300px 50px",
           }}
         />
       </div>
 
-      <div className="relative z-10 container mx-auto px-6 lg:px-8">
+      {/* Wave Transition from Hero */}
+      <div className="absolute -top-24 left-0 w-full h-24 bg-white clip-path-wave-reverse" />
+
+      <div className="container mx-auto px-6 lg:px-10 relative z-10">
         {/* Header */}
         <motion.div
-          variants={staggerContainer}
-          initial="hidden"
-          animate={isVisible ? "visible" : "hidden"}
-          className="max-w-3xl mx-auto text-center mb-20"
+          className="text-center max-w-3xl mx-auto mb-20"
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7 }}
+          viewport={{ once: true }}
         >
-          <motion.h2
-            variants={cardVariants}
-            className="text-4xl sm:text-5xl font-bold mb-6 bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent"
-          >
+          <h2 className="text-4xl sm:text-5xl font-bold mb-6 text-[#0077b6]">
             Our Services
-          </motion.h2>
-          <motion.p
-            variants={cardVariants}
-            className="text-lg sm:text-xl text-gray-400 leading-relaxed"
-          >
-            From automation to AI agents — we design smart, scalable solutions
-            that elevate every aspect of your business.
-          </motion.p>
+          </h2>
+          <p className="text-xl text-gray-600 leading-relaxed">
+            Seamlessly bridging automation, AI, and development — empowering
+            your business with precision and intelligence.
+          </p>
         </motion.div>
 
-        {/* Service Cards */}
-        <div className="space-y-16 sm:space-y-24 max-w-6xl mx-auto">
-          {services.map((s, i) => (
+        {/* Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+          {services.map((s, index) => (
             <motion.div
               key={s.id}
-              variants={cardVariants}
-              initial="hidden"
-              animate={isVisible ? "visible" : "hidden"}
-              transition={{ delay: i * 0.15 }}
-              className={`relative group flex flex-col md:flex-row items-center gap-8 p-6 sm:p-10 rounded-3xl bg-white/5 border border-white/10 backdrop-blur-xl transition-all duration-500 hover:scale-[1.02] hover:bg-white/10 cursor-pointer`}
-              onMouseEnter={() => setActiveCard(s.id)}
-              onMouseLeave={() => setActiveCard(null)}
+              className="relative group"
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: index * 0.1 }}
+              viewport={{ once: true }}
+              onMouseEnter={() => setHoveredCard(s.id)}
+              onMouseLeave={() => setHoveredCard(null)}
             >
-              {/* Hover Glow */}
-              <motion.div
-                className={`absolute inset-0 rounded-3xl bg-gradient-to-r ${s.gradient} opacity-0 group-hover:opacity-40 transition-opacity duration-500`}
+              {/* Card Background Pattern */}
+              <div
+                className="absolute inset-0 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                style={{
+                  backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%230077b6' fill-opacity='0.03'%3E%3Ccircle cx='10' cy='10' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
+                }}
               />
 
-              {/* Thumbnail Image */}
-              <div className="w-full md:w-1/2 rounded-2xl overflow-hidden relative">
-                <img
-                  src={s.thumbnail}
-                  alt={s.title}
-                  className="w-full h-full object-cover rounded-2xl shadow-lg group-hover:scale-105 transition-transform duration-500"
-                />
-              </div>
-
-              {/* Content */}
-              <div className="flex-1 relative z-10 text-center md:text-left">
-                <h3 className="text-2xl sm:text-3xl font-semibold text-white mb-4">
-                  {s.title}
-                </h3>
-                <p className="text-gray-300 text-base sm:text-lg mb-6 leading-relaxed">
-                  {s.description}
-                </p>
-
-                {/* Buttons */}
-                <div className="flex flex-col sm:flex-row gap-4 sm:gap-6">
-                  <Link
-                    to={s.link}
-                    className="inline-flex items-center justify-center px-6 py-3 bg-gradient-to-r from-blue-500 to-cyan-400 text-white rounded-xl font-medium hover:shadow-lg hover:shadow-blue-500/25 transition-all duration-300"
-                  >
-                    Learn More
-                    <i className="fas fa-arrow-right ml-2"></i>
-                  </Link>
-
-                  <button
-                    className="inline-flex items-center justify-center px-6 py-3 border border-gray-600 text-white rounded-xl font-medium hover:border-cyan-400 hover:bg-cyan-400/5 transition-all duration-300 backdrop-blur-sm"
-                    onClick={() => alert(`Book a Project for ${s.title}`)}
-                  >
-                    <i className="fas fa-calendar-alt mr-2"></i> Book a Project
-                  </button>
-                </div>
-
-                {/* Hover Reveal Project List */}
-                <AnimatePresence>
-                  {activeCard === s.id && (
-                    <motion.ul
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: 10 }}
+              <button
+                onClick={() =>
+                  setActiveCard((prev) => (prev === s.id ? null : s.id))
+                }
+                className="relative w-full h-full text-left p-8 rounded-xl bg-white border-2 border-[#0077b6] shadow-sm hover:shadow-md transition-all duration-300 group-hover:-translate-y-1 overflow-visible backdrop-blur-sm"
+              >
+                <div className="relative z-10">
+                  <div className="flex justify-between items-start mb-4">
+                    <h3 className="text-2xl font-bold text-gray-900 pr-4">
+                      {s.title}
+                    </h3>
+                    <motion.div
+                      className="flex-shrink-0 w-8 h-8 rounded-full bg-[#0077b6] flex items-center justify-center group-hover:bg-[#00b4d8] transition-colors duration-300"
+                      animate={{ rotate: activeCard === s.id ? 90 : 0 }}
                       transition={{ duration: 0.3 }}
-                      className="mt-6 text-gray-400 text-sm sm:text-base space-y-1"
                     >
-                      {s.projects.map((p, idx) => (
-                        <li key={idx} className="flex items-center gap-2">
-                          <i className="fas fa-check text-cyan-400 text-xs"></i>
-                          {p}
-                        </li>
+                      <i className="fas fa-chevron-right text-white text-sm" />
+                    </motion.div>
+                  </div>
+
+                  <p className="text-gray-600 text-lg leading-relaxed mb-6">
+                    {s.description}
+                  </p>
+
+                  <div className="flex flex-wrap gap-3 mt-8">
+                    <Link
+                      to={s.link}
+                      className="inline-flex items-center justify-center px-5 py-3 bg-[#0077b6] text-white rounded-lg font-semibold hover:bg-[#00b4d8] transition-all duration-300 group/btn"
+                      onClick={(e) => e.stopPropagation()}
+                    >
+                      <span>Learn More</span>
+                      <i className="fas fa-arrow-right ml-2 transform group-hover/btn:translate-x-1 transition-transform duration-300" />
+                    </Link>
+                    <button
+                      className="inline-flex items-center justify-center px-5 py-3 border-2 border-[#0077b6] text-[#0077b6] rounded-lg font-semibold hover:bg-[#0077b6] hover:text-white active:scale-95 transition-all duration-300"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        alert(`Book a Project for ${s.title}`);
+                      }}
+                    >
+                      <i className="fas fa-calendar-alt mr-2" />
+                      Book Project
+                    </button>
+                  </div>
+                </div>
+              </button>
+
+              {/* Enhanced Dropdown - Positioned beside the icon */}
+              <AnimatePresence>
+                {activeCard === s.id && (
+                  <motion.div
+                    ref={dropdownRef}
+                    initial={{ opacity: 0, x: -10, scale: 0.95 }}
+                    animate={{ opacity: 1, x: 0, scale: 1 }}
+                    exit={{ opacity: 0, x: -10, scale: 0.95 }}
+                    transition={{ duration: 0.3, ease: "easeOut" }}
+                    className="absolute z-50 top-4 right-4 w-64 rounded-xl bg-white border-2 border-[#0077b6] shadow-lg overflow-hidden backdrop-blur-sm"
+                    style={{ transformOrigin: "top right" }}
+                  >
+                    {/* Dropdown header with subtle background */}
+                    <div className="bg-[#0077b6] px-4 py-3">
+                      <h4 className="text-white font-semibold text-sm uppercase tracking-wide">
+                        {s.title} Options
+                      </h4>
+                    </div>
+
+                    <div className="p-2">
+                      {s.options.map((opt, idx) => (
+                        <div key={opt.href}>
+                          <Link
+                            to={opt.href}
+                            className="flex items-center justify-between px-4 py-3 rounded-lg text-gray-700 hover:text-[#0077b6] hover:bg-blue-50 transition-all duration-300 group/option"
+                            onClick={(e) => e.stopPropagation()}
+                          >
+                            <span className="font-medium text-sm group-hover/option:translate-x-1 transition-transform duration-300">
+                              {opt.label}
+                            </span>
+                            <i className="fas fa-arrow-right text-xs text-gray-400 group-hover/option:text-[#0077b6] transform group-hover/option:translate-x-1 transition-all duration-300" />
+                          </Link>
+                          {idx < s.options.length - 1 && (
+                            <div className="mx-4 h-px bg-gray-200" />
+                          )}
+                        </div>
                       ))}
-                    </motion.ul>
-                  )}
-                </AnimatePresence>
-              </div>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </motion.div>
           ))}
         </div>
 
-        {/* CTA */}
+        {/* Enhanced CTA */}
         <motion.div
-          variants={cardVariants}
           className="mt-24 flex justify-center"
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, delay: 0.3 }}
+          viewport={{ once: true }}
         >
-          <div className="inline-flex flex-col sm:flex-row gap-4 items-center backdrop-blur-sm bg-white/5 rounded-2xl px-6 py-4 border border-white/10">
-            <p className="text-gray-300 text-base sm:text-lg">
+          <div className="inline-flex flex-col sm:flex-row gap-6 items-center bg-gray-50 rounded-xl px-8 py-6 border-2 border-[#0077b6] relative overflow-hidden">
+            {/* CTA Background Pattern */}
+            <div
+              className="absolute inset-0 opacity-5"
+              style={{
+                backgroundImage: `url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M20,25 Q25,20 30,25 Q35,30 30,35 Q25,40 20,35 Q15,30 20,25' fill='%230077b6'/%3E%3C/svg%3E")`,
+                backgroundSize: "60px 60px",
+              }}
+            />
+            <p className="text-gray-700 text-lg sm:text-xl font-medium text-center sm:text-left relative z-10">
               Ready to automate and innovate?
             </p>
             <Link
               to="/contact"
-              className="px-6 py-3 border-2 border-blue-400 text-blue-400 rounded-xl font-semibold hover:bg-blue-400 hover:text-white transition-all duration-300 hover:shadow-lg hover:shadow-blue-400/25"
+              className="px-8 py-4 bg-[#0077b6] text-white rounded-lg font-bold hover:bg-[#00b4d8] transition-all duration-300 flex items-center gap-3 group relative z-10"
             >
-              Get Started
+              <span>Get Started</span>
+              <i className="fas fa-rocket transform group-hover:translate-x-1 transition-transform duration-300" />
             </Link>
           </div>
         </motion.div>
       </div>
+
+      {/* Subtle brand accent */}
+      <div className="absolute bottom-0 left-0 w-full h-2 bg-[#0077b6]" />
     </section>
   );
 };
