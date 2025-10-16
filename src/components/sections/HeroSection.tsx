@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import { motion, useMotionValue, useTransform } from "framer-motion";
 import { Link } from "react-router-dom";
-import collage3D from "/src/assets/3d-collagee.png"; // Your robot image (with visible eyes)
+import collage3D from "/src/assets/3d-collageee.png"; // Your robot image (with visible eyes)
 
 const HeroSection: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
