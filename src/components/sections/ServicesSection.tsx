@@ -171,11 +171,6 @@ const ServicesSection: React.FC = () => {
                 }
                 className="relative w-full h-full text-left p-8 rounded-xl bg-white border-2 border-[#0077b6] shadow-sm hover:shadow-md transition-all duration-300 group-hover:-translate-y-1 overflow-visible backdrop-blur-sm"
               >
-                {/* Icon Container */}
-                <div className="w-16 h-16 rounded-lg bg-[#0077b6] flex items-center justify-center mb-6 group-hover:bg-[#00b4d8] transition-colors duration-300">
-                  <span className="text-2xl text-white">{service.icon}</span>
-                </div>
-
                 <div className="relative z-10">
                   <div className="flex justify-between items-start mb-4">
                     <h3 className="text-2xl font-bold text-gray-900 pr-4">
