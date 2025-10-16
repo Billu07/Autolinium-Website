@@ -11,7 +11,7 @@ const Footer: React.FC = () => {
       links: [
         { name: "Short Generator", path: "/products/autocrm" },
         { name: "Business Chatbot", path: "/products/botflow" },
-        { name: "Ai Voice Assistant", path: "/products/datasync" },
+        { name: "AI Voice Assistant", path: "/products/datasync" },
       ],
     },
     {
@@ -51,45 +51,72 @@ const Footer: React.FC = () => {
   ];
 
   return (
-    <footer className="bg-gradient-to-b from-gray-900 to-gray-950 border-t border-gray-800/50">
+    <footer className="bg-gray-50 border-t-2 border-gray-200">
+      {/* Premium Leafy Background Overlays */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        {/* Leaf Blob - Bottom Left */}
+        <div
+          className="absolute -bottom-20 -left-20 w-64 h-64 opacity-5"
+          style={{
+            background:
+              "radial-gradient(ellipse at center, rgba(0, 119, 182, 0.02) 0%, transparent 70%)",
+            filter: "blur(20px)",
+            transform: "rotate(-15deg)",
+            borderRadius: "60% 40% 70% 30% / 40% 60% 30% 70%",
+          }}
+        />
+
+        {/* Leaf Blob - Bottom Right */}
+        <div
+          className="absolute -bottom-16 -right-16 w-56 h-56 opacity-4"
+          style={{
+            background:
+              "radial-gradient(ellipse at center, rgba(0, 180, 216, 0.015) 0%, transparent 70%)",
+            filter: "blur(18px)",
+            transform: "rotate(25deg)",
+            borderRadius: "50% 50% 70% 30% / 60% 40% 60% 40%",
+          }}
+        />
+      </div>
+
       {/* Main Footer Content */}
-      <div className="container mx-auto px-4 sm:px-6 py-12 sm:py-16">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-8 sm:gap-12">
-          {/* Brand Section - Full width on mobile */}
+      <div className="relative z-10 container mx-auto px-6 lg:px-10 py-16">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-12">
+          {/* Brand Section */}
           <motion.div
-            className="sm:col-span-2 lg:col-span-2 text-center sm:text-left"
+            className="md:col-span-2 lg:col-span-2 text-center md:text-left"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
             viewport={{ once: true }}
           >
-            <Link to="/" className="inline-block mb-6">
-              <div className="flex items-center space-x-3 justify-center sm:justify-start">
-                <div className="w-10 h-10 rounded-xl flex items-center justify-center p-1">
+            <Link to="/" className="inline-block mb-6 group">
+              <div className="flex items-center space-x-3 justify-center md:justify-start">
+                <div className="w-10 h-10 rounded-lg bg-[#0077b6] flex items-center justify-center group-hover:bg-[#00b4d8] transition-colors duration-300">
                   <img
                     src="/assets/autolinium-logo.png"
                     alt="Autolinium"
-                    className="w-full h-full object-contain"
+                    className="w-6 h-6 object-contain"
                   />
                 </div>
-                <span className="text-2xl font-bold bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
+                <span className="text-2xl font-bold text-[#0077b6] group-hover:text-[#00b4d8] transition-colors duration-300">
                   Autolinium
                 </span>
               </div>
             </Link>
 
-            <p className="text-gray-400 mb-6 leading-relaxed text-sm sm:text-base max-w-md mx-auto sm:mx-0">
+            <p className="text-gray-600 mb-8 leading-relaxed text-base max-w-md mx-auto md:mx-0">
               Building intelligent automation solutions that transform
               businesses. AI-powered tools for the modern enterprise.
             </p>
 
-            {/* Social Links - Centered on mobile */}
-            <div className="flex justify-center sm:justify-start space-x-3 sm:space-x-4">
+            {/* Social Links */}
+            <div className="flex justify-center md:justify-start space-x-4">
               {socialLinks.map((social, index) => (
                 <motion.a
                   key={social.label}
                   href={social.url}
-                  className="w-9 h-9 sm:w-10 sm:h-10 rounded-lg bg-gray-800/50 border border-gray-700/50 flex items-center justify-center text-gray-400 hover:text-white hover:border-blue-500/50 hover:bg-blue-500/10 transition-all duration-300"
+                  className="w-10 h-10 rounded-lg bg-white border-2 border-gray-300 flex items-center justify-center text-gray-600 hover:text-[#0077b6] hover:border-[#0077b6] hover:bg-[#0077b6]/5 transition-all duration-300"
                   aria-label={social.label}
                   whileHover={{ scale: 1.1, y: -2 }}
                   whileTap={{ scale: 0.95 }}
@@ -98,26 +125,26 @@ const Footer: React.FC = () => {
                   transition={{ duration: 0.4, delay: index * 0.1 }}
                   viewport={{ once: true }}
                 >
-                  <i className={`${social.icon} text-sm sm:text-base`}></i>
+                  <i className={`${social.icon} text-base`}></i>
                 </motion.a>
               ))}
             </div>
           </motion.div>
 
-          {/* Footer Links Sections - 2 columns on mobile */}
+          {/* Footer Links Sections */}
           {footerSections.map((section, sectionIndex) => (
             <motion.div
               key={section.title}
-              className="text-center sm:text-left"
+              className="text-center md:text-left"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: sectionIndex * 0.1 }}
               viewport={{ once: true }}
             >
-              <h3 className="text-white font-semibold mb-4 text-base sm:text-lg">
+              <h3 className="text-gray-900 font-bold mb-6 text-lg border-b-2 border-[#0077b6] pb-2 inline-block">
                 {section.title}
               </h3>
-              <ul className="space-y-2 sm:space-y-3">
+              <ul className="space-y-3 mt-4">
                 {section.links.map((link, linkIndex) => (
                   <motion.li
                     key={link.name}
@@ -131,7 +158,7 @@ const Footer: React.FC = () => {
                   >
                     <Link
                       to={link.path}
-                      className="text-gray-400 hover:text-blue-400 transition-colors duration-300 text-xs sm:text-sm font-medium block py-1"
+                      className="text-gray-600 hover:text-[#0077b6] transition-colors duration-300 text-base font-medium block py-1 hover:translate-x-1 transition-transform duration-300"
                     >
                       {link.name}
                     </Link>
@@ -142,41 +169,42 @@ const Footer: React.FC = () => {
           ))}
         </div>
 
-        {/* Newsletter Section - Stacked on mobile */}
+        {/* Newsletter Section */}
         <motion.div
-          className="mt-12 sm:mt-16 pt-8 border-t border-gray-800/50"
+          className="mt-16 pt-12 border-t-2 border-gray-200"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.3 }}
           viewport={{ once: true }}
         >
-          <div className="flex flex-col lg:flex-row items-center justify-between gap-6">
+          <div className="flex flex-col lg:flex-row items-center justify-between gap-8">
             <div className="text-center lg:text-left flex-1">
-              <h3 className="text-white font-semibold text-lg mb-2">
+              <h3 className="text-gray-900 font-bold text-xl mb-3">
                 Stay Updated
               </h3>
-              <p className="text-gray-400 text-sm max-w-md">
+              <p className="text-gray-600 text-base max-w-md">
                 Get the latest news and updates about our AI automation
                 platform.
               </p>
             </div>
 
             <div className="flex-1 w-full max-w-md">
-              <div className="flex flex-col sm:flex-row gap-3">
+              <div className="flex flex-col sm:flex-row gap-4">
                 <input
                   type="email"
                   placeholder="Enter your email"
-                  className="flex-1 px-4 py-3 bg-gray-800/50 border border-gray-700/50 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-blue-500/50 focus:bg-gray-800/80 transition-all duration-300 text-sm"
+                  className="flex-1 px-5 py-3 bg-white border-2 border-gray-300 rounded-lg text-gray-900 placeholder-gray-500 focus:outline-none focus:border-[#0077b6] focus:bg-white transition-all duration-300 text-base"
                 />
                 <motion.button
-                  className="px-6 py-3 bg-gradient-to-r from-blue-500 to-cyan-400 text-white rounded-xl font-semibold hover:shadow-lg hover:shadow-blue-500/25 transition-all duration-300 text-sm sm:text-base whitespace-nowrap"
+                  className="px-8 py-3 bg-[#0077b6] text-white rounded-lg font-bold hover:bg-[#00b4d8] transition-all duration-300 flex items-center justify-center gap-2 group border-2 border-[#0077b6] hover:border-[#00b4d8]"
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                 >
-                  Subscribe
+                  <span>Subscribe</span>
+                  <i className="fas fa-paper-plane transform group-hover:translate-x-1 transition-transform duration-300" />
                 </motion.button>
               </div>
-              <p className="text-gray-500 text-xs mt-2 text-center sm:text-left">
+              <p className="text-gray-500 text-sm mt-3 text-center sm:text-left">
                 No spam, unsubscribe at any time.
               </p>
             </div>
@@ -184,12 +212,12 @@ const Footer: React.FC = () => {
         </motion.div>
       </div>
 
-      {/* Bottom Bar - Stacked on mobile */}
-      <div className="border-t border-gray-800/50">
-        <div className="container mx-auto px-4 sm:px-6 py-4 sm:py-6">
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-4">
+      {/* Bottom Bar */}
+      <div className="border-t-2 border-gray-200 bg-white">
+        <div className="container mx-auto px-6 lg:px-10 py-6">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-4">
             <motion.p
-              className="text-gray-500 text-xs sm:text-sm text-center sm:text-left order-2 sm:order-1"
+              className="text-gray-600 text-sm text-center md:text-left"
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               transition={{ duration: 0.6 }}
@@ -199,23 +227,28 @@ const Footer: React.FC = () => {
             </motion.p>
 
             <motion.div
-              className="flex flex-col sm:flex-row items-center space-y-2 sm:space-y-0 sm:space-x-6 text-gray-500 text-xs sm:text-sm text-center sm:text-left order-1 sm:order-2"
+              className="flex flex-col md:flex-row items-center gap-4 md:gap-8 text-gray-600 text-sm text-center md:text-left"
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               transition={{ duration: 0.6, delay: 0.2 }}
               viewport={{ once: true }}
             >
-              <span className="hidden sm:block">
+              <span className="hidden md:block font-medium">
                 Building the future of business automation
               </span>
-              <div className="flex items-center space-x-1 text-green-400">
+              <div className="flex items-center gap-2 text-green-600 bg-green-50 px-3 py-1 rounded-full border-2 border-green-200">
                 <i className="fas fa-circle text-xs"></i>
-                <span className="text-xs">All systems operational</span>
+                <span className="text-sm font-medium">
+                  All systems operational
+                </span>
               </div>
             </motion.div>
           </div>
         </div>
       </div>
+
+      {/* Bottom accent */}
+      <div className="w-full h-2 bg-[#0077b6]" />
     </footer>
   );
 };
