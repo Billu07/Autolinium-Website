@@ -7,7 +7,7 @@ const testimonials = [
     role: "Founder, GrowthIQ",
     quote:
       "Autolinium transformed how we operate. Our CRM and outreach workflows now run entirely on automation — saving us over 20 hours a week.",
-    image: "/src/assets/a.png",
+    image: "/src/assets/a.jpg",
     rating: 5,
   },
   {
@@ -15,7 +15,7 @@ const testimonials = [
     role: "COO, NovaTech",
     quote:
       "The AI agents they built handle 80% of our customer inquiries. It's like having an entire support team available 24/7.",
-    image: "/src/assets/b.png",
+    image: "/src/assets/b.jpg",
     rating: 5,
   },
   {
@@ -23,7 +23,7 @@ const testimonials = [
     role: "Operations Director, CloudNest",
     quote:
       "Their process was seamless — from discovery to deployment. We now scale faster and make smarter decisions thanks to their automation setup.",
-    image: "/src/assets/c.png",
+    image: "/src/assets/c.jpg",
     rating: 5,
   },
 ];
