@@ -16,7 +16,7 @@ const ServicesSection: React.FC = () => {
       icon: "fa-gear",
       title: "Process Automation",
       description:
-        "Automate CRMs and workflows using Make, n8n, Zapier, and Airtable — boosting efficiency and scalability.",
+        "Automate CRMs and business workflows using Make, n8n, Zapier, and Airtable — increasing efficiency and scalability.",
       link: "/services/process-automation",
       options: [
         {
@@ -38,7 +38,7 @@ const ServicesSection: React.FC = () => {
       icon: "fa-robot",
       title: "AI & Chatbots",
       description:
-        "AI agents and chatbots for WhatsApp, Instagram, Messenger — providing 24/7 customer support and automation.",
+        "Voice/text AI agents and chatbots for WhatsApp, Instagram, Messenger — 24/7 customer support and automation.",
       link: "/services/ai-chatbots",
       options: [
         { label: "Voice Agents (Vapi)", href: "/services/ai-chatbots/voice" },
@@ -55,7 +55,7 @@ const ServicesSection: React.FC = () => {
       icon: "fa-code",
       title: "App & Web Dev",
       description:
-        "Custom web and mobile apps built with React, Next.js, Node, and AWS — optimized for speed and reliability.",
+        "Custom web and mobile apps crafted with React, Next.js, Node, and AWS — designed for performance and security.",
       link: "/services/app-web-development",
       options: [
         {
@@ -98,48 +98,50 @@ const ServicesSection: React.FC = () => {
   return (
     <section
       ref={ref}
-      className="relative py-20 sm:py-28 overflow-hidden bg-[#0A0F1A]"
+      className="relative py-24 sm:py-32 overflow-hidden bg-[#0A0F1A]"
     >
-      {/* Background Image */}
-      <div className="absolute inset-0 -top-52 sm:-top-72 h-[calc(100%+14rem)] sm:h-[calc(100%+18rem)] z-[1]">
+      {/* Background image overlapping hero fade */}
+      <div className="absolute inset-0 -top-72 h-[calc(100%+18rem)] z-[1]">
         <img
           src={bgImg}
-          alt="Wavy background"
+          alt="Wavy dots background"
           className="w-full h-full object-cover opacity-90"
         />
-        <div className="absolute top-0 left-0 w-full h-56 sm:h-72 bg-gradient-to-t from-[#0A0F1A] via-[#0A0F1A]/70 to-transparent" />
-        <div className="absolute bottom-0 left-0 w-full h-56 sm:h-72 bg-gradient-to-b from-transparent to-[#00000d]" />
+        {/* Smooth gradient blending hero → section (same as hero fade) */}
+        <div className="absolute top-0 left-0 w-full h-72 bg-gradient-to-t from-[#0A0F1A] via-[#0A0F1A]/60 to-transparent" />
+        {/* Bottom fade for continuity into next section */}
+        <div className="absolute bottom-0 left-0 w-full h-72 bg-gradient-to-b from-transparent to-[#00000d]" />
       </div>
 
-      <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="relative z-10 container mx-auto px-6 lg:px-8">
         {/* Header */}
         <motion.div
           variants={staggerContainer}
           initial="hidden"
           animate={isVisible ? "visible" : "hidden"}
-          className="max-w-3xl mx-auto text-center mb-14 sm:mb-20"
+          className="max-w-3xl mx-auto text-center mb-20"
         >
           <motion.h2
             variants={cardVariants}
-            className="text-3xl sm:text-5xl font-bold mb-4 sm:mb-6 bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent leading-tight"
+            className="text-4xl sm:text-5xl font-bold mb-6 bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent"
           >
             Our Services
           </motion.h2>
           <motion.p
             variants={cardVariants}
-            className="text-base sm:text-xl text-gray-400 leading-relaxed px-2 sm:px-0"
+            className="text-lg sm:text-xl text-gray-400 leading-relaxed"
           >
             From automation to AI agents — we design smart, scalable solutions
             that elevate every aspect of your business.
           </motion.p>
         </motion.div>
 
-        {/* Service Cards */}
+        {/* Enhanced Service Cards */}
         <motion.div
           variants={staggerContainer}
           initial="hidden"
           animate={isVisible ? "visible" : "hidden"}
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 max-w-6xl mx-auto"
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto"
         >
           {services.map((service, index) => (
             <motion.div
@@ -148,35 +150,70 @@ const ServicesSection: React.FC = () => {
               custom={index}
               className="relative group"
             >
+              {/* Card with enhanced styling */}
               <motion.div
-                className="relative bg-gradient-to-br from-[#0F172A]/80 to-[#0F172A]/90 border border-cyan-400/20 rounded-2xl p-6 sm:p-8 text-center transition-all duration-500 hover:scale-[1.02] hover:border-cyan-400/40 backdrop-blur-sm shadow-xl sm:shadow-2xl shadow-black/20 hover:shadow-cyan-500/10 overflow-hidden"
-                whileHover={{ y: -3 }}
+                className="relative bg-gradient-to-br from-[#0F172A]/80 to-[#0F172A]/90 border border-cyan-400/20 rounded-2xl p-8 text-center transition-all duration-500 hover:scale-[1.02] hover:border-cyan-400/40 backdrop-blur-sm shadow-2xl shadow-black/20 hover:shadow-cyan-500/10 overflow-hidden"
+                whileHover={{ y: -5 }}
               >
+                {/* Animated background gradient on hover */}
                 <div className="absolute inset-0 bg-gradient-to-br from-blue-500/0 via-cyan-400/0 to-blue-400/0 group-hover:from-blue-500/5 group-hover:via-cyan-400/3 group-hover:to-blue-400/5 transition-all duration-500 rounded-2xl" />
 
-                {/* Icon */}
-                <div className="relative flex justify-center items-center w-14 h-14 sm:w-16 sm:h-16 mx-auto mb-5 sm:mb-6 rounded-2xl bg-gradient-to-br from-blue-500 to-cyan-400 text-white text-xl sm:text-2xl shadow-lg shadow-cyan-500/30 group-hover:shadow-cyan-500/40 group-hover:scale-110 transition-all duration-300">
+                {/* Glow effect */}
+                <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-cyan-400/0 via-blue-500/0 to-cyan-400/0 group-hover:from-cyan-400/10 group-hover:via-blue-500/5 group-hover:to-cyan-400/10 transition-all duration-700 opacity-0 group-hover:opacity-100 blur-sm" />
+
+                {/* Dropdown Button */}
+                <motion.button
+                  className="absolute top-6 right-6 w-8 h-8 rounded-full bg-gradient-to-r from-blue-500 to-cyan-400 flex items-center justify-center hover:from-blue-600 hover:to-cyan-500 transition-all duration-300 shadow-lg shadow-cyan-500/25 hover:shadow-cyan-500/40 z-20"
+                  animate={{ rotate: activeCard === service.id ? 90 : 0 }}
+                  transition={{ duration: 0.3 }}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setActiveCard((prev) =>
+                      prev === service.id ? null : service.id
+                    );
+                  }}
+                >
+                  <i className="fas fa-chevron-right text-white text-sm" />
+                </motion.button>
+
+                {/* Enhanced Icon */}
+                <div className="relative flex justify-center items-center w-16 h-16 mx-auto mb-6 rounded-2xl bg-gradient-to-br from-blue-500 to-cyan-400 text-white text-2xl shadow-lg shadow-cyan-500/30 group-hover:shadow-cyan-500/40 group-hover:scale-110 transition-all duration-300">
                   <i className={`fas ${service.icon}`}></i>
+                  {/* Icon glow */}
+                  <div className="absolute inset-0 rounded-2xl bg-cyan-400/20 blur-md group-hover:bg-cyan-400/30 transition-all duration-300" />
                 </div>
 
-                <h3 className="text-xl sm:text-2xl font-bold text-white mb-3 sm:mb-4">
+                {/* Service Number */}
+                <p className="text-sm text-cyan-400/80 mb-2 font-medium tracking-wide">
+                  Service #{index + 1}
+                </p>
+
+                {/* Title */}
+                <h3 className="text-2xl font-bold text-white mb-4 group-hover:text-cyan-100 transition-colors duration-300">
                   {service.title}
                 </h3>
 
-                <p className="text-gray-400 mb-6 sm:mb-8 text-sm sm:text-base leading-relaxed px-2">
+                {/* Enhanced Divider */}
+                <div className="w-16 mx-auto border-b border-cyan-400/30 mb-6 group-hover:border-cyan-400/60 group-hover:w-20 transition-all duration-300" />
+
+                {/* Description */}
+                <p className="text-gray-400 mb-8 text-base leading-relaxed group-hover:text-gray-300 transition-colors duration-300">
                   {service.description}
                 </p>
 
+                {/* Enhanced Learn More Link */}
                 <Link
                   to={service.link}
-                  className="inline-flex items-center justify-center text-cyan-400 font-medium hover:text-cyan-300 transition-all duration-300"
+                  className="inline-flex items-center justify-center text-cyan-400 font-medium hover:text-cyan-300 transition-all duration-300 group/link"
                 >
-                  <span>Learn More</span>
-                  <i className="fas fa-arrow-right ml-2 text-sm" />
+                  <span className="group-hover/link:translate-x-1 transition-transform duration-300">
+                    Learn More
+                  </span>
+                  <i className="fas fa-arrow-right ml-2 text-sm group-hover/link:translate-x-1 transition-transform duration-300"></i>
                 </Link>
               </motion.div>
 
-              {/* Mobile-friendly Dropdown */}
+              {/* Enhanced Dropdown Options */}
               <AnimatePresence>
                 {activeCard === service.id && (
                   <motion.div
@@ -185,28 +222,33 @@ const ServicesSection: React.FC = () => {
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     exit={{ opacity: 0, y: -5, scale: 0.98 }}
                     transition={{ duration: 0.25, ease: "easeOut" }}
-                    className="absolute z-50 top-4 right-4 w-56 sm:w-64 rounded-xl bg-gray-900/95 border border-cyan-400/40 shadow-2xl overflow-hidden backdrop-blur-xl"
+                    className="absolute z-50 top-4 right-4 w-64 rounded-xl bg-gray-900/95 border border-cyan-400/40 shadow-2xl overflow-hidden backdrop-blur-xl"
                     style={{ transformOrigin: "top right" }}
                   >
-                    <div className="bg-gradient-to-r from-blue-500 to-cyan-400 px-4 py-2 sm:py-3">
-                      <h4 className="text-white font-semibold text-xs sm:text-sm uppercase tracking-wide flex items-center">
+                    <div className="bg-gradient-to-r from-blue-500 to-cyan-400 px-4 py-3">
+                      <h4 className="text-white font-semibold text-sm uppercase tracking-wide flex items-center">
                         <i className="fas fa-list-ul mr-2"></i>
                         {service.title} Options
                       </h4>
                     </div>
+
                     <div className="p-2">
-                      {service.options.map((option) => (
-                        <Link
-                          key={option.href}
-                          to={option.href}
-                          className="flex items-center justify-between px-3 py-2 sm:px-4 sm:py-3 rounded-lg text-gray-300 hover:text-cyan-400 hover:bg-white/5 transition-all duration-300 border-l-2 border-transparent hover:border-cyan-400"
-                          onClick={(e) => e.stopPropagation()}
-                        >
-                          <span className="font-medium text-xs sm:text-sm">
-                            {option.label}
-                          </span>
-                          <i className="fas fa-arrow-right text-xs text-gray-500" />
-                        </Link>
+                      {service.options.map((option, i) => (
+                        <div key={option.href}>
+                          <Link
+                            to={option.href}
+                            className="flex items-center justify-between px-4 py-3 rounded-lg text-gray-300 hover:text-cyan-400 hover:bg-white/5 transition-all duration-300 group/option border-l-2 border-transparent hover:border-cyan-400 hover:bg-gradient-to-r hover:from-cyan-400/5 hover:to-blue-400/5"
+                            onClick={(e) => e.stopPropagation()}
+                          >
+                            <span className="font-medium text-sm group-hover/option:translate-x-1 transition-transform duration-300">
+                              {option.label}
+                            </span>
+                            <i className="fas fa-arrow-right text-xs text-gray-500 group-hover/option:text-cyan-400 transform group-hover/option:translate-x-1 transition-all duration-300" />
+                          </Link>
+                          {i < service.options.length - 1 && (
+                            <div className="mx-4 h-px bg-gray-700/50" />
+                          )}
+                        </div>
                       ))}
                     </div>
                   </motion.div>
