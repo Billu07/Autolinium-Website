@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "react-router-dom";
 import { useScrollAnimation } from "../../hooks/useScrollAnimation";
 import { staggerContainer, cardVariants } from "../../utils/animationVariants";
+import bgImg from "../../assets/wavy-bg8.png";
 
 const ServicesSection: React.FC = () => {
   const { ref, isVisible } = useScrollAnimation();
@@ -12,6 +13,7 @@ const ServicesSection: React.FC = () => {
   const services = [
     {
       id: "automation",
+      icon: "fa-gear",
       title: "Process Automation",
       description:
         "Automate CRMs and business workflows using Make, n8n, Zapier, and Airtable — increasing efficiency and scalability.",
@@ -33,6 +35,7 @@ const ServicesSection: React.FC = () => {
     },
     {
       id: "ai-chatbots",
+      icon: "fa-robot",
       title: "AI & Chatbots",
       description:
         "Voice/text AI agents and chatbots for WhatsApp, Instagram, Messenger — 24/7 customer support and automation.",
@@ -49,7 +52,8 @@ const ServicesSection: React.FC = () => {
     },
     {
       id: "dev",
-      title: "App & Web Development",
+      icon: "fa-code",
+      title: "App & Web Dev",
       description:
         "Custom web and mobile apps crafted with React, Next.js, Node, and AWS — designed for performance and security.",
       link: "/services/app-web-development",
@@ -80,39 +84,33 @@ const ServicesSection: React.FC = () => {
         setActiveCard(null);
       }
     };
-
     const handleEsc = (e: KeyboardEvent) => {
       if (e.key === "Escape") setActiveCard(null);
     };
-
     document.addEventListener("mousedown", handleClickOutside);
     document.addEventListener("keydown", handleEsc);
-
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
       document.removeEventListener("keydown", handleEsc);
     };
   }, []);
 
-  const handleBookProject = (title: string) => {
-    alert(`Book a Project for ${title}`);
-  };
-
   return (
     <section
       ref={ref}
-      className="relative py-24 sm:py-32 bg-gradient-to-b from-[#0A0F1A] via-[#070B12] to-[#05080E] overflow-visible"
+      className="relative py-24 sm:py-32 overflow-hidden bg-[#0A0F1A]"
     >
-      {/* Subtle Grid Overlay */}
-      <div className="absolute inset-0 opacity-[0.03] pointer-events-none">
-        <div
-          className="w-full h-full"
-          style={{
-            backgroundImage:
-              "linear-gradient(90deg, rgba(255,255,255,0.08) 1px, transparent 1px), linear-gradient(rgba(255,255,255,0.08) 1px, transparent 1px)",
-            backgroundSize: "60px 60px",
-          }}
+      {/* Background image overlapping hero fade */}
+      <div className="absolute inset-0 -top-72 h-[calc(100%+18rem)] z-[1]">
+        <img
+          src={bgImg}
+          alt="Wavy dots background"
+          className="w-full h-full object-cover opacity-90"
         />
+        {/* Smooth gradient blending hero → section (same as hero fade) */}
+        <div className="absolute top-0 left-0 w-full h-72 bg-gradient-to-t from-[#0A0F1A] via-[#0A0F1A]/60 to-transparent" />
+        {/* Bottom fade for continuity into next section */}
+        <div className="absolute bottom-0 left-0 w-full h-72 bg-gradient-to-b from-transparent to-[#00000d]" />
       </div>
 
       <div className="relative z-10 container mx-auto px-6 lg:px-8">
@@ -138,7 +136,7 @@ const ServicesSection: React.FC = () => {
           </motion.p>
         </motion.div>
 
-        {/* Services Grid - 3 cards in one row on desktop */}
+        {/* Enhanced Service Cards */}
         <motion.div
           variants={staggerContainer}
           initial="hidden"
@@ -150,93 +148,96 @@ const ServicesSection: React.FC = () => {
               key={service.id}
               variants={cardVariants}
               custom={index}
-              className="h-full group relative"
+              className="relative group"
             >
-              {/* Premium Thin Border Container */}
-              <div className="relative p-[1px] rounded-3xl bg-gradient-to-r from-blue-400/30 via-cyan-400/20 to-blue-400/30">
-                <motion.div
-                  className="card h-full flex flex-col text-center p-8 rounded-3xl bg-white/5 backdrop-blur-xl transition-all duration-500 hover:scale-[1.02] hover:bg-white/10 relative overflow-visible"
-                  whileHover={{ y: -8 }}
-                  transition={{ duration: 0.4, ease: "easeOut" }}
+              {/* Card with enhanced styling */}
+              <motion.div
+                className="relative bg-gradient-to-br from-[#0F172A]/80 to-[#0F172A]/90 border border-cyan-400/20 rounded-2xl p-8 text-center transition-all duration-500 hover:scale-[1.02] hover:border-cyan-400/40 backdrop-blur-sm shadow-2xl shadow-black/20 hover:shadow-cyan-500/10 overflow-hidden"
+                whileHover={{ y: -5 }}
+              >
+                {/* Animated background gradient on hover */}
+                <div className="absolute inset-0 bg-gradient-to-br from-blue-500/0 via-cyan-400/0 to-blue-400/0 group-hover:from-blue-500/5 group-hover:via-cyan-400/3 group-hover:to-blue-400/5 transition-all duration-500 rounded-2xl" />
+
+                {/* Glow effect */}
+                <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-cyan-400/0 via-blue-500/0 to-cyan-400/0 group-hover:from-cyan-400/10 group-hover:via-blue-500/5 group-hover:to-cyan-400/10 transition-all duration-700 opacity-0 group-hover:opacity-100 blur-sm" />
+
+                {/* Dropdown Button */}
+                <motion.button
+                  className="absolute top-6 right-6 w-8 h-8 rounded-full bg-gradient-to-r from-blue-500 to-cyan-400 flex items-center justify-center hover:from-blue-600 hover:to-cyan-500 transition-all duration-300 shadow-lg shadow-cyan-500/25 hover:shadow-cyan-500/40 z-20"
+                  animate={{ rotate: activeCard === service.id ? 90 : 0 }}
+                  transition={{ duration: 0.3 }}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setActiveCard((prev) =>
+                      prev === service.id ? null : service.id
+                    );
+                  }}
                 >
-                  {/* Content - No Icon */}
-                  <div className="flex-1 flex flex-col">
-                    <div className="flex justify-between items-start mb-6">
-                      <h3 className="text-2xl font-bold text-white pr-4">
-                        {service.title}
-                      </h3>
-                      <motion.button
-                        className="flex-shrink-0 w-8 h-8 rounded-full bg-gradient-to-r from-blue-500 to-cyan-400 flex items-center justify-center hover:from-blue-600 hover:to-cyan-500 transition-colors duration-300 shadow-lg shadow-cyan-500/25"
-                        animate={{ rotate: activeCard === service.id ? 90 : 0 }}
-                        transition={{ duration: 0.3 }}
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          setActiveCard((prev) =>
-                            prev === service.id ? null : service.id
-                          );
-                        }}
-                      >
-                        <i className="fas fa-chevron-right text-white text-sm" />
-                      </motion.button>
-                    </div>
+                  <i className="fas fa-chevron-right text-white text-sm" />
+                </motion.button>
 
-                    <p className="text-gray-300 leading-relaxed mb-8 flex-1 text-lg">
-                      {service.description}
-                    </p>
+                {/* Enhanced Icon */}
+                <div className="relative flex justify-center items-center w-16 h-16 mx-auto mb-6 rounded-2xl bg-gradient-to-br from-blue-500 to-cyan-400 text-white text-2xl shadow-lg shadow-cyan-500/30 group-hover:shadow-cyan-500/40 group-hover:scale-110 transition-all duration-300">
+                  <i className={`fas ${service.icon}`}></i>
+                  {/* Icon glow */}
+                  <div className="absolute inset-0 rounded-2xl bg-cyan-400/20 blur-md group-hover:bg-cyan-400/30 transition-all duration-300" />
+                </div>
 
-                    {/* Buttons */}
-                    <div className="flex flex-col gap-4 mt-auto">
-                      <Link
-                        to={service.link}
-                        className="inline-flex items-center justify-center px-6 py-3 bg-gradient-to-r from-blue-500 to-cyan-400 text-white rounded-xl font-medium hover:shadow-lg hover:shadow-blue-500/25 transition-all duration-300 group-hover:from-blue-600 group-hover:to-cyan-500 border border-cyan-400/30"
-                        onClick={(e) => e.stopPropagation()}
-                      >
-                        <span>Learn More</span>
-                        <i className="fas fa-arrow-right ml-2 transition-transform duration-300 group-hover:translate-x-1"></i>
-                      </Link>
+                {/* Service Number */}
+                <p className="text-sm text-cyan-400/80 mb-2 font-medium tracking-wide">
+                  Service #{index + 1}
+                </p>
 
-                      <button
-                        className="inline-flex items-center justify-center px-6 py-3 border border-cyan-400/40 text-white rounded-xl font-medium hover:border-cyan-300 hover:bg-cyan-500/10 transition-all duration-300 backdrop-blur-sm hover:shadow-lg hover:shadow-cyan-500/15"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          handleBookProject(service.title);
-                        }}
-                      >
-                        <i className="fas fa-calendar-alt mr-2"></i>
-                        <span>Book Now</span>
-                      </button>
-                    </div>
-                  </div>
+                {/* Title */}
+                <h3 className="text-2xl font-bold text-white mb-4 group-hover:text-cyan-100 transition-colors duration-300">
+                  {service.title}
+                </h3>
 
-                  {/* Subtle Hover Shine Effect */}
-                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-cyan-500/3 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000 pointer-events-none"></div>
-                </motion.div>
-              </div>
+                {/* Enhanced Divider */}
+                <div className="w-16 mx-auto border-b border-cyan-400/30 mb-6 group-hover:border-cyan-400/60 group-hover:w-20 transition-all duration-300" />
 
-              {/* Enhanced Dropdown */}
+                {/* Description */}
+                <p className="text-gray-400 mb-8 text-base leading-relaxed group-hover:text-gray-300 transition-colors duration-300">
+                  {service.description}
+                </p>
+
+                {/* Enhanced Learn More Link */}
+                <Link
+                  to={service.link}
+                  className="inline-flex items-center justify-center text-cyan-400 font-medium hover:text-cyan-300 transition-all duration-300 group/link"
+                >
+                  <span className="group-hover/link:translate-x-1 transition-transform duration-300">
+                    Learn More
+                  </span>
+                  <i className="fas fa-arrow-right ml-2 text-sm group-hover/link:translate-x-1 transition-transform duration-300"></i>
+                </Link>
+              </motion.div>
+
+              {/* Enhanced Dropdown Options */}
               <AnimatePresence>
                 {activeCard === service.id && (
                   <motion.div
                     ref={dropdownRef}
-                    initial={{ opacity: 0, x: -10, scale: 0.95 }}
-                    animate={{ opacity: 1, x: 0, scale: 1 }}
-                    exit={{ opacity: 0, x: -10, scale: 0.95 }}
-                    transition={{ duration: 0.3, ease: "easeOut" }}
-                    className="absolute z-50 top-4 right-4 w-64 rounded-xl bg-gray-900 border border-cyan-400/40 shadow-2xl overflow-hidden backdrop-blur-xl"
+                    initial={{ opacity: 0, y: -5, scale: 0.98 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, y: -5, scale: 0.98 }}
+                    transition={{ duration: 0.25, ease: "easeOut" }}
+                    className="absolute z-50 top-4 right-4 w-64 rounded-xl bg-gray-900/95 border border-cyan-400/40 shadow-2xl overflow-hidden backdrop-blur-xl"
                     style={{ transformOrigin: "top right" }}
                   >
                     <div className="bg-gradient-to-r from-blue-500 to-cyan-400 px-4 py-3">
-                      <h4 className="text-white font-semibold text-sm uppercase tracking-wide">
+                      <h4 className="text-white font-semibold text-sm uppercase tracking-wide flex items-center">
+                        <i className="fas fa-list-ul mr-2"></i>
                         {service.title} Options
                       </h4>
                     </div>
 
                     <div className="p-2">
-                      {service.options.map((option, index) => (
+                      {service.options.map((option, i) => (
                         <div key={option.href}>
                           <Link
                             to={option.href}
-                            className="flex items-center justify-between px-4 py-3 rounded-lg text-gray-300 hover:text-cyan-400 hover:bg-white/5 transition-all duration-300 group/option border-l-2 border-transparent hover:border-cyan-400"
+                            className="flex items-center justify-between px-4 py-3 rounded-lg text-gray-300 hover:text-cyan-400 hover:bg-white/5 transition-all duration-300 group/option border-l-2 border-transparent hover:border-cyan-400 hover:bg-gradient-to-r hover:from-cyan-400/5 hover:to-blue-400/5"
                             onClick={(e) => e.stopPropagation()}
                           >
                             <span className="font-medium text-sm group-hover/option:translate-x-1 transition-transform duration-300">
@@ -244,8 +245,8 @@ const ServicesSection: React.FC = () => {
                             </span>
                             <i className="fas fa-arrow-right text-xs text-gray-500 group-hover/option:text-cyan-400 transform group-hover/option:translate-x-1 transition-all duration-300" />
                           </Link>
-                          {index < service.options.length - 1 && (
-                            <div className="mx-4 h-px bg-gray-700" />
+                          {i < service.options.length - 1 && (
+                            <div className="mx-4 h-px bg-gray-700/50" />
                           )}
                         </div>
                       ))}
@@ -255,24 +256,6 @@ const ServicesSection: React.FC = () => {
               </AnimatePresence>
             </motion.div>
           ))}
-        </motion.div>
-
-        {/* CTA */}
-        <motion.div
-          variants={cardVariants}
-          className="mt-24 flex justify-center"
-        >
-          <div className="inline-flex flex-col sm:flex-row gap-4 items-center backdrop-blur-sm bg-gradient-to-r from-white/5 to-white/10 rounded-2xl px-6 py-4 border border-cyan-400/30 hover:border-cyan-400/60 transition-all duration-300">
-            <p className="text-gray-300 text-base sm:text-lg">
-              Ready to automate and innovate?
-            </p>
-            <Link
-              to="/contact"
-              className="px-6 py-3 bg-gradient-to-r from-blue-500 to-cyan-400 text-white rounded-xl font-semibold hover:from-blue-600 hover:to-cyan-500 transition-all duration-300 hover:shadow-lg hover:shadow-cyan-500/25 border border-cyan-400/30 whitespace-nowrap"
-            >
-              Get Started
-            </Link>
-          </div>
         </motion.div>
       </div>
     </section>

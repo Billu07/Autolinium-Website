@@ -9,9 +9,9 @@ const Footer: React.FC = () => {
     {
       title: "Products",
       links: [
-        { name: "Short Generator", path: "/products/autocrm" },
-        { name: "Business Chatbot", path: "/products/botflow" },
-        { name: "AI Voice Assistant", path: "/products/datasync" },
+        { name: "Process Automation", path: "/services/process-automation" },
+        { name: "AI & Chatbots", path: "/services/ai-chatbots" },
+        { name: "App Development", path: "/services/app-web-development" },
       ],
     },
     {
@@ -51,11 +51,11 @@ const Footer: React.FC = () => {
   ];
 
   return (
-    <footer className="bg-gray-50/90 backdrop-blur-xl border-t-2 border-gray-200">
+    <footer className="bg-[#0A0F1A] border-t border-white/10 backdrop-blur-xl">
       {/* Main Footer Content */}
       <div className="container mx-auto px-4 py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-12">
-          {/* Brand Section - Matches Header Logo */}
+          {/* Brand Section - Matches Header */}
           <motion.div
             className="md:col-span-2 lg:col-span-2 text-center md:text-left"
             initial={{ opacity: 0, y: 20 }}
@@ -79,26 +79,26 @@ const Footer: React.FC = () => {
                 }}
               />
               {/* Fallback if logo doesn't load */}
-              <div className="text-[#0077b6] font-bold text-lg hidden">AL</div>
-              <span className="text-xl font-bold text-[#0077b6] group-hover:text-[#00b4d8] transition-colors duration-300">
+              <div className="text-cyan-400 font-bold text-lg hidden">AL</div>
+              <span className="text-xl font-bold text-cyan-400 group-hover:text-cyan-300 transition-colors duration-300">
                 Autolinium
               </span>
             </Link>
 
-            <p className="text-gray-600 mb-8 leading-relaxed text-base max-w-md mx-auto md:mx-0">
+            <p className="text-gray-400 mb-8 leading-relaxed text-base max-w-md mx-auto md:mx-0">
               Building intelligent automation solutions that transform
               businesses. AI-powered tools for the modern enterprise.
             </p>
 
-            {/* Social Links - Matches Header Style */}
-            <div className="flex justify-center md:justify-start space-x-4">
+            {/* Premium Social Links */}
+            <div className="flex justify-center md:justify-start space-x-3">
               {socialLinks.map((social, index) => (
                 <motion.a
                   key={social.label}
                   href={social.url}
-                  className="w-10 h-10 rounded-lg bg-white border-2 border-gray-300 flex items-center justify-center text-gray-600 hover:text-[#0077b6] hover:border-[#0077b6] transition-all duration-300"
+                  className="w-12 h-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-gray-400 hover:text-cyan-400 hover:border-cyan-400/40 hover:bg-cyan-400/10 transition-all duration-300 backdrop-blur-sm"
                   aria-label={social.label}
-                  whileHover={{ scale: 1.05 }}
+                  whileHover={{ scale: 1.1, y: -2 }}
                   whileTap={{ scale: 0.95 }}
                   initial={{ opacity: 0, y: 10 }}
                   whileInView={{ opacity: 1, y: 0 }}
@@ -111,7 +111,7 @@ const Footer: React.FC = () => {
             </div>
           </motion.div>
 
-          {/* Footer Links Sections - Matches Navigation Style */}
+          {/* Footer Links Sections */}
           {footerSections.map((section, sectionIndex) => (
             <motion.div
               key={section.title}
@@ -121,7 +121,8 @@ const Footer: React.FC = () => {
               transition={{ duration: 0.6, delay: sectionIndex * 0.1 }}
               viewport={{ once: true }}
             >
-              <h3 className="text-gray-900 font-semibold mb-6 text-base">
+              <h3 className="text-cyan-400 font-semibold mb-6 text-base flex items-center justify-center md:justify-start">
+                <i className="fas fa-chevron-right text-xs mr-2 text-cyan-400"></i>
                 {section.title}
               </h3>
               <ul className="space-y-3">
@@ -138,10 +139,13 @@ const Footer: React.FC = () => {
                   >
                     <Link
                       to={link.path}
-                      className="text-gray-600 hover:text-[#0077b6] transition-colors duration-300 text-sm font-semibold block py-1 relative group"
+                      className="text-gray-400 hover:text-cyan-400 transition-all duration-300 text-sm font-semibold block py-2 relative group"
                     >
-                      {link.name}
-                      <div className="absolute inset-x-0 -bottom-1 h-0.5 bg-[#0077b6] scale-x-0 group-hover:scale-x-100 transition-transform duration-300" />
+                      <span className="flex items-center">
+                        <i className="fas fa-circle text-[4px] mr-3 text-cyan-400/60 group-hover:text-cyan-400 transition-colors duration-300"></i>
+                        {link.name}
+                      </span>
+                      <div className="absolute inset-x-0 -bottom-1 h-0.5 bg-gradient-to-r from-cyan-400 to-blue-400 scale-x-0 group-hover:scale-x-100 transition-transform duration-300" />
                     </Link>
                   </motion.li>
                 ))}
@@ -150,9 +154,9 @@ const Footer: React.FC = () => {
           ))}
         </div>
 
-        {/* Newsletter Section - Matches Header CTA */}
+        {/* Premium Newsletter Section */}
         <motion.div
-          className="mt-16 pt-12 border-t-2 border-gray-200"
+          className="mt-16 pt-12 border-t border-white/10"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.3 }}
@@ -160,10 +164,11 @@ const Footer: React.FC = () => {
         >
           <div className="flex flex-col lg:flex-row items-center justify-between gap-8">
             <div className="text-center lg:text-left flex-1">
-              <h3 className="text-gray-900 font-semibold text-lg mb-2">
+              <h3 className="text-cyan-400 font-semibold text-lg mb-2 flex items-center justify-center lg:justify-start">
+                <i className="fas fa-paper-plane mr-2"></i>
                 Stay Updated
               </h3>
-              <p className="text-gray-600 text-sm max-w-md">
+              <p className="text-gray-400 text-sm max-w-md">
                 Get the latest news and updates about our AI automation
                 platform.
               </p>
@@ -174,10 +179,10 @@ const Footer: React.FC = () => {
                 <input
                   type="email"
                   placeholder="Enter your email"
-                  className="flex-1 px-4 py-2.5 bg-white border-2 border-gray-300 rounded-lg text-gray-900 placeholder-gray-500 focus:outline-none focus:border-[#0077b6] transition-all duration-300 text-sm"
+                  className="flex-1 px-4 py-3 bg-white/5 border border-cyan-400/30 rounded-xl text-gray-300 placeholder-gray-500 focus:outline-none focus:border-cyan-400 focus:bg-white/10 transition-all duration-300 text-sm backdrop-blur-sm"
                 />
                 <motion.button
-                  className="px-6 py-2.5 bg-[#0077b6] text-white rounded-lg text-sm font-semibold border-2 border-[#0077b6] hover:bg-white hover:text-[#0077b6] transition-all duration-300 whitespace-nowrap"
+                  className="px-6 py-3 bg-gradient-to-r from-blue-500 to-cyan-400 text-white rounded-xl text-sm font-semibold border border-cyan-400/30 hover:shadow-lg hover:shadow-cyan-500/25 transition-all duration-300 whitespace-nowrap hover:scale-105"
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                 >
@@ -185,6 +190,7 @@ const Footer: React.FC = () => {
                 </motion.button>
               </div>
               <p className="text-gray-500 text-xs mt-2 text-center sm:text-left">
+                <i className="fas fa-shield-alt mr-1"></i>
                 No spam, unsubscribe at any time.
               </p>
             </div>
@@ -192,39 +198,66 @@ const Footer: React.FC = () => {
         </motion.div>
       </div>
 
-      {/* Bottom Bar - Matches Header Border */}
-      <div className="border-t-2 border-gray-200 bg-white/50 backdrop-blur-sm">
-        <div className="container mx-auto px-4 py-4">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-3">
+      {/* Premium Bottom Bar */}
+      <div className="border-t border-white/10 bg-[#070B12]/50 backdrop-blur-xl">
+        <div className="container mx-auto px-4 py-6">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-4">
             <motion.p
-              className="text-gray-600 text-sm text-center md:text-left"
+              className="text-gray-400 text-sm text-center md:text-left flex items-center"
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               transition={{ duration: 0.6 }}
               viewport={{ once: true }}
             >
+              <i className="fas fa-copyright mr-2 text-cyan-400/60"></i>
               &copy; {currentYear} Autolinium. All rights reserved.
             </motion.p>
 
             <motion.div
-              className="flex items-center gap-4 text-gray-600 text-sm text-center md:text-left"
+              className="flex items-center gap-6 text-gray-400 text-sm text-center md:text-left"
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               transition={{ duration: 0.6, delay: 0.2 }}
               viewport={{ once: true }}
             >
-              <span className="hidden md:block font-semibold">
-                AI-powered automation solutions
+              <span className="hidden md:flex items-center font-semibold text-cyan-400/80">
+                <i className="fas fa-robot mr-2"></i>
+                AI-powered automation
               </span>
-              <div className="flex items-center gap-2 text-green-600">
-                <i className="fas fa-circle text-xs"></i>
-                <span className="text-sm font-semibold">
+              <div className="flex items-center gap-2 text-green-400 bg-green-400/10 px-3 py-1 rounded-full border border-green-400/20">
+                <i className="fas fa-circle text-xs animate-pulse"></i>
+                <span className="text-xs font-semibold">
                   All systems operational
                 </span>
               </div>
             </motion.div>
           </div>
         </div>
+      </div>
+
+      {/* Floating AI Elements */}
+      <div className="absolute bottom-0 left-0 w-full overflow-hidden pointer-events-none">
+        <motion.div
+          className="absolute -bottom-20 -left-20 w-40 h-40 bg-cyan-400/5 rounded-full blur-3xl"
+          animate={{
+            scale: [1, 1.2, 1],
+            opacity: [0.1, 0.15, 0.1],
+          }}
+          transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+        />
+        <motion.div
+          className="absolute -bottom-10 -right-10 w-32 h-32 bg-blue-400/5 rounded-full blur-3xl"
+          animate={{
+            scale: [1.2, 1, 1.2],
+            opacity: [0.1, 0.15, 0.1],
+          }}
+          transition={{
+            duration: 10,
+            repeat: Infinity,
+            ease: "easeInOut",
+            delay: 2,
+          }}
+        />
       </div>
     </footer>
   );
