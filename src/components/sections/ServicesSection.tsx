@@ -195,7 +195,7 @@ const ServicesSection: React.FC = () => {
                       </h4>
                     </div>
                     <div className="p-2">
-                      {service.options.map((option, i) => (
+                      {service.options.map((option) => (
                         <Link
                           key={option.href}
                           to={option.href}
