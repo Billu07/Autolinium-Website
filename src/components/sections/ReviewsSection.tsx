@@ -59,7 +59,7 @@ const TestimonialsSection: React.FC = () => {
         <div className="absolute inset-0 bg-gradient-to-b from-[#00000d] via-[#0A0F2A] to-[#05070B]" />
         {/* Add your background image here */}
         <img
-          src="/src/assets/pro-bg.png"
+          src="/src/assets/pro-bg.webp"
           alt=""
           className="absolute inset-0 w-full h-full object-cover opacity-10"
         />
