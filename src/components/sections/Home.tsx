@@ -4,17 +4,20 @@ import ServicesSection from "./ServicesSection";
 import TestimonialsSection from "./ReviewsSection";
 import FAQSection from "./FAQSection";
 import CTASection from "./CTASection";
-import ProcessSection from "./HowWeHelpSection";
+import SlidingTextSection from "./SlidingTextSection";
+import OurProjectsSection from "./OurProjectsSection";
+//import StatsSection from "./StatsSection";
 
 const Home: React.FC = () => {
   return (
     <div>
       <HeroSection />
       <ServicesSection />
-      <ProcessSection />
+      <OurProjectsSection />
       <TestimonialsSection />
-      <FAQSection />
+      <SlidingTextSection />
       <CTASection />
+      <FAQSection />
     </div>
   );
 };

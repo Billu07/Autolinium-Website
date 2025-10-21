@@ -7,7 +7,7 @@ const Footer: React.FC = () => {
 
   const footerSections = [
     {
-      title: "Products",
+      title: "Services",
       links: [
         { name: "Process Automation", path: "/services/process-automation" },
         { name: "AI & Chatbots", path: "/services/ai-chatbots" },
@@ -18,8 +18,7 @@ const Footer: React.FC = () => {
       title: "Company",
       links: [
         { name: "About Us", path: "/about" },
-        { name: "Services", path: "/services" },
-        { name: "Pricing", path: "/pricing" },
+        { name: "Our Projects", path: "/projects" },
         { name: "Contact", path: "/contact" },
       ],
     },
@@ -27,18 +26,8 @@ const Footer: React.FC = () => {
       title: "Resources",
       links: [
         { name: "Documentation", path: "/docs" },
-        { name: "Blog", path: "/blog" },
         { name: "Case Studies", path: "/case-studies" },
         { name: "Support", path: "/support" },
-      ],
-    },
-    {
-      title: "Legal",
-      links: [
-        { name: "Privacy Policy", path: "/privacy" },
-        { name: "Terms of Service", path: "/terms" },
-        { name: "Security", path: "/security" },
-        { name: "Compliance", path: "/compliance" },
       ],
     },
   ];
@@ -47,17 +36,28 @@ const Footer: React.FC = () => {
     { icon: "fab fa-linkedin-in", url: "#", label: "LinkedIn" },
     { icon: "fab fa-twitter", url: "#", label: "Twitter" },
     { icon: "fab fa-github", url: "#", label: "GitHub" },
-    { icon: "fab fa-discord", url: "#", label: "Discord" },
   ];
 
   return (
-    <footer className="bg-[#0A0F1A] border-t border-white/10 backdrop-blur-xl">
+    <footer className="relative bg-[#050810] border-t border-white/10 overflow-hidden">
+      {/* Background Image Placeholder */}
+      <div className="absolute inset-0 z-0">
+        <div className="absolute inset-0 bg-gradient-to-b from-[#050810] via-[#050810]/95 to-[#050810]" />
+        {/*
+        {/* Add your background image here 
+        <img
+          src="/src/assets/footer-bg.png"
+          alt=""
+          className="absolute inset-0 w-full h-full object-cover opacity-10"
+        />*/}
+      </div>
+
       {/* Main Footer Content */}
-      <div className="container mx-auto px-4 py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-12">
-          {/* Brand Section - Matches Header */}
+      <div className="relative z-10 container mx-auto px-6 py-16">
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-12 max-w-7xl mx-auto">
+          {/* Brand Section */}
           <motion.div
-            className="md:col-span-2 lg:col-span-2 text-center md:text-left"
+            className="lg:col-span-1 text-center lg:text-left"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
@@ -65,38 +65,28 @@ const Footer: React.FC = () => {
           >
             <Link
               to="/"
-              className="flex items-center space-x-3 group justify-center md:justify-start mb-6"
+              className="inline-flex items-center space-x-3 group mb-6"
             >
-              <img
-                src="/assets/autolinium-logo.png"
-                alt="Autolinium"
-                className="w-10 h-8 object-contain"
-                onError={(e) => {
-                  e.currentTarget.style.display = "none";
-                  const nextEl = e.currentTarget
-                    .nextSibling as HTMLElement | null;
-                  if (nextEl) nextEl.style.display = "block";
-                }}
-              />
-              {/* Fallback if logo doesn't load */}
-              <div className="text-cyan-400 font-bold text-lg hidden">AL</div>
-              <span className="text-xl font-bold text-cyan-400 group-hover:text-cyan-300 transition-colors duration-300">
+              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-cyan-500 to-blue-500 flex items-center justify-center text-white font-bold text-lg">
+                AL
+              </div>
+              <span className="text-xl font-bold text-white group-hover:text-cyan-400 transition-colors duration-300">
                 Autolinium
               </span>
             </Link>
 
-            <p className="text-gray-400 mb-8 leading-relaxed text-base max-w-md mx-auto md:mx-0">
+            <p className="text-gray-400 mb-6 leading-relaxed text-sm">
               Building intelligent automation solutions that transform
-              businesses. AI-powered tools for the modern enterprise.
+              businesses through AI-powered tools and custom development.
             </p>
 
-            {/* Premium Social Links */}
-            <div className="flex justify-center md:justify-start space-x-3">
+            {/* Social Links */}
+            <div className="flex justify-center lg:justify-start space-x-3">
               {socialLinks.map((social, index) => (
                 <motion.a
                   key={social.label}
                   href={social.url}
-                  className="w-12 h-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-gray-400 hover:text-cyan-400 hover:border-cyan-400/40 hover:bg-cyan-400/10 transition-all duration-300 backdrop-blur-sm"
+                  className="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center text-gray-400 hover:text-cyan-400 hover:bg-cyan-400/10 transition-all duration-300"
                   aria-label={social.label}
                   whileHover={{ scale: 1.1, y: -2 }}
                   whileTap={{ scale: 0.95 }}
@@ -105,7 +95,7 @@ const Footer: React.FC = () => {
                   transition={{ duration: 0.4, delay: index * 0.1 }}
                   viewport={{ once: true }}
                 >
-                  <i className={`${social.icon} text-base`}></i>
+                  <i className={`${social.icon} text-sm`}></i>
                 </motion.a>
               ))}
             </div>
@@ -115,14 +105,13 @@ const Footer: React.FC = () => {
           {footerSections.map((section, sectionIndex) => (
             <motion.div
               key={section.title}
-              className="text-center md:text-left"
+              className="text-center lg:text-left"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: sectionIndex * 0.1 }}
               viewport={{ once: true }}
             >
-              <h3 className="text-cyan-400 font-semibold mb-6 text-base flex items-center justify-center md:justify-start">
-                <i className="fas fa-chevron-right text-xs mr-2 text-cyan-400"></i>
+              <h3 className="text-white font-semibold mb-6 text-base">
                 {section.title}
               </h3>
               <ul className="space-y-3">
@@ -139,125 +128,144 @@ const Footer: React.FC = () => {
                   >
                     <Link
                       to={link.path}
-                      className="text-gray-400 hover:text-cyan-400 transition-all duration-300 text-sm font-semibold block py-2 relative group"
+                      className="text-gray-400 hover:text-cyan-400 transition-all duration-300 text-sm font-medium block py-1 group"
                     >
-                      <span className="flex items-center">
-                        <i className="fas fa-circle text-[4px] mr-3 text-cyan-400/60 group-hover:text-cyan-400 transition-colors duration-300"></i>
+                      <span className="flex items-center lg:justify-start justify-center">
+                        <i className="fas fa-arrow-right text-xs mr-3 text-cyan-400/0 group-hover:text-cyan-400 group-hover:mr-3 transition-all duration-300"></i>
                         {link.name}
                       </span>
-                      <div className="absolute inset-x-0 -bottom-1 h-0.5 bg-gradient-to-r from-cyan-400 to-blue-400 scale-x-0 group-hover:scale-x-100 transition-transform duration-300" />
                     </Link>
                   </motion.li>
                 ))}
               </ul>
             </motion.div>
           ))}
+
+          {/* Contact/CTA Section */}
+          <motion.div
+            className="text-center lg:text-left"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.3 }}
+            viewport={{ once: true }}
+          >
+            <h3 className="text-white font-semibold mb-6 text-base">
+              Get Started
+            </h3>
+            <div className="space-y-4">
+              <motion.a
+                href="mailto:hello@autolinium.com"
+                className="inline-flex items-center text-cyan-400 hover:text-cyan-300 transition-colors duration-300 text-sm font-medium group"
+                whileHover={{ x: 5 }}
+              >
+                <i className="fas fa-envelope mr-3"></i>
+                hello@autolinium.com
+              </motion.a>
+
+              <motion.a
+                href="tel:+11234567890"
+                className="inline-flex items-center text-gray-400 hover:text-cyan-400 transition-colors duration-300 text-sm font-medium group"
+                whileHover={{ x: 5 }}
+              >
+                <i className="fas fa-phone mr-3"></i>
+                +1 (123) 456-7890
+              </motion.a>
+
+              <motion.div
+                className="pt-4"
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                transition={{ duration: 0.6, delay: 0.5 }}
+                viewport={{ once: true }}
+              >
+                <Link
+                  to="/contact"
+                  className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-cyan-500 to-blue-500 text-white rounded-xl text-sm font-semibold hover:shadow-lg hover:shadow-cyan-500/25 transition-all duration-300 group"
+                >
+                  <span>Start Project</span>
+                  <i className="fas fa-arrow-right ml-2 group-hover:translate-x-1 transition-transform duration-300"></i>
+                </Link>
+              </motion.div>
+            </div>
+          </motion.div>
         </div>
 
-        {/* Premium Newsletter Section */}
+        {/* Newsletter Section - Simplified */}
         <motion.div
-          className="mt-16 pt-12 border-t border-white/10"
+          className="mt-16 pt-12 border-t border-white/10 max-w-4xl mx-auto"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.3 }}
+          transition={{ duration: 0.6, delay: 0.4 }}
           viewport={{ once: true }}
         >
-          <div className="flex flex-col lg:flex-row items-center justify-between gap-8">
-            <div className="text-center lg:text-left flex-1">
-              <h3 className="text-cyan-400 font-semibold text-lg mb-2 flex items-center justify-center lg:justify-start">
-                <i className="fas fa-paper-plane mr-2"></i>
-                Stay Updated
-              </h3>
-              <p className="text-gray-400 text-sm max-w-md">
-                Get the latest news and updates about our AI automation
-                platform.
-              </p>
-            </div>
+          <div className="text-center">
+            <h3 className="text-white font-semibold text-lg mb-3">
+              Stay Updated
+            </h3>
+            <p className="text-gray-400 text-sm mb-6 max-w-md mx-auto">
+              Get the latest insights on AI automation and business
+              transformation.
+            </p>
 
-            <div className="flex-1 w-full max-w-md">
-              <div className="flex flex-col sm:flex-row gap-3">
-                <input
-                  type="email"
-                  placeholder="Enter your email"
-                  className="flex-1 px-4 py-3 bg-white/5 border border-cyan-400/30 rounded-xl text-gray-300 placeholder-gray-500 focus:outline-none focus:border-cyan-400 focus:bg-white/10 transition-all duration-300 text-sm backdrop-blur-sm"
-                />
-                <motion.button
-                  className="px-6 py-3 bg-gradient-to-r from-blue-500 to-cyan-400 text-white rounded-xl text-sm font-semibold border border-cyan-400/30 hover:shadow-lg hover:shadow-cyan-500/25 transition-all duration-300 whitespace-nowrap hover:scale-105"
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                >
-                  Subscribe
-                </motion.button>
-              </div>
-              <p className="text-gray-500 text-xs mt-2 text-center sm:text-left">
-                <i className="fas fa-shield-alt mr-1"></i>
-                No spam, unsubscribe at any time.
-              </p>
+            <div className="flex flex-col sm:flex-row gap-3 justify-center max-w-md mx-auto">
+              <input
+                type="email"
+                placeholder="Enter your email"
+                className="flex-1 px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-gray-300 placeholder-gray-500 focus:outline-none focus:border-cyan-400 focus:bg-white/10 transition-all duration-300 text-sm"
+              />
+              <motion.button
+                className="px-6 py-3 bg-gradient-to-r from-cyan-500 to-blue-500 text-white rounded-xl text-sm font-semibold hover:shadow-lg hover:shadow-cyan-500/25 transition-all duration-300 whitespace-nowrap"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                Subscribe
+              </motion.button>
             </div>
           </div>
         </motion.div>
       </div>
 
-      {/* Premium Bottom Bar */}
-      <div className="border-t border-white/10 bg-[#070B12]/50 backdrop-blur-xl">
-        <div className="container mx-auto px-4 py-6">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+      {/* Bottom Bar */}
+      <div className="relative z-10 border-t border-white/10 bg-[#070B15]/80 backdrop-blur-sm">
+        <div className="container mx-auto px-6 py-6">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-4 text-center md:text-left">
             <motion.p
-              className="text-gray-400 text-sm text-center md:text-left flex items-center"
+              className="text-gray-400 text-sm flex items-center justify-center md:justify-start"
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               transition={{ duration: 0.6 }}
               viewport={{ once: true }}
             >
               <i className="fas fa-copyright mr-2 text-cyan-400/60"></i>
-              &copy; {currentYear} Autolinium. All rights reserved.
+              {currentYear} Autolinium. All rights reserved.
             </motion.p>
 
             <motion.div
-              className="flex items-center gap-6 text-gray-400 text-sm text-center md:text-left"
+              className="flex items-center gap-6 text-gray-400 text-sm"
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               transition={{ duration: 0.6, delay: 0.2 }}
               viewport={{ once: true }}
             >
-              <span className="hidden md:flex items-center font-semibold text-cyan-400/80">
-                <i className="fas fa-robot mr-2"></i>
-                AI-powered automation
-              </span>
-              <div className="flex items-center gap-2 text-green-400 bg-green-400/10 px-3 py-1 rounded-full border border-green-400/20">
+              <Link
+                to="/privacy"
+                className="hover:text-cyan-400 transition-colors duration-300"
+              >
+                Privacy
+              </Link>
+              <Link
+                to="/terms"
+                className="hover:text-cyan-400 transition-colors duration-300"
+              >
+                Terms
+              </Link>
+              <div className="flex items-center gap-2 text-green-400">
                 <i className="fas fa-circle text-xs animate-pulse"></i>
-                <span className="text-xs font-semibold">
-                  All systems operational
-                </span>
+                <span className="text-xs">Systems Operational</span>
               </div>
             </motion.div>
           </div>
         </div>
-      </div>
-
-      {/* Floating AI Elements */}
-      <div className="absolute bottom-0 left-0 w-full overflow-hidden pointer-events-none">
-        <motion.div
-          className="absolute -bottom-20 -left-20 w-40 h-40 bg-cyan-400/5 rounded-full blur-3xl"
-          animate={{
-            scale: [1, 1.2, 1],
-            opacity: [0.1, 0.15, 0.1],
-          }}
-          transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-        />
-        <motion.div
-          className="absolute -bottom-10 -right-10 w-32 h-32 bg-blue-400/5 rounded-full blur-3xl"
-          animate={{
-            scale: [1.2, 1, 1.2],
-            opacity: [0.1, 0.15, 0.1],
-          }}
-          transition={{
-            duration: 10,
-            repeat: Infinity,
-            ease: "easeInOut",
-            delay: 2,
-          }}
-        />
       </div>
     </footer>
   );

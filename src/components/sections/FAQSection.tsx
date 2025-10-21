@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import heroBg from "../../assets/hero-bg3.png";
 
 const faqs = [
   {
@@ -7,198 +8,192 @@ const faqs = [
     question: "How does AI automation integrate with our existing team?",
     answer:
       "Our AI solutions are designed to enhance—not replace—your team. We focus on automating repetitive tasks so your people can focus on strategic and creative work. Most clients report better productivity and employee satisfaction within weeks.",
+    icon: "fa-users",
   },
   {
     category: "Timeline",
     question: "What's the typical timeline for custom automation development?",
     answer:
       "Most projects are completed within 2–6 weeks depending on complexity. We use an agile approach with weekly milestones and progress updates. Simpler automations can be deployed in as little as 7–10 days.",
+    icon: "fa-calendar-alt",
   },
   {
     category: "Technical",
     question: "What technical expertise is required from our team?",
     answer:
       "None. We handle all implementation and setup. Our tools are user-friendly and designed for non-technical teams. We also provide complete training and documentation to ensure your team is confident and self-sufficient.",
+    icon: "fa-cogs",
   },
   {
     category: "Support",
     question: "What kind of support and maintenance do you provide?",
     answer:
       "We offer tiered support including 24/7 monitoring, maintenance, and system optimization. Our SLA guarantees 99.9% uptime, and dedicated managers ensure smooth communication and fast resolutions.",
+    icon: "fa-headset",
   },
   {
     category: "Security",
     question: "How do you ensure data security and compliance?",
     answer:
       "Our infrastructure follows enterprise-grade security protocols—data encryption, role-based access, and continuous monitoring. We adhere to GDPR and CCPA, and can accommodate industry-specific compliance standards.",
+    icon: "fa-shield-alt",
   },
 ];
 
 const FAQSection: React.FC = () => {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
+  // No category filter for now
+  const filteredFaqs = faqs;
+
   return (
     <section
       id="faq"
-      className="relative py-24 sm:py-32 overflow-hidden bg-[#00000d]"
+      className="relative py-20 sm:py-28 overflow-hidden bg-[#050810]"
     >
-      {/* Subtle Grid Overlay */}
-      <div className="absolute inset-0 opacity-[0.03] pointer-events-none">
-        <div
-          className="w-full h-full"
-          style={{
-            backgroundImage:
-              "linear-gradient(90deg, rgba(255,255,255,0.08) 1px, transparent 1px), linear-gradient(rgba(255,255,255,0.08) 1px, transparent 1px)",
-            backgroundSize: "60px 60px",
-          }}
+      {/* Background */}
+      <div className="absolute inset-0 z-[1]">
+        <div className="absolute inset-0 bg-gradient-to-b from-[#05070B] via-[#0A0F2A] to-[#010205]" />
+        <img
+          src={heroBg}
+          alt="FAQ background"
+          className="absolute inset-0 w-full h-[110%] object-cover opacity-10"
         />
       </div>
 
-      {/* Animated Background Elements */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <motion.div
-          className="absolute top-1/4 left-10 w-72 h-72 bg-cyan-400/10 rounded-full blur-3xl"
-          animate={{
-            scale: [1, 1.2, 1],
-            opacity: [0.1, 0.15, 0.1],
-          }}
-          transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-        />
-        <motion.div
-          className="absolute bottom-1/3 right-10 w-64 h-64 bg-blue-400/10 rounded-full blur-3xl"
-          animate={{
-            scale: [1.2, 1, 1.2],
-            opacity: [0.1, 0.15, 0.1],
-          }}
-          transition={{
-            duration: 10,
-            repeat: Infinity,
-            ease: "easeInOut",
-            delay: 2,
-          }}
-        />
-      </div>
-
-      <div className="relative z-10 container mx-auto px-6 lg:px-8">
+      <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7 }}
           viewport={{ once: true }}
-          className="text-center max-w-3xl mx-auto mb-20"
+          className="text-center max-w-4xl mx-auto mb-16"
         >
+          <motion.div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-cyan-400/10 border border-cyan-400/20 mb-6">
+            <div className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
+            <span className="text-cyan-400 text-sm font-medium">FAQ</span>
+          </motion.div>
+
           <motion.h2
-            className="text-4xl sm:text-5xl font-bold mb-6 bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent"
+            className="text-4xl sm:text-6xl font-bold mb-6 bg-gradient-to-r from-cyan-400 via-blue-400 to-cyan-400 bg-clip-text text-transparent"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.1 }}
             viewport={{ once: true }}
           >
-            Frequently Asked Questions
+            Common Questions
           </motion.h2>
           <motion.p
-            className="text-lg sm:text-xl text-gray-400 leading-relaxed"
+            className="text-xl text-gray-300 leading-relaxed"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.2 }}
             viewport={{ once: true }}
           >
-            Everything you need to know about Autolinium's automation,
-            integration, and AI services.
+            Quick answers to your most frequent questions about automation and
+            AI integration
           </motion.p>
         </motion.div>
 
-        {/* FAQ Accordion */}
-        <div className="max-w-4xl mx-auto space-y-6">
-          {faqs.map((faq, i) => (
-            <motion.div
-              key={i}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: i * 0.05 }}
-              viewport={{ once: true }}
-              className="relative bg-gradient-to-br from-[#0F172A]/80 to-[#0F172A]/90 border border-cyan-400/20 rounded-2xl backdrop-blur-sm shadow-2xl shadow-black/20 hover:shadow-cyan-500/10 transition-all duration-300 group overflow-hidden"
-            >
-              {/* Animated background gradient on hover */}
-              <div className="absolute inset-0 bg-gradient-to-br from-blue-500/0 via-cyan-400/0 to-blue-400/0 group-hover:from-blue-500/5 group-hover:via-cyan-400/3 group-hover:to-blue-400/5 transition-all duration-500 rounded-2xl" />
+        {/* FAQ Timeline */}
+        <div className="max-w-6xl mx-auto">
+          <div className="relative">
+            <div className="absolute left-8 top-0 bottom-0 w-0.5 bg-gradient-to-b from-cyan-400/20 via-blue-400/20 to-cyan-400/20" />
 
-              {/* Glow effect */}
-              <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-cyan-400/0 via-blue-500/0 to-cyan-400/0 group-hover:from-cyan-400/10 group-hover:via-blue-500/5 group-hover:to-cyan-400/10 transition-all duration-700 opacity-0 group-hover:opacity-100 blur-sm" />
-
-              <button
-                onClick={() => setOpenIndex(openIndex === i ? null : i)}
-                className="w-full text-left flex justify-between items-center p-6 sm:p-8 focus:outline-none relative z-10"
-              >
-                <div className="flex-1">
-                  <span className="inline-flex items-center px-3 py-1 rounded-full bg-cyan-400/10 text-cyan-400 text-xs font-semibold mb-3 border border-cyan-400/20">
-                    {faq.category}
-                  </span>
-                  <h3 className="text-lg sm:text-xl font-semibold text-white leading-snug group-hover:text-cyan-100 transition-colors duration-300">
-                    {faq.question}
-                  </h3>
-                </div>
-                <motion.div
-                  className="flex-shrink-0 w-8 h-8 rounded-full bg-gradient-to-r from-blue-500 to-cyan-400 flex items-center justify-center ml-4 shadow-lg shadow-cyan-500/25"
-                  animate={{ rotate: openIndex === i ? 180 : 0 }}
-                  transition={{ duration: 0.3 }}
-                >
-                  <i className="fas fa-chevron-down text-white text-sm" />
-                </motion.div>
-              </button>
-
-              <AnimatePresence initial={false}>
-                {openIndex === i && (
+            <div className="space-y-8">
+              <AnimatePresence mode="wait">
+                {filteredFaqs.map((faq, i) => (
                   <motion.div
-                    key="content"
-                    initial={{ opacity: 0, height: 0 }}
-                    animate={{ opacity: 1, height: "auto" }}
-                    exit={{ opacity: 0, height: 0 }}
-                    transition={{ duration: 0.3, ease: "easeInOut" }}
-                    className="px-6 sm:px-8 pb-6 sm:pb-8 relative z-10"
+                    key={i}
+                    layout
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: 20 }}
+                    transition={{ duration: 0.4, delay: i * 0.1 }}
+                    className="relative flex items-start gap-8 group"
                   >
-                    <div className="border-t border-cyan-400/20 pt-4">
-                      <p className="text-gray-300 leading-relaxed text-base sm:text-lg group-hover:text-gray-200 transition-colors duration-300">
-                        {faq.answer}
-                      </p>
+                    <div className="flex-shrink-0 relative z-10">
+                      <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-blue-500 to-cyan-400 flex items-center justify-center text-white text-xl shadow-lg shadow-cyan-500/30 group-hover:scale-110 transition-all duration-300">
+                        <i className={`fas ${faq.icon}`} />
+                      </div>
+                    </div>
+
+                    <div className="flex-1 min-w-0">
+                      <button
+                        onClick={() => setOpenIndex(openIndex === i ? null : i)}
+                        className="w-full text-left focus:outline-none"
+                      >
+                        <div className="mb-4">
+                          <span className="inline-block text-cyan-400 text-sm font-semibold mb-2 tracking-wide">
+                            {faq.category}
+                          </span>
+                          <h3 className="text-xl font-bold text-white leading-tight group-hover:text-cyan-100 transition-colors duration-300">
+                            {faq.question}
+                          </h3>
+                        </div>
+
+                        <AnimatePresence initial={false}>
+                          {openIndex === i && (
+                            <motion.div
+                              initial={{ opacity: 0, height: 0 }}
+                              animate={{ opacity: 1, height: "auto" }}
+                              exit={{ opacity: 0, height: 0 }}
+                              transition={{ duration: 0.3 }}
+                              className="overflow-hidden"
+                            >
+                              <div className="border-l-2 border-cyan-400/40 pl-6 ml-2">
+                                <p className="text-gray-300 leading-relaxed text-lg py-2">
+                                  {faq.answer}
+                                </p>
+                              </div>
+                            </motion.div>
+                          )}
+                        </AnimatePresence>
+
+                        <div className="flex items-center gap-2 text-cyan-400 text-sm font-medium mt-4">
+                          <span>
+                            {openIndex === i ? "Show less" : "Show more"}
+                          </span>
+                          <motion.i
+                            className={`fas fa-chevron-${
+                              openIndex === i ? "up" : "down"
+                            } text-xs`}
+                            animate={{ rotate: openIndex === i ? 180 : 0 }}
+                            transition={{ duration: 0.3 }}
+                          />
+                        </div>
+                      </button>
                     </div>
                   </motion.div>
-                )}
+                ))}
               </AnimatePresence>
-
-              {/* Bottom accent bar */}
-              <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-blue-500 to-cyan-400 group-hover:from-blue-600 group-hover:to-cyan-500 transition-all duration-300 rounded-b-xl" />
-            </motion.div>
-          ))}
+            </div>
+          </div>
         </div>
 
-        {/* CTA after FAQ */}
+        {/* CTA */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.3 }}
+          transition={{ duration: 0.6, delay: 0.5 }}
           viewport={{ once: true }}
-          className="mt-20 text-center"
+          className="text-center mt-16"
         >
-          <div className="inline-flex flex-col sm:flex-row gap-6 items-center backdrop-blur-sm bg-gradient-to-r from-white/5 to-white/10 rounded-2xl px-8 py-6 border border-cyan-400/30 hover:border-cyan-400/60 transition-all duration-300 hover:shadow-2xl hover:shadow-cyan-500/20">
-            <p className="text-gray-300 text-lg sm:text-xl font-medium text-center sm:text-left">
-              Still have questions? Let's talk.
-            </p>
-            <motion.button
-              className="px-8 py-4 bg-gradient-to-r from-blue-500 to-cyan-400 text-white rounded-xl font-bold hover:from-blue-600 hover:to-cyan-500 transition-all duration-300 flex items-center gap-3 group border border-cyan-400/30 hover:shadow-lg hover:shadow-cyan-500/25 hover:scale-105"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={() => (window.location.href = "/contact")}
-            >
-              <span>Book a Call</span>
-              <i className="fas fa-arrow-right transform group-hover:translate-x-1 transition-transform duration-300" />
-            </motion.button>
-          </div>
+          <p className="text-gray-300 text-lg mb-6">
+            Didn't find your answer? We're here to help.
+          </p>
+          <motion.button
+            className="px-8 py-4 bg-gradient-to-r from-cyan-500 to-blue-500 text-white rounded-xl font-bold text-lg hover:shadow-2xl hover:shadow-cyan-500/25 transition-all duration-300 inline-flex items-center gap-3"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            onClick={() => (window.location.href = "/contact")}
+          >
+            <i className="fas fa-comments" />
+            <span>Ask Your Question</span>
+          </motion.button>
         </motion.div>
       </div>
-
-      {/* Smooth transition to next section */}
-      <div className="absolute bottom-0 left-0 w-full h-20 bg-gradient-to-b from-transparent to-[#00000d]" />
     </section>
   );
 };

@@ -2,24 +2,28 @@ import React from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import collage3D from "/src/assets/auto-logo.png";
-import heroBg from "/src/assets/hero-bg.png"; // add your background image here
+import heroBgPng from "/src/assets/hero-bg.png";
+import heroBgWebp from "/src/assets/hero-bg-optimized.webp";
 
 const HeroSection: React.FC = () => {
   return (
-    <section className="relative min-h-screen flex flex-col items-center justify-center px-6 sm:px-10 overflow-hidden font-[Poppins] bg-[#000719]">
-      {/* Background Image */}
-      <img
-        src={heroBg}
-        alt="Hero background"
-        className="absolute inset-0 w-full h-full object-cover opacity-80 z-[1]"
-      />
+    <section className="relative min-h-screen flex flex-col items-center justify-center px-6 sm:px-10 overflow-hidden font-[Poppins] bg-[#050810]">
+      {/* ===== Background Image with WebP + PNG Fallback ===== */}
+      <picture>
+        <source srcSet={heroBgWebp} type="image/webp" />
+        <img
+          src={heroBgPng}
+          alt="Hero background"
+          className="absolute inset-0 w-full h-full object-cover opacity-80 z-[1]"
+          loading="eager"
+          decoding="async"
+        />
+      </picture>
 
-      {/* Optional gradient overlay for readability */}
-      <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-transparent to-[#000719] z-[2]" />
-
+      {/* ===== Main Content ===== */}
       <div className="relative z-[5] w-full max-w-7xl mx-auto">
         <div className="flex flex-col lg:flex-row items-center justify-between gap-12 lg:gap-8">
-          {/* Left Content */}
+          {/* === Left Content === */}
           <motion.div
             className="flex-1 text-center lg:text-left max-w-2xl lg:max-w-none"
             initial={{ opacity: 0, y: 20 }}
@@ -44,11 +48,11 @@ const HeroSection: React.FC = () => {
                 animate={{ opacity: 1 }}
                 transition={{ duration: 1, delay: 0.4 }}
               >
-                AUTOMATE • CONNECT • INNOVATE
+                Work Less, Let Ai Do the Rest{" "}
               </motion.span>
             </motion.h3>
 
-            {/* CTA Buttons */}
+            {/* === CTA Buttons === */}
             <motion.div
               className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start"
               initial={{ opacity: 0, y: 20 }}
@@ -71,7 +75,7 @@ const HeroSection: React.FC = () => {
               </Link>
             </motion.div>
 
-            {/* Stats */}
+            {/* === Stats === */}
             <motion.div
               className="grid grid-cols-3 gap-6 mt-16 max-w-md mx-auto lg:mx-0"
               initial={{ opacity: 0, scale: 0.95 }}
@@ -96,7 +100,7 @@ const HeroSection: React.FC = () => {
             </motion.div>
           </motion.div>
 
-          {/* Right Image */}
+          {/* === Right Image (3D Collage) === */}
           <motion.div
             className="hidden lg:flex items-center justify-center flex-1"
             initial={{ opacity: 0, scale: 0.9, x: 50 }}
@@ -121,9 +125,6 @@ const HeroSection: React.FC = () => {
           </motion.div>
         </div>
       </div>
-
-      {/* Fade-out at bottom */}
-      <div className="absolute bottom-0 left-0 w-full h-40 bg-gradient-to-b from-transparent to-[#0A0F1A]" />
     </section>
   );
 };

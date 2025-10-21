@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "react-router-dom";
 import { useScrollAnimation } from "../../hooks/useScrollAnimation";
 import { staggerContainer, cardVariants } from "../../utils/animationVariants";
-import bgImg from "../../assets/wavy-bg8.png";
+import bgImg from "../../assets/service-bg.png";
 
 const ServicesSection: React.FC = () => {
   const { ref, isVisible } = useScrollAnimation();
@@ -98,45 +98,52 @@ const ServicesSection: React.FC = () => {
   return (
     <section
       ref={ref}
-      className="relative py-24 sm:py-32 overflow-hidden bg-[#0A0F1A]"
+      className="relative py-24 sm:py-32 overflow-hidden bg-[#050810]"
     >
-      {/* Background image overlapping hero fade */}
-      <div className="absolute inset-0 -top-72 h-[calc(100%+18rem)] z-[1]">
+      {/* Background - Matching Projects section */}
+      <div className="absolute inset-0 z-[1]">
+        <div className="absolute inset-0 bg-gradient-to-b from-[#050810] via-[#0A0F2A] to-[#050810]" />
         <img
           src={bgImg}
           alt="Wavy dots background"
-          className="w-full h-full object-cover opacity-90"
+          className="absolute inset-0 w-full h-full object-cover opacity-30"
         />
-        {/* Smooth gradient blending hero → section (same as hero fade) */}
-        <div className="absolute top-0 left-0 w-full h-72 bg-gradient-to-t from-[#0A0F1A] via-[#0A0F1A]/60 to-transparent" />
-        {/* Bottom fade for continuity into next section */}
-        <div className="absolute bottom-0 left-0 w-full h-72 bg-gradient-to-b from-transparent to-[#00000d]" />
       </div>
 
       <div className="relative z-10 container mx-auto px-6 lg:px-8">
-        {/* Header */}
+        {/* Header - Updated to match Projects section styling */}
         <motion.div
           variants={staggerContainer}
           initial="hidden"
           animate={isVisible ? "visible" : "hidden"}
-          className="max-w-3xl mx-auto text-center mb-20"
+          className="max-w-4xl mx-auto text-center mb-20"
         >
+          <motion.div
+            variants={cardVariants}
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-cyan-400/10 border border-cyan-400/20 mb-6"
+          >
+            <div className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
+            <span className="text-cyan-400 text-sm font-medium">
+              Our Services
+            </span>
+          </motion.div>
+
           <motion.h2
             variants={cardVariants}
-            className="text-4xl sm:text-5xl font-bold mb-6 bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent"
+            className="text-4xl sm:text-6xl font-bold mb-6 bg-gradient-to-r from-cyan-400 via-blue-400 to-cyan-400 bg-clip-text text-transparent"
           >
             Our Services
           </motion.h2>
           <motion.p
             variants={cardVariants}
-            className="text-lg sm:text-xl text-gray-400 leading-relaxed"
+            className="text-xl text-gray-300 leading-relaxed"
           >
             From automation to AI agents — we design smart, scalable solutions
             that elevate every aspect of your business.
           </motion.p>
         </motion.div>
 
-        {/* Enhanced Service Cards */}
+        {/* Enhanced Service Cards - EXACT same card style as original */}
         <motion.div
           variants={staggerContainer}
           initial="hidden"
@@ -150,11 +157,8 @@ const ServicesSection: React.FC = () => {
               custom={index}
               className="relative group"
             >
-              {/* Card with enhanced styling */}
-              <motion.div
-                className="relative bg-gradient-to-br from-[#0F172A]/80 to-[#0F172A]/90 border border-cyan-400/20 rounded-2xl p-8 text-center transition-all duration-500 hover:scale-[1.02] hover:border-cyan-400/40 backdrop-blur-sm shadow-2xl shadow-black/20 hover:shadow-cyan-500/10 overflow-hidden"
-                whileHover={{ y: -5 }}
-              >
+              {/* Card with enhanced styling - EXACT same as original */}
+              <motion.div className="relative bg-gradient-to-br from-[#0F172A]/80 to-[#0F172A]/90 border border-cyan-400/20 rounded-2xl p-8 text-center transition-all duration-500 hover:scale-[1.02] hover:border-cyan-400/40 shadow-2xl shadow-black/20 hover:shadow-cyan-500/10 overflow-hidden">
                 {/* Animated background gradient on hover */}
                 <div className="absolute inset-0 bg-gradient-to-br from-blue-500/0 via-cyan-400/0 to-blue-400/0 group-hover:from-blue-500/5 group-hover:via-cyan-400/3 group-hover:to-blue-400/5 transition-all duration-500 rounded-2xl" />
 
@@ -222,7 +226,7 @@ const ServicesSection: React.FC = () => {
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     exit={{ opacity: 0, y: -5, scale: 0.98 }}
                     transition={{ duration: 0.25, ease: "easeOut" }}
-                    className="absolute z-50 top-4 right-4 w-64 rounded-xl bg-gray-900/95 border border-cyan-400/40 shadow-2xl overflow-hidden backdrop-blur-xl"
+                    className="absolute z-50 top-4 right-4 w-64 rounded-xl bg-gray-900/95 border border-cyan-400/40 shadow-2xl overflow-hidden"
                     style={{ transformOrigin: "top right" }}
                   >
                     <div className="bg-gradient-to-r from-blue-500 to-cyan-400 px-4 py-3">
