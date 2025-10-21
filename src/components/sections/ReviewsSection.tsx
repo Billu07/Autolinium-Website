@@ -56,13 +56,14 @@ const TestimonialsSection: React.FC = () => {
     >
       {/* Background Placeholder - Add your image here */}
       <div className="absolute inset-0 z-[1]">
+        {/*
         <div className="absolute inset-0 bg-gradient-to-b from-[#00000d] via-[#0A0F2A] to-[#05070B]" />
-        {/* Add your background image here */}
+        {/* Add your background image here 
         <img
           src="/src/assets/pro-bg.webp"
           alt=""
           className="absolute inset-0 w-full h-full object-cover opacity-10"
-        />
+        />*/}
       </div>
 
       <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8">
