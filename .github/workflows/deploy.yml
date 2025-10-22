@@ -16,18 +16,21 @@ jobs:
         run: npm install
       - name: Build
         run: npm run build
-      - name: Copy .htaccess (if you added it)
-        run: cp public/.htaccess dist/ # Skip if you don't have this
+      - name: Copy .htaccess
+        run: cp public/.htaccess dist/ || true # Allows workflow to continue if .htaccess is missing
+      - name: List dist contents
+        run: ls -la dist/ # Debug: Check what’s in dist/
       - name: Deploy to Hostinger
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
-          server: 77.37.34.75 # e.g., srv123456.hostinger.com or 185.123.45.67
+          server: 77.37.34.75 # Replace with hostname (e.g., srv123456.hostinger.com) if needed
           username: u966234716
           password: Believe07!!
-          port: 21 # Explicitly set for plain FTP
-          protocol: ftp # Ensures plain FTP (not FTPS/SFTP)
-          local-dir: ./dist/ # Note the ./ for relative path
-          server-dir: public_html/
-          exclude: | # Optional: Exclude unnecessary files
+          port: 21
+          protocol: ftp
+          local-dir: ./dist/
+          server-dir: ./public_html/
+          log-level: verbose # Debug: Detailed FTP logs
+          exclude: |
             **/.git*
             **/node_modules*
