@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
+import bgImg from "/src/assets/pro-bg.png";
 
 const Footer: React.FC = () => {
   const currentYear = new Date().getFullYear();
@@ -40,22 +41,22 @@ const Footer: React.FC = () => {
 
   return (
     <footer className="relative bg-[#050810] border-t border-white/10 overflow-hidden">
-      {/* Background Image Placeholder */}
+      {/* === Background === */}
       <div className="absolute inset-0 z-0">
         <div className="absolute inset-0 bg-gradient-to-b from-[#010205] to-[#000000]" />
-
-        {/* Add your background image here */}
+        {/* ✅ Use imported background image here */}
         <img
-          src="/src/assets/pro-bg.webp"
-          alt=""
+          src={bgImg}
+          alt="Footer background"
           className="absolute inset-0 w-full h-full object-cover opacity-30"
+          loading="lazy"
         />
       </div>
 
-      {/* Main Footer Content */}
+      {/* === Main Footer Content === */}
       <div className="relative z-10 container mx-auto px-6 py-16">
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-12 max-w-7xl mx-auto">
-          {/* Brand Section */}
+          {/* === Brand Section === */}
           <motion.div
             className="lg:col-span-1 text-center lg:text-left"
             initial={{ opacity: 0, y: 20 }}
@@ -80,7 +81,7 @@ const Footer: React.FC = () => {
               businesses through AI-powered tools and custom development.
             </p>
 
-            {/* Social Links */}
+            {/* === Social Links === */}
             <div className="flex justify-center lg:justify-start space-x-3">
               {socialLinks.map((social, index) => (
                 <motion.a
@@ -101,7 +102,7 @@ const Footer: React.FC = () => {
             </div>
           </motion.div>
 
-          {/* Footer Links Sections */}
+          {/* === Footer Links Sections === */}
           {footerSections.map((section, sectionIndex) => (
             <motion.div
               key={section.title}
@@ -141,7 +142,7 @@ const Footer: React.FC = () => {
             </motion.div>
           ))}
 
-          {/* Contact/CTA Section */}
+          {/* === Contact / CTA Section === */}
           <motion.div
             className="text-center lg:text-left"
             initial={{ opacity: 0, y: 20 }}
@@ -190,7 +191,7 @@ const Footer: React.FC = () => {
           </motion.div>
         </div>
 
-        {/* Newsletter Section - Simplified */}
+        {/* === Newsletter Section === */}
         <motion.div
           className="mt-16 pt-12 border-t border-white/10 max-w-4xl mx-auto"
           initial={{ opacity: 0, y: 20 }}
@@ -225,7 +226,7 @@ const Footer: React.FC = () => {
         </motion.div>
       </div>
 
-      {/* Bottom Bar */}
+      {/* === Bottom Bar === */}
       <div className="relative z-10 border-t border-white/10 bg-[#070B15]/80 backdrop-blur-sm">
         <div className="container mx-auto px-6 py-6">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4 text-center md:text-left">

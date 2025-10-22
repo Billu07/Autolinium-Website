@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+// ✅ Import background image properly
+import bgImg from "/src/assets/pro-bg.png";
 
 const testimonials = [
   {
@@ -39,45 +41,41 @@ const testimonials = [
 const TestimonialsSection: React.FC = () => {
   const [activeTestimonial, setActiveTestimonial] = useState(0);
 
-  const nextTestimonial = () => {
+  const nextTestimonial = () =>
     setActiveTestimonial((prev) => (prev + 1) % testimonials.length);
-  };
 
-  const prevTestimonial = () => {
+  const prevTestimonial = () =>
     setActiveTestimonial(
       (prev) => (prev - 1 + testimonials.length) % testimonials.length
     );
-  };
 
-  // Auto-rotate testimonials on mobile for better UX
+  // Auto-rotate testimonials every 5s
   useEffect(() => {
-    const interval = setInterval(() => {
-      nextTestimonial();
-    }, 5000);
-
+    const interval = setInterval(nextTestimonial, 5000);
     return () => clearInterval(interval);
   }, []);
 
   return (
     <section
       id="testimonials"
-      className="relative py-16 sm:py-20 lg:py-24 overflow-hidden bg-[#050810]"
+      className="relative py-14 sm:py-20 lg:py-24 overflow-hidden bg-[#050810]"
     >
-      {/* Background */}
+      {/* === Background === */}
       <div className="absolute inset-0 z-[1]">
         <div className="absolute inset-0 bg-gradient-to-b from-[#00000d] via-[#0A0F2A] to-[#05070B]" />
+        {/* ✅ Imported background image used here */}
         <img
-          src="/src/assets/pro-bg.png"
-          alt=""
+          src={bgImg}
+          alt="Testimonials background"
           className="absolute inset-0 w-full h-full object-cover opacity-20"
           loading="lazy"
         />
       </div>
 
       <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Header */}
+        {/* === Header === */}
         <motion.div
-          className="text-center max-w-3xl mx-auto mb-12 sm:mb-16"
+          className="text-center max-w-3xl mx-auto mb-10 sm:mb-16"
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7 }}
@@ -91,7 +89,7 @@ const TestimonialsSection: React.FC = () => {
           </motion.div>
 
           <motion.h2
-            className="text-3xl sm:text-4xl lg:text-6xl font-bold mb-4 sm:mb-6 bg-gradient-to-r from-cyan-400 via-blue-400 to-cyan-400 bg-clip-text text-transparent px-2"
+            className="text-3xl sm:text-4xl lg:text-6xl font-bold mb-4 sm:mb-6 bg-gradient-to-r from-cyan-400 via-blue-400 to-cyan-400 bg-clip-text text-transparent px-1 sm:px-0"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.1 }}
@@ -101,11 +99,9 @@ const TestimonialsSection: React.FC = () => {
           </motion.h2>
         </motion.div>
 
-        {/* Interactive Testimonial Carousel */}
+        {/* === Testimonial Carousel === */}
         <div className="max-w-6xl mx-auto">
-          {/* Main Testimonial Display */}
-          <div className="relative bg-gradient-to-br from-white/5 to-white/10 rounded-2xl sm:rounded-3xl p-6 sm:p-8 lg:p-12 border border-white/20 mb-8 sm:mb-12 overflow-hidden">
-            {/* Background Pattern */}
+          <div className="relative bg-gradient-to-br from-white/5 to-white/10 rounded-2xl sm:rounded-3xl p-5 sm:p-8 lg:p-12 border border-white/20 mb-8 sm:mb-12 overflow-hidden">
             <div className="absolute inset-0 opacity-5">
               <div className="absolute inset-0 bg-gradient-to-r from-cyan-400/20 to-blue-400/20 blur-3xl" />
             </div>
@@ -120,9 +116,9 @@ const TestimonialsSection: React.FC = () => {
                 className="relative z-10"
               >
                 <div className="flex flex-col lg:flex-row gap-6 sm:gap-8 items-center">
-                  {/* Client Avatar - Letter-based */}
-                  <div className="order-2 lg:order-1 text-center lg:text-right lg:w-1/3">
-                    <div className="inline-block text-center">
+                  {/* === Avatar === */}
+                  <div className="order-2 lg:order-1 text-center lg:text-right lg:w-1/3 w-full">
+                    <div className="inline-block text-center w-full">
                       <div className="w-16 h-16 sm:w-20 sm:h-20 lg:w-24 lg:h-24 mx-auto rounded-full bg-gradient-to-br from-cyan-500 to-blue-500 flex items-center justify-center border-2 border-cyan-400/50 mb-3 sm:mb-4 shadow-lg shadow-cyan-500/25">
                         <span className="text-white text-xl sm:text-2xl lg:text-3xl font-bold">
                           {testimonials[activeTestimonial].initial}
@@ -131,82 +127,79 @@ const TestimonialsSection: React.FC = () => {
                       <h4 className="text-lg sm:text-xl font-bold text-white mb-1 sm:mb-2">
                         {testimonials[activeTestimonial].name}
                       </h4>
-                      <p className="text-cyan-400 font-medium text-sm sm:text-base">
+                      <p className="text-cyan-400 font-medium text-sm sm:text-base px-2">
                         {testimonials[activeTestimonial].role}
                       </p>
                     </div>
                   </div>
 
-                  {/* Quote Side */}
-                  <div className="order-1 lg:order-2 text-center lg:text-left lg:w-2/3">
-                    <div className="flex justify-center lg:justify-start mb-4 sm:mb-6">
+                  {/* === Quote === */}
+                  <div className="order-1 lg:order-2 text-center lg:text-left lg:w-2/3 w-full">
+                    <div className="flex justify-center lg:justify-start mb-3 sm:mb-6">
                       {[...Array(5)].map((_, i) => (
                         <i
                           key={i}
-                          className="fas fa-star text-yellow-400 text-sm sm:text-lg mx-1"
+                          className="fas fa-star text-yellow-400 text-sm sm:text-lg mx-0.5 sm:mx-1"
                         />
                       ))}
                     </div>
 
-                    <h3 className="text-xl sm:text-2xl lg:text-3xl font-bold text-white mb-4 sm:mb-6 leading-tight px-2 sm:px-0">
+                    <h3 className="text-lg sm:text-2xl lg:text-3xl font-bold text-white mb-3 sm:mb-6 leading-snug sm:leading-tight px-2 sm:px-0">
                       "{testimonials[activeTestimonial].quote}"
                     </h3>
 
-                    {/* Results Metrics */}
-                    <div className="flex flex-wrap gap-2 sm:gap-3 justify-center lg:justify-start">
-                      {testimonials[activeTestimonial].results.map(
-                        (result, index) => (
-                          <motion.span
-                            key={result}
-                            initial={{ opacity: 0, scale: 0.8 }}
-                            animate={{ opacity: 1, scale: 1 }}
-                            transition={{ duration: 0.3, delay: index * 0.1 }}
-                            className="px-3 py-1.5 sm:px-4 sm:py-2 bg-cyan-400/10 border border-cyan-400/30 rounded-full text-cyan-300 text-xs sm:text-sm font-medium"
-                          >
-                            {result}
-                          </motion.span>
-                        )
-                      )}
+                    <div className="flex flex-wrap gap-2 sm:gap-3 justify-center lg:justify-start px-2 sm:px-0">
+                      {testimonials[activeTestimonial].results.map((r, i) => (
+                        <motion.span
+                          key={r}
+                          initial={{ opacity: 0, scale: 0.8 }}
+                          animate={{ opacity: 1, scale: 1 }}
+                          transition={{ duration: 0.3, delay: i * 0.1 }}
+                          className="px-3 py-1.5 sm:px-4 sm:py-2 bg-cyan-400/10 border border-cyan-400/30 rounded-full text-cyan-300 text-xs sm:text-sm font-medium"
+                        >
+                          {r}
+                        </motion.span>
+                      ))}
                     </div>
                   </div>
                 </div>
               </motion.div>
             </AnimatePresence>
 
-            {/* Navigation Arrows - Mobile Optimized */}
+            {/* === Nav Arrows === */}
             <button
               onClick={prevTestimonial}
-              className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 rounded-full bg-gradient-to-r from-cyan-500 to-blue-500 text-white flex items-center justify-center hover:scale-110 active:scale-95 transition-all duration-300 shadow-lg shadow-cyan-500/25 touch-manipulation"
+              className="absolute left-2 sm:left-4 top-[calc(50%-1rem)] sm:top-1/2 -translate-y-1/2 w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 rounded-full bg-gradient-to-r from-cyan-500 to-blue-500 text-white flex items-center justify-center hover:scale-110 active:scale-95 transition-all duration-300 shadow-lg shadow-cyan-500/25 touch-manipulation"
               aria-label="Previous testimonial"
             >
               <i className="fas fa-chevron-left text-xs sm:text-sm" />
             </button>
             <button
               onClick={nextTestimonial}
-              className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 rounded-full bg-gradient-to-r from-cyan-500 to-blue-500 text-white flex items-center justify-center hover:scale-110 active:scale-95 transition-all duration-300 shadow-lg shadow-cyan-500/25 touch-manipulation"
+              className="absolute right-2 sm:right-4 top-[calc(50%-1rem)] sm:top-1/2 -translate-y-1/2 w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 rounded-full bg-gradient-to-r from-cyan-500 to-blue-500 text-white flex items-center justify-center hover:scale-110 active:scale-95 transition-all duration-300 shadow-lg shadow-cyan-500/25 touch-manipulation"
               aria-label="Next testimonial"
             >
               <i className="fas fa-chevron-right text-xs sm:text-sm" />
             </button>
           </div>
 
-          {/* Testimonial Indicators */}
+          {/* === Dots === */}
           <div className="flex justify-center items-center gap-3 sm:gap-4 mb-8 sm:mb-12">
-            {testimonials.map((_, index) => (
+            {testimonials.map((_, i) => (
               <button
-                key={index}
-                onClick={() => setActiveTestimonial(index)}
+                key={i}
+                onClick={() => setActiveTestimonial(i)}
                 className={`w-2 h-2 sm:w-3 sm:h-3 rounded-full transition-all duration-300 touch-manipulation ${
-                  activeTestimonial === index
+                  activeTestimonial === i
                     ? "bg-gradient-to-r from-cyan-500 to-blue-500 scale-125"
                     : "bg-gray-600 hover:bg-gray-500"
                 }`}
-                aria-label={`Go to testimonial ${index + 1}`}
+                aria-label={`Go to testimonial ${i + 1}`}
               />
             ))}
           </div>
 
-          {/* Stats Bar */}
+          {/* === Stats Bar === */}
           <motion.div
             className="grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-6 max-w-4xl mx-auto mb-8 sm:mb-12"
             initial={{ opacity: 0, y: 30 }}
@@ -219,12 +212,12 @@ const TestimonialsSection: React.FC = () => {
               { number: "98%", label: "Satisfaction" },
               { number: "24/7", label: "Support" },
               { number: "5.0", label: "Rating" },
-            ].map((stat, index) => (
+            ].map((stat, i) => (
               <motion.div
                 key={stat.label}
                 initial={{ opacity: 0, scale: 0.8 }}
                 whileInView={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
+                transition={{ duration: 0.5, delay: i * 0.1 }}
                 className="text-center group p-2 sm:p-0"
               >
                 <div className="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-cyan-400 to-blue-400 bg-clip-text text-transparent mb-1 sm:mb-2">
@@ -237,7 +230,7 @@ const TestimonialsSection: React.FC = () => {
             ))}
           </motion.div>
 
-          {/* CTA */}
+          {/* === CTA === */}
           <motion.div
             className="text-center"
             initial={{ opacity: 0, y: 30 }}

@@ -108,8 +108,7 @@ const OurProjectsSection: React.FC = () => {
   const filteredProjects =
     activeCategory === "all"
       ? projects
-      : projects.filter((project) => project.category === activeCategory);
-
+      : projects.filter((p) => p.category === activeCategory);
   const projectsPerPage = 3;
   const totalPages = Math.ceil(filteredProjects.length / projectsPerPage);
   const startIndex = currentPage * projectsPerPage;
@@ -121,18 +120,17 @@ const OurProjectsSection: React.FC = () => {
   const nextPage = () => setCurrentPage((prev) => (prev + 1) % totalPages);
   const prevPage = () =>
     setCurrentPage((prev) => (prev - 1 + totalPages) % totalPages);
-
-  const handleCategoryChange = (categoryId: string) => {
-    setActiveCategory(categoryId);
+  const handleCategoryChange = (id: string) => {
+    setActiveCategory(id);
     setCurrentPage(0);
   };
 
   return (
     <section
-      className="relative py-20 sm:py-32 overflow-hidden bg-[#050810]"
       id="projects"
+      className="relative py-16 sm:py-24 md:py-32 overflow-hidden bg-[#050810]"
     >
-      {/* Background - FIXED: Added the bgImg */}
+      {/* === Background === */}
       <div className="absolute inset-0 z-[1]">
         <div className="absolute inset-0 bg-gradient-to-b from-[#050810] via-[#0A0F2A] to-[#00000d]" />
         <img
@@ -144,16 +142,16 @@ const OurProjectsSection: React.FC = () => {
       </div>
 
       <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Header */}
+        {/* === Header === */}
         <motion.div
           variants={staggerContainer}
           initial="hidden"
           animate="visible"
-          className="max-w-4xl mx-auto text-center mb-12 sm:mb-16"
+          className="max-w-4xl mx-auto text-center mb-10 sm:mb-16"
         >
           <motion.div
             variants={cardVariants}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-cyan-400/10 border border-cyan-400/20 mb-6"
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-cyan-400/10 border border-cyan-400/20 mb-5 sm:mb-6"
           >
             <div className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
             <span className="text-cyan-400 text-sm font-medium">
@@ -163,59 +161,57 @@ const OurProjectsSection: React.FC = () => {
 
           <motion.h2
             variants={cardVariants}
-            className="text-3xl sm:text-5xl lg:text-6xl font-bold mb-6 bg-gradient-to-r from-cyan-400 via-blue-400 to-cyan-400 bg-clip-text text-transparent"
+            className="text-3xl sm:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6 bg-gradient-to-r from-cyan-400 via-blue-400 to-cyan-400 bg-clip-text text-transparent"
           >
             Built & Deployed
           </motion.h2>
         </motion.div>
 
-        {/* Category Filter */}
+        {/* === Category Filter === */}
         <motion.div
           variants={staggerContainer}
           initial="hidden"
           animate="visible"
-          className="flex overflow-x-auto pb-4 mb-8 sm:mb-12 scrollbar-hide sm:justify-center gap-2 sm:gap-3"
+          className="flex overflow-x-auto pb-3 sm:pb-4 mb-8 sm:mb-12 scrollbar-hide gap-2 sm:gap-3 -mx-2 sm:mx-0 px-2 sm:px-0"
         >
-          {categories.map((category) => (
+          {categories.map((c) => (
             <motion.button
-              key={category.id}
+              key={c.id}
               variants={cardVariants}
-              onClick={() => handleCategoryChange(category.id)}
-              className={`flex-shrink-0 px-4 sm:px-6 py-2 sm:py-3 rounded-full font-medium transition-all duration-300 border ${
-                activeCategory === category.id
+              onClick={() => handleCategoryChange(c.id)}
+              className={`flex-shrink-0 px-4 sm:px-6 py-2 sm:py-3 rounded-full font-medium transition-all duration-300 border whitespace-nowrap ${
+                activeCategory === c.id
                   ? "bg-gradient-to-r from-cyan-500 to-blue-500 text-white border-transparent shadow-lg shadow-cyan-500/25"
                   : "bg-white/5 text-gray-400 border-white/10 hover:border-cyan-400/40 hover:text-cyan-300"
               }`}
             >
-              {category.label}
-              <span className="ml-2 text-xs opacity-70">
-                ({category.count})
-              </span>
+              {c.label}
+              <span className="ml-1 text-xs opacity-70">({c.count})</span>
             </motion.button>
           ))}
         </motion.div>
 
-        {/* Carousel */}
+        {/* === Carousel === */}
         <div className="relative max-w-6xl mx-auto">
-          {/* Navigation Arrows */}
           {totalPages > 1 && (
             <>
+              {/* Arrows reposition for mobile */}
               <button
                 onClick={prevPage}
-                className="absolute -left-4 sm:-left-8 top-1/2 -translate-y-1/2 z-20 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-gradient-to-r from-cyan-500 to-blue-500 text-white flex items-center justify-center shadow-lg shadow-cyan-500/25 hover:shadow-cyan-500/40 transition-all duration-300 hover:scale-110"
+                className="absolute left-2 sm:-left-8 top-[calc(50%-1rem)] sm:top-1/2 -translate-y-1/2 z-20 w-9 h-9 sm:w-12 sm:h-12 rounded-full bg-gradient-to-r from-cyan-500 to-blue-500 text-white flex items-center justify-center shadow-lg shadow-cyan-500/25 hover:shadow-cyan-500/40 transition-all duration-300 hover:scale-110"
               >
                 <i className="fas fa-chevron-left text-sm sm:text-base" />
               </button>
               <button
                 onClick={nextPage}
-                className="absolute -right-4 sm:-right-8 top-1/2 -translate-y-1/2 z-20 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-gradient-to-r from-cyan-500 to-blue-500 text-white flex items-center justify-center shadow-lg shadow-cyan-500/25 hover:shadow-cyan-500/40 transition-all duration-300 hover:scale-110"
+                className="absolute right-2 sm:-right-8 top-[calc(50%-1rem)] sm:top-1/2 -translate-y-1/2 z-20 w-9 h-9 sm:w-12 sm:h-12 rounded-full bg-gradient-to-r from-cyan-500 to-blue-500 text-white flex items-center justify-center shadow-lg shadow-cyan-500/25 hover:shadow-cyan-500/40 transition-all duration-300 hover:scale-110"
               >
                 <i className="fas fa-chevron-right text-sm sm:text-base" />
               </button>
             </>
           )}
 
-          {/* Project Cards */}
+          {/* Cards grid */}
           <div className="relative overflow-hidden">
             <AnimatePresence mode="wait">
               <motion.div
@@ -224,17 +220,17 @@ const OurProjectsSection: React.FC = () => {
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: -20 }}
                 transition={{ duration: 0.4 }}
-                className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8"
+                className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-8"
               >
-                {currentProjects.map((project, index) => (
+                {currentProjects.map((p, i) => (
                   <motion.div
-                    key={project.title}
+                    key={p.title}
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.4, delay: index * 0.1 }}
+                    transition={{ duration: 0.4, delay: i * 0.1 }}
                     className="group relative"
                   >
-                    <div className="relative bg-white/5 backdrop-blur-md rounded-2xl p-6 border border-white/20 shadow-2xl shadow-black/20 hover:shadow-cyan-500/10 transition-all duration-500 hover:scale-105 overflow-hidden">
+                    <div className="relative bg-white/5 backdrop-blur-md rounded-2xl p-5 sm:p-6 border border-white/20 shadow-2xl shadow-black/20 hover:shadow-cyan-500/10 transition-all duration-500 hover:scale-105 overflow-hidden">
                       <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-white/5 rounded-2xl" />
                       <div className="absolute inset-0 bg-gradient-to-br from-cyan-400/0 via-blue-500/0 to-cyan-400/0 group-hover:from-cyan-400/5 group-hover:via-blue-500/3 group-hover:to-cyan-400/5 transition-all duration-500 rounded-2xl" />
 
@@ -243,34 +239,34 @@ const OurProjectsSection: React.FC = () => {
                           <div className="flex items-center gap-2">
                             <div className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
                             <span className="text-xs text-green-400 font-medium">
-                              {project.status}
+                              {p.status}
                             </span>
                           </div>
-                          <div className="text-lg text-cyan-400/20 group-hover:text-cyan-400/40 transition-colors duration-300">
-                            #{startIndex + index + 1}
+                          <div className="text-sm sm:text-lg text-cyan-400/20 group-hover:text-cyan-400/40 transition-colors duration-300">
+                            #{startIndex + i + 1}
                           </div>
                         </div>
 
-                        <h3 className="text-xl font-bold text-white mb-3 group-hover:text-cyan-100 transition-colors duration-300 line-clamp-2">
-                          {project.title}
+                        <h3 className="text-lg sm:text-xl font-bold text-white mb-2 sm:mb-3 group-hover:text-cyan-100 transition-colors duration-300 line-clamp-2">
+                          {p.title}
                         </h3>
 
                         <p className="text-gray-300 text-sm leading-relaxed mb-4 line-clamp-3">
-                          {project.description}
+                          {p.description}
                         </p>
 
-                        <div className="flex flex-wrap gap-2 mb-6">
-                          {project.tech.map((tech) => (
+                        <div className="flex flex-wrap gap-2 mb-5 sm:mb-6">
+                          {p.tech.map((t) => (
                             <span
-                              key={tech}
+                              key={t}
                               className="px-3 py-1 text-xs rounded-full bg-cyan-400/10 text-cyan-400 border border-cyan-400/20 backdrop-blur-sm"
                             >
-                              {tech}
+                              {t}
                             </span>
                           ))}
                         </div>
 
-                        <button className="w-full py-3 rounded-xl bg-white/5 hover:bg-cyan-400/10 border border-white/10 hover:border-cyan-400/30 text-gray-300 hover:text-cyan-400 transition-all duration-300 font-medium text-sm backdrop-blur-sm">
+                        <button className="w-full py-2.5 sm:py-3 rounded-xl bg-white/5 hover:bg-cyan-400/10 border border-white/10 hover:border-cyan-400/30 text-gray-300 hover:text-cyan-400 transition-all duration-300 font-medium text-sm backdrop-blur-sm">
                           View Case Study
                         </button>
                       </div>
@@ -284,12 +280,12 @@ const OurProjectsSection: React.FC = () => {
           {/* Pagination Dots */}
           {totalPages > 1 && (
             <div className="flex justify-center items-center gap-2 mt-8 sm:mt-12">
-              {Array.from({ length: totalPages }).map((_, index) => (
+              {Array.from({ length: totalPages }).map((_, i) => (
                 <button
-                  key={index}
-                  onClick={() => setCurrentPage(index)}
-                  className={`w-3 h-3 rounded-full transition-all duration-300 ${
-                    currentPage === index
+                  key={i}
+                  onClick={() => setCurrentPage(i)}
+                  className={`w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full transition-all duration-300 ${
+                    currentPage === i
                       ? "bg-gradient-to-r from-cyan-500 to-blue-500 scale-125"
                       : "bg-gray-600 hover:bg-gray-500"
                   }`}
@@ -298,16 +294,9 @@ const OurProjectsSection: React.FC = () => {
             </div>
           )}
         </div>
-
-        <motion.div
-          variants={staggerContainer}
-          initial="hidden"
-          animate="visible"
-          className="text-center mt-8 sm:mt-12"
-        />
       </div>
 
-      {/* Custom scrollbar hide utility */}
+      {/* Scrollbar hide + line clamp utility */}
       <style>{`
         .scrollbar-hide {
           -ms-overflow-style: none;
