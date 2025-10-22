@@ -2,7 +2,7 @@ import React from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 //import bgPattern from "../../assets/project-bg1.png";
-import brain3D from "../../assets/ai-brain.png";
+import brain3D from "../../assets/ai-brain.webp";
 
 const CTASection: React.FC = () => {
   return (
@@ -12,7 +12,7 @@ const CTASection: React.FC = () => {
     >
       {/* Background */}
       <div className="absolute inset-0 z-[1]">
-        <div className="absolute inset-0 bg-gradient-to-br from-[#050810] via-[#0A0F2A] to-[#050810]" />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#050810] via-[#0A0F2A] to-[#05070B]" />
         {/* Add your background image here */}
         {/* <img src={bgPattern} alt="tech pattern background" className="absolute inset-0 w-full h-full object-cover opacity-10" /> */}
       </div>

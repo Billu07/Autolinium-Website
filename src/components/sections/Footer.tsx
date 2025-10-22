@@ -42,14 +42,14 @@ const Footer: React.FC = () => {
     <footer className="relative bg-[#050810] border-t border-white/10 overflow-hidden">
       {/* Background Image Placeholder */}
       <div className="absolute inset-0 z-0">
-        <div className="absolute inset-0 bg-gradient-to-b from-[#050810] via-[#050810]/95 to-[#050810]" />
-        {/*
-        {/* Add your background image here 
+        <div className="absolute inset-0 bg-gradient-to-b from-[#010205] to-[#000000]" />
+
+        {/* Add your background image here */}
         <img
-          src="/src/assets/footer-bg.png"
+          src="/src/assets/pro-bg.webp"
           alt=""
-          className="absolute inset-0 w-full h-full object-cover opacity-10"
-        />*/}
+          className="absolute inset-0 w-full h-full object-cover opacity-30"
+        />
       </div>
 
       {/* Main Footer Content */}
@@ -168,7 +168,7 @@ const Footer: React.FC = () => {
                 whileHover={{ x: 5 }}
               >
                 <i className="fas fa-phone mr-3"></i>
-                +1 (123) 456-7890
+                +880 1742-425796
               </motion.a>
 
               <motion.div
@@ -182,7 +182,7 @@ const Footer: React.FC = () => {
                   to="/contact"
                   className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-cyan-500 to-blue-500 text-white rounded-xl text-sm font-semibold hover:shadow-lg hover:shadow-cyan-500/25 transition-all duration-300 group"
                 >
-                  <span>Start Project</span>
+                  <span>Let's Have a Talk</span>
                   <i className="fas fa-arrow-right ml-2 group-hover:translate-x-1 transition-transform duration-300"></i>
                 </Link>
               </motion.div>

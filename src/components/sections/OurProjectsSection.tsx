@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { staggerContainer, cardVariants } from "../../utils/animationVariants";
-import bgImg from "../../assets/project-bg1.png";
+import bgImg from "../../assets/pro-bg-ff.png";
 
 const OurProjectsSection: React.FC = () => {
   const [activeCategory, setActiveCategory] = useState("all");
@@ -132,12 +132,14 @@ const OurProjectsSection: React.FC = () => {
       className="relative py-20 sm:py-32 overflow-hidden bg-[#050810]"
       id="projects"
     >
-      {/* Background */}
+      {/* Background - FIXED: Added the bgImg */}
       <div className="absolute inset-0 z-[1]">
         <div className="absolute inset-0 bg-gradient-to-b from-[#050810] via-[#0A0F2A] to-[#00000d]" />
-        <div
-          className="absolute inset-0 opacity-40 bg-cover bg-bottom"
-          style={{ backgroundImage: `url(${bgImg})` }}
+        <img
+          src={bgImg}
+          alt="Projects background"
+          className="absolute inset-0 w-full h-full object-cover opacity-20"
+          loading="lazy"
         />
       </div>
 

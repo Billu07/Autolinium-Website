@@ -6,6 +6,7 @@ import FAQSection from "./FAQSection";
 import CTASection from "./CTASection";
 import SlidingTextSection from "./SlidingTextSection";
 import OurProjectsSection from "./OurProjectsSection";
+import WhyChooseUs from "./WhyChooseUs";
 //import StatsSection from "./StatsSection";
 
 const Home: React.FC = () => {
@@ -15,6 +16,7 @@ const Home: React.FC = () => {
       <ServicesSection />
       <OurProjectsSection />
       <TestimonialsSection />
+      <WhyChooseUs />
       <SlidingTextSection />
       <CTASection />
       <FAQSection />
