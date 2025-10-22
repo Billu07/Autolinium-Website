@@ -29,7 +29,7 @@ jobs:
           port: 21
           protocol: ftp
           local-dir: ./dist/
-          server-dir: ./
+         server-dir: /domains/autolinium.com/public_html/
           log-level: verbose # Debug: Detailed FTP logs
           exclude: |
             **/.git*
