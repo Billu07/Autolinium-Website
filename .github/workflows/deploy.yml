@@ -1,0 +1,28 @@
+name: Deploy to Hostinger
+on:
+  push:
+    branches: [main]
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: Install dependencies
+        run: npm install
+      - name: Build
+        run: npm run build
+      - name: Copy .htaccess
+        run: cp public/.htaccess dist/
+      - name: Deploy to Hostinger
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ftp.autolinium.com
+          username: u966234716.u1970autolinium
+          password: Believe07!!
+          local-dir: dist/
+          server-dir: public_html/

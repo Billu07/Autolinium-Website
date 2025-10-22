@@ -7,7 +7,7 @@ import heroBgWebp from "/src/assets/hero-bg-optimized.webp";
 
 const HeroSection: React.FC = () => {
   return (
-    <section className="relative min-h-screen flex flex-col items-center justify-center px-6 sm:px-10 overflow-hidden font-[Poppins] bg-[#050810]">
+    <section className="relative min-h-screen flex flex-col items-center justify-center px-4 sm:px-6 md:px-8 lg:px-10 overflow-hidden font-[Poppins] bg-[#050810] pt-16">
       {/* ===== Background Image with WebP + PNG Fallback ===== */}
       <picture>
         <source srcSet={heroBgWebp} type="image/webp" />
@@ -17,90 +17,91 @@ const HeroSection: React.FC = () => {
           className="absolute inset-0 w-full h-full object-cover opacity-80 z-[1]"
           loading="eager"
           decoding="async"
+          sizes="100vw"
         />
       </picture>
 
       {/* ===== Main Content ===== */}
-      <div className="relative z-[5] w-full max-w-7xl mx-auto">
-        <div className="flex flex-col lg:flex-row items-center justify-between gap-12 lg:gap-8">
+      <div className="relative z-[5] w-full max-w-7xl mx-auto flex items-center justify-center min-h-[calc(100vh-4rem)]">
+        <div className="flex flex-col lg:flex-row items-center justify-between gap-8 lg:gap-12 w-full">
           {/* === Left Content === */}
           <motion.div
-            className="flex-1 text-center lg:text-left max-w-2xl lg:max-w-none"
+            className="flex-1 text-center lg:text-left max-w-2xl lg:max-w-none w-full"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, ease: "easeOut" }}
           >
             <motion.h3
-              className="text-4xl sm:text-6xl md:text-7xl font-regular leading-tight mb-6 text-white"
+              className="text-3xl xs:text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-regular leading-tight mb-4 sm:mb-6 text-white"
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1, delay: 0.2, ease: "easeOut" }}
             >
-              <span className="block">
+              <span className="block text-[2.5rem] xs:text-[3rem] sm:text-[4rem] md:text-[5rem] lg:text-[6rem] leading-[1.1]">
                 Using <span className="text-cyan-400">Ai</span> to
               </span>
-              <span className="block">
+              <span className="block text-[2.5rem] xs:text-[3rem] sm:text-[4rem] md:text-[5rem] lg:text-[6rem] leading-[1.1] mt-2">
                 Improve <span className="text-cyan-400">Your Business</span>
               </span>
               <motion.span
-                className="block mt-2 text-xl sm:text-2xl md:text-3xl font-light tracking-wider text-white"
+                className="block mt-4 sm:mt-6 text-lg sm:text-xl md:text-2xl lg:text-3xl font-light tracking-wide sm:tracking-wider text-white/90 leading-relaxed"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 1, delay: 0.4 }}
               >
-                Work Less, Let Ai Do the Rest{" "}
+                Work Less, Let Ai Do the Rest
               </motion.span>
             </motion.h3>
 
-            {/* === CTA Buttons === */}
+            {/* === CTA Buttons - Keeping Original Styling === */}
             <motion.div
-              className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start"
+              className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start mt-8 sm:mt-10"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1, delay: 0.6, ease: "easeOut" }}
             >
               <Link
                 to="/services"
-                className="inline-flex items-center justify-center px-8 py-4 rounded-xl text-lg font-bold text-white bg-cyan-600 shadow-lg shadow-blue-500/10 hover:shadow-blue-500/20 hover:scale-105 transition-all duration-300"
+                className="inline-flex items-center justify-center px-8 py-4 rounded-xl text-lg font-bold text-white bg-cyan-600 shadow-lg shadow-blue-500/10 hover:shadow-blue-500/20 hover:scale-105 transition-all duration-300 touch-manipulation"
               >
                 Explore Our Services
                 <i className="fas fa-arrow-right ml-2"></i>
               </Link>
               <Link
                 to="/contact"
-                className="inline-flex items-center justify-center px-8 py-4 rounded-xl text-lg font-semibold text-white border border-gray-600 hover:border-cyan-400 hover:bg-cyan-400/5 hover:scale-105 backdrop-blur-sm transition-all duration-300"
+                className="inline-flex items-center justify-center px-8 py-4 rounded-xl text-lg font-semibold text-white border border-gray-600 hover:border-cyan-400 hover:bg-cyan-400/5 hover:scale-105 backdrop-blur-sm transition-all duration-300 touch-manipulation"
               >
                 <i className="fas fa-calendar-alt mr-2"></i>
                 Book Demo
               </Link>
             </motion.div>
-
-            {/* === Stats === */}
-            <motion.div
-              className="grid grid-cols-3 gap-6 mt-16 max-w-md mx-auto lg:mx-0"
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 1, delay: 0.8, ease: "easeOut" }}
-            >
-              {[
-                { number: "50%", label: "Cost Reduction" },
-                { number: "24/7", label: "AI Support" },
-                { number: "99%", label: "Accuracy" },
-              ].map((stat, i) => (
-                <div
-                  key={i}
-                  className="text-center p-4 rounded-2xl bg-white/5 backdrop-blur-sm border border-white/10 hover:border-cyan-400/20 transition-all duration-300"
-                >
-                  <div className="text-xl font-bold text-cyan-400 mb-1">
-                    {stat.number}
-                  </div>
-                  <div className="text-sm text-gray-400">{stat.label}</div>
-                </div>
-              ))}
-            </motion.div>
           </motion.div>
 
-          {/* === Right Image (3D Collage) === */}
+          {/* === Right Image (3D Collage) - Mobile Version === */}
+          <motion.div
+            className="flex lg:hidden items-center justify-center w-full mt-8 sm:mt-12 max-w-xs sm:max-w-md mx-auto"
+            initial={{ opacity: 0, scale: 0.9, y: 30 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            transition={{ duration: 1, delay: 0.4, ease: "easeOut" }}
+          >
+            <motion.img
+              src={collage3D}
+              alt="AI Automation Tools Collage"
+              className="w-full h-auto drop-shadow-[0_0_60px_rgba(34,211,238,0.4)]"
+              animate={{
+                rotate: [0, 1.5, -1.5, 0],
+                scale: [1, 1.05, 1],
+                y: [0, -10, 0],
+              }}
+              transition={{
+                duration: 6,
+                repeat: Infinity,
+                ease: "easeInOut",
+              }}
+            />
+          </motion.div>
+
+          {/* === Desktop Image (3D Collage) === */}
           <motion.div
             className="hidden lg:flex items-center justify-center flex-1"
             initial={{ opacity: 0, scale: 0.9, x: 50 }}
@@ -125,6 +126,39 @@ const HeroSection: React.FC = () => {
           </motion.div>
         </div>
       </div>
+
+      {/* === Scroll Indicator for Mobile === */}
+      <motion.div
+        className="absolute bottom-6 left-1/2 transform -translate-x-1/2 hidden sm:flex flex-col items-center text-white/60"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 1.5 }}
+      >
+        <span className="text-xs mb-2">Scroll to explore</span>
+        <motion.div
+          className="w-5 h-8 border-2 border-white/30 rounded-full flex justify-center"
+          animate={{
+            y: [0, 8, 0],
+          }}
+          transition={{
+            duration: 2,
+            repeat: Infinity,
+            ease: "easeInOut",
+          }}
+        >
+          <motion.div
+            className="w-1 h-2 bg-white/50 rounded-full mt-2"
+            animate={{
+              opacity: [0.5, 1, 0.5],
+            }}
+            transition={{
+              duration: 2,
+              repeat: Infinity,
+              ease: "easeInOut",
+            }}
+          />
+        </motion.div>
+      </motion.div>
     </section>
   );
 };
