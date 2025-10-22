@@ -21,7 +21,7 @@ jobs:
       - name: Deploy to Hostinger
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
-          server: ftp://77.37.34.75 # e.g., srv123456.hostinger.com or 185.123.45.67
+          server: 77.37.34.75 # e.g., srv123456.hostinger.com or 185.123.45.67
           username: u966234716
           password: Believe07!!
           port: 21 # Explicitly set for plain FTP
