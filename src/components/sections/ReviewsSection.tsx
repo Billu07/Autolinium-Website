@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-// ✅ Import background image properly
-import bgImg from "/src/assets/pro-bg.png";
+import bgImg from "/src/assets/pro-bg.webp";
 
 const testimonials = [
   {

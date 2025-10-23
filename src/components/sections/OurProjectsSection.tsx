@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { staggerContainer, cardVariants } from "../../utils/animationVariants";
-import bgImg from "../../assets/pro-bg-ff.png";
+import bgImg from "../../assets/pro-bg-ff.webp";
 
 const OurProjectsSection: React.FC = () => {
   const [activeCategory, setActiveCategory] = useState("all");

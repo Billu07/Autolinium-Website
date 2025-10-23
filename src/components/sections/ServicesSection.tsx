@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "react-router-dom";
 import { useScrollAnimation } from "../../hooks/useScrollAnimation";
 import { staggerContainer, cardVariants } from "../../utils/animationVariants";
-import bgImg from "../../assets/service-bg.png";
+import bgImg from "../../assets/service-bg.webp";
 
 const ServicesSection: React.FC = () => {
   const { ref, isVisible } = useScrollAnimation();

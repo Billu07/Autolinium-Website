@@ -1,6 +1,6 @@
 import React from "react";
 import { motion } from "framer-motion";
-import globe2D from "/src/assets/globe.png";
+import globe2D from "/src/assets/globe.webp";
 import { Link } from "react-router-dom";
 
 const WhyChooseUs: React.FC = () => {
