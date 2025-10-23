@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import heroBg from "../../assets/hero-bg3.png";
+import heroBg from "../../assets/hero-bg3.webp";
 
 const faqs = [
   {

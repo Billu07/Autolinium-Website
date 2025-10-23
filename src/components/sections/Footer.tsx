@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import bgImg from "/src/assets/pro-bg.png";
+import bgImg from "/src/assets/pro-bg.webp";
 
 const Footer: React.FC = () => {
   const currentYear = new Date().getFullYear();
