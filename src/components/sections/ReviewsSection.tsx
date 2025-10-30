@@ -1,39 +1,66 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import bgImg from "/src/assets/pro-bg.webp";
 
+// Import company logos (you'll need to add these images to your assets folder)
+import kreaLogo from "/src/assets/company-logos/krea-logo.webp";
+import smallbayLogo from "/src/assets/company-logos/smallbay-logo.webp";
+import flyironbirdLogo from "/src/assets/company-logos/fly-iron-bird-logo.webp";
+import makeLogo from "/src/assets/company-logos/make-logo.webp";
+
 const testimonials = [
   {
-    name: "Danial Doubo",
-    role: "Founder, Smartrank",
+    name: "Murali Barathi",
+    role: "Founder & CEO, Krea Business Advisory",
     quote:
-      "Autolinium transformed how we operate. Our CRM and outreach workflows now run entirely on automation — saving us over 20 hours a week.",
-    initial: "D",
-    results: ["20+ hours saved/week", "CRM fully automated", "300% ROI"],
+      "As the founder of Krea Business Advisory Services Inc, I engaged Autolinium, to design and implement a full-stack CRM and lead automation system for our firm. They delivered an integrated solution connecting Airtable, Outlook, Calendly, and our website, while also automating the entire lead journey through Make.com. Autolinium took the time to deeply understand our workflow and then built a customized Airtable CRM tailored to our exact needs. The result is a solution that is both scalable and user-friendly, giving us a system we can grow with. Throughout the project—and even beyond—Autolinium has been reliable, responsive, and a genuine pleasure to work with. I would not hesitate to recommend them to any business looking to streamline operations and build a robust, efficient system.",
+    logo: kreaLogo,
+    logoAlt: "Krea Business Advisory Logo",
+    website: "https://kreabusiness.com",
+    results: ["Full-stack CRM", "Lead automation", "Scalable solution"],
+    project: "Custom CRM + Workflow Automation (Make + Airtable)",
+    amount: "$520.00",
+    duration: "Jul 30, 2025 - Sep 23, 2025",
   },
   {
-    name: "Michael Chen",
-    role: "COO, NovaTech",
+    name: "Michael Tran",
+    role: "Co-founder, Small Bay Flex",
     quote:
-      "The AI agents they built handle 80% of our customer inquiries. It's like having an entire support team available 24/7.",
-    initial: "M",
-    results: [
-      "80% inquiries automated",
-      "24/7 AI support",
-      "45% cost reduction",
-    ],
+      "Autolinium was great to work with even on my busy schedule. They delivered a customized real estate CRM that perfectly fits our workflow and helps us manage properties more efficiently.",
+    logo: smallbayLogo,
+    logoAlt: "Small Bay Flex Logo",
+    website: "https://smallbayflex.com",
+    results: ["Custom CRM", "Workflow automation", "Busy schedule friendly"],
+    project: "Customized Real Estate CRM + Workflow Automation",
+    amount: "$520.00",
+    duration: "Jul 30, 2025 - Sep 23, 2025",
   },
   {
-    name: "Sophia Davis",
-    role: "Operations Director, CloudNest",
+    name: "Daniel Harris",
+    role: "Managing Partner, Flyironbird",
     quote:
-      "Their process was seamless — from discovery to deployment. We now scale faster and make smarter decisions thanks to their automation setup.",
-    initial: "S",
-    results: [
-      "2x faster scaling",
-      "Seamless deployment",
-      "Data-driven decisions",
-    ],
+      "Fantastic to work with. Communicates very well has a good understanding of technology and how to execute projects, will absolutely work with them again..",
+    logo: flyironbirdLogo,
+    logoAlt: "Flyironbird Logo",
+    website: "https://flyironbird.com",
+    results: ["Great communication", "Tech expertise", "Project execution"],
+    project:
+      "Build Softr MVP Website (G2-Style Aviation Software Review Platform)",
+    amount: "$200.00",
+    duration: "Sep 22, 2025 - Sep 30, 2025",
+  },
+  {
+    name: "Murali Barathi",
+    role: "Founder & CEO, Krea Business Advisory",
+    quote:
+      "Autolinium is very knowledgeable on make.com and the apps associated with it. They were very responsive and helpful. Did a great job and we will definitely hire them again.",
+    logo: makeLogo,
+    logoAlt: "Make.com Project Logo",
+    website: "https://kreabusiness.com",
+    results: ["Make.com expertise", "Responsive", "Knowledgeable"],
+    project: "Make.com Scenario Development",
+    amount: "$200.00",
+    duration: "Sep 11, 2025 - Sep 23, 2025",
   },
 ];
 
@@ -48,12 +75,6 @@ const TestimonialsSection: React.FC = () => {
       (prev) => (prev - 1 + testimonials.length) % testimonials.length
     );
 
-  // Auto-rotate testimonials every 5s
-  useEffect(() => {
-    const interval = setInterval(nextTestimonial, 5000);
-    return () => clearInterval(interval);
-  }, []);
-
   return (
     <section
       id="testimonials"
@@ -62,7 +83,6 @@ const TestimonialsSection: React.FC = () => {
       {/* === Background === */}
       <div className="absolute inset-0 z-[1]">
         <div className="absolute inset-0 bg-gradient-to-b from-[#00000d] via-[#0A0F2A] to-[#05070B]" />
-        {/* ✅ Imported background image used here */}
         <img
           src={bgImg}
           alt="Testimonials background"
@@ -83,7 +103,7 @@ const TestimonialsSection: React.FC = () => {
           <motion.div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-cyan-400/10 border border-cyan-400/20 mb-4 sm:mb-6">
             <div className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
             <span className="text-cyan-400 text-sm font-medium">
-              Client Stories
+              Client Testimonials
             </span>
           </motion.div>
 
@@ -115,20 +135,49 @@ const TestimonialsSection: React.FC = () => {
                 className="relative z-10"
               >
                 <div className="flex flex-col lg:flex-row gap-6 sm:gap-8 items-center">
-                  {/* === Avatar === */}
+                  {/* === Company Logo === */}
                   <div className="order-2 lg:order-1 text-center lg:text-right lg:w-1/3 w-full">
                     <div className="inline-block text-center w-full">
-                      <div className="w-16 h-16 sm:w-20 sm:h-20 lg:w-24 lg:h-24 mx-auto rounded-full bg-gradient-to-br from-cyan-500 to-blue-500 flex items-center justify-center border-2 border-cyan-400/50 mb-3 sm:mb-4 shadow-lg shadow-cyan-500/25">
-                        <span className="text-white text-xl sm:text-2xl lg:text-3xl font-bold">
-                          {testimonials[activeTestimonial].initial}
-                        </span>
+                      <div className="w-24 h-24 sm:w-28 sm:h-28 lg:w-32 lg:h-32 mx-auto rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center mb-4 sm:mb-6 shadow-lg shadow-cyan-500/10 p-3">
+                        <img
+                          src={testimonials[activeTestimonial].logo}
+                          alt={testimonials[activeTestimonial].logoAlt}
+                          className="w-full h-full object-contain rounded-lg"
+                          loading="lazy"
+                        />
                       </div>
                       <h4 className="text-lg sm:text-xl font-bold text-white mb-1 sm:mb-2">
                         {testimonials[activeTestimonial].name}
                       </h4>
-                      <p className="text-cyan-400 font-medium text-sm sm:text-base px-2">
+                      <p className="text-cyan-400 font-medium text-sm sm:text-base px-2 mb-2">
                         {testimonials[activeTestimonial].role}
                       </p>
+
+                      {/* Website Link */}
+                      {testimonials[activeTestimonial].website !== "#" && (
+                        <a
+                          href={testimonials[activeTestimonial].website}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-cyan-300 hover:text-cyan-200 text-xs font-medium transition-colors duration-300 inline-flex items-center gap-1"
+                        >
+                          <i className="fas fa-external-link-alt text-xs" />
+                          Visit Website
+                        </a>
+                      )}
+
+                      {/* Project Details */}
+                      <div className="mt-4 p-3 bg-white/5 rounded-lg border border-white/10">
+                        <p className="text-white text-sm font-semibold mb-1">
+                          {testimonials[activeTestimonial].project}
+                        </p>
+                        <p className="text-cyan-300 text-sm font-bold">
+                          {testimonials[activeTestimonial].amount}
+                        </p>
+                        <p className="text-gray-400 text-xs mt-1">
+                          {testimonials[activeTestimonial].duration}
+                        </p>
+                      </div>
                     </div>
                   </div>
 
@@ -143,7 +192,7 @@ const TestimonialsSection: React.FC = () => {
                       ))}
                     </div>
 
-                    <h3 className="text-lg sm:text-2xl lg:text-3xl font-bold text-white mb-3 sm:mb-6 leading-snug sm:leading-tight px-2 sm:px-0">
+                    <h3 className="text-lg sm:text-xl lg:text-2xl font-medium text-white mb-3 sm:mb-6 leading-relaxed px-2 sm:px-0">
                       "{testimonials[activeTestimonial].quote}"
                     </h3>
 
@@ -168,14 +217,14 @@ const TestimonialsSection: React.FC = () => {
             {/* === Nav Arrows === */}
             <button
               onClick={prevTestimonial}
-              className="absolute left-2 sm:left-4 top-[calc(50%-1rem)] sm:top-1/2 -translate-y-1/2 w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 rounded-full bg-gradient-to-r from-cyan-500 to-blue-500 text-white flex items-center justify-center hover:scale-110 active:scale-95 transition-all duration-300 shadow-lg shadow-cyan-500/25 touch-manipulation"
+              className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 rounded-full bg-gradient-to-r from-cyan-500 to-blue-500 text-white flex items-center justify-center hover:scale-110 active:scale-95 transition-all duration-300 shadow-lg shadow-cyan-500/25 touch-manipulation"
               aria-label="Previous testimonial"
             >
               <i className="fas fa-chevron-left text-xs sm:text-sm" />
             </button>
             <button
               onClick={nextTestimonial}
-              className="absolute right-2 sm:right-4 top-[calc(50%-1rem)] sm:top-1/2 -translate-y-1/2 w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 rounded-full bg-gradient-to-r from-cyan-500 to-blue-500 text-white flex items-center justify-center hover:scale-110 active:scale-95 transition-all duration-300 shadow-lg shadow-cyan-500/25 touch-manipulation"
+              className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 rounded-full bg-gradient-to-r from-cyan-500 to-blue-500 text-white flex items-center justify-center hover:scale-110 active:scale-95 transition-all duration-300 shadow-lg shadow-cyan-500/25 touch-manipulation"
               aria-label="Next testimonial"
             >
               <i className="fas fa-chevron-right text-xs sm:text-sm" />
@@ -207,10 +256,10 @@ const TestimonialsSection: React.FC = () => {
             viewport={{ once: true, margin: "-50px" }}
           >
             {[
-              { number: "50+", label: "Projects" },
-              { number: "98%", label: "Satisfaction" },
-              { number: "24/7", label: "Support" },
-              { number: "5.0", label: "Rating" },
+              { number: "10+", label: "Projects Completed" },
+              { number: "100%", label: "Satisfaction Rate" },
+              { number: "5.0", label: "Upwork Rating" },
+              { number: "$4k+", label: "Earned" },
             ].map((stat, i) => (
               <motion.div
                 key={stat.label}
@@ -243,7 +292,7 @@ const TestimonialsSection: React.FC = () => {
               whileTap={{ scale: 0.95 }}
               onClick={() => (window.location.href = "/contact")}
             >
-              <span>Start Your Journey</span>
+              <span>Start Your Project</span>
               <i className="fas fa-arrow-right text-sm" />
             </motion.button>
           </motion.div>

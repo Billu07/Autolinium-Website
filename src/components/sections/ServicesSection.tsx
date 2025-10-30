@@ -12,63 +12,84 @@ const ServicesSection: React.FC = () => {
 
   const services = [
     {
-      id: "automation",
-      icon: "fa-gear",
-      title: "Process Automation",
-      description:
-        "Automate CRMs and business workflows using Make, n8n, Zapier, and Airtable — increasing efficiency and scalability.",
-      link: "/services/process-automation",
-      options: [
-        {
-          label: "n8n & Make Workflows",
-          href: "/services/process-automation/n8n-make",
-        },
-        {
-          label: "Zapier Integrations",
-          href: "/services/process-automation/zapier",
-        },
-        {
-          label: "Airtable Automations",
-          href: "/services/process-automation/airtable",
-        },
-      ],
-    },
-    {
-      id: "ai-chatbots",
+      id: "ai-automation",
       icon: "fa-robot",
-      title: "AI & Chatbots",
+      title: "AI Automation",
       description:
-        "Voice/text AI agents and chatbots for WhatsApp, Instagram, Messenger — 24/7 customer support and automation.",
-      link: "/services/ai-chatbots",
+        "Automate your entire business workflow with AI-powered automation for lead generation, content creation, sales funnels, and more.",
+      link: "/services/ai-automation",
       options: [
-        { label: "Voice Agents (Vapi)", href: "/services/ai-chatbots/voice" },
         {
-          label: "WhatsApp Automation",
-          href: "/services/ai-chatbots/whatsapp",
+          label: "Lead Generation & Outreach",
+          href: "/services/ai-automation/lead-generation",
         },
-        { label: "Instagram DM Bots", href: "/services/ai-chatbots/instagram" },
-        { label: "Omnichannel AI", href: "/services/ai-chatbots/omnichannel" },
+        {
+          label: "Automated Video Generation",
+          href: "/services/ai-automation/video-generation",
+        },
+        {
+          label: "Social Media & Blog Automation",
+          href: "/services/ai-automation/content-automation",
+        },
+        {
+          label: "Sales Funnel Automation",
+          href: "/services/ai-automation/sales-funnel",
+        },
+        {
+          label: "Call Transcription & CRM Integration",
+          href: "/services/ai-automation/call-transcription",
+        },
       ],
     },
     {
-      id: "dev",
-      icon: "fa-code",
-      title: "App & Web Dev",
+      id: "ai-agents",
+      icon: "fa-comments",
+      title: "AI Agents",
       description:
-        "Custom web and mobile apps crafted with React, Next.js, Node, and AWS — designed for performance and security.",
-      link: "/services/app-web-development",
+        "Intelligent AI agents that handle customer interactions, sales, and support across multiple channels 24/7.",
+      link: "/services/ai-agents",
       options: [
         {
-          label: "React / Next.js Apps",
-          href: "/services/app-web-development/react-next",
+          label: "Sales Chatbots",
+          href: "/services/ai-agents/sales-chatbots",
         },
         {
-          label: "Dashboards & Portals",
-          href: "/services/app-web-development/dashboards",
+          label: "AI Voice Receptionist",
+          href: "/services/ai-agents/voice-receptionist",
         },
         {
-          label: "CRM & GHL Integrations",
-          href: "/services/app-web-development/crm-integrations",
+          label: "AI Calling Agents",
+          href: "/services/ai-agents/calling-agents",
+        },
+        {
+          label: "Multi-Channel Support",
+          href: "/services/ai-agents/multi-channel",
+        },
+      ],
+    },
+    {
+      id: "ai-web-apps",
+      icon: "fa-globe",
+      title: "AI Web Applications",
+      description:
+        "Custom AI-powered web applications including CRM, ERP, and POS systems tailored to your business needs.",
+      link: "/services/ai-web-apps",
+      options: [
+        {
+          label: "AI-Powered CRM",
+          href: "/services/ai-web-apps/crm",
+        },
+        {
+          label: "Enterprise ERP Systems",
+          href: "/services/ai-web-apps/erp",
+        },
+        {
+          label: "Point of Sale (POS)",
+          href: "/services/ai-web-apps/pos",
+        },
+        {
+          label: "Custom Business Applications",
+          href: "/services/ai-web-apps/custom-apps",
         },
       ],
     },
@@ -146,14 +167,14 @@ const ServicesSection: React.FC = () => {
             variants={cardVariants}
             className="text-3xl sm:text-4xl lg:text-6xl font-bold mb-4 sm:mb-6 bg-gradient-to-r from-cyan-400 via-blue-400 to-cyan-400 bg-clip-text text-transparent"
           >
-            Our Services
+            AI-Powered Solutions
           </motion.h2>
           <motion.p
             variants={cardVariants}
             className="text-lg sm:text-xl text-gray-300 leading-relaxed px-2 sm:px-0"
           >
-            From automation to AI agents — we design smart, scalable solutions
-            that elevate every aspect of your business.
+            Transform your business with cutting-edge AI automation, intelligent
+            agents, and custom web applications designed for the future.
           </motion.p>
         </motion.div>
 
@@ -205,7 +226,7 @@ const ServicesSection: React.FC = () => {
                   onClick={(e) => handleOptionClick(e, service.id)}
                 >
                   <span className="group-hover/dropdown:translate-y-0.5 transition-transform duration-300">
-                    Options
+                    Explore Services
                   </span>
                   <i className="fas fa-chevron-down text-sm group-hover/dropdown:translate-y-0.5 transition-transform duration-300" />
                 </motion.button>

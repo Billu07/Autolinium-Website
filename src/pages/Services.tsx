@@ -16,44 +16,44 @@ const Services: React.FC = () => {
 
   const services = [
     {
-      title: "Custom CRMs",
+      title: "AI Automation",
       description:
-        "Built with Airtable, Softr, or full-code stacks like Postgres/React/Node.",
-      slug: "custom-crms",
-      icon: "fas fa-database",
+        "Automate your entire business workflow with AI-powered automation for lead generation, content creation, sales funnels, and more.",
+      slug: "ai-automation",
+      icon: "fas fa-robot",
       features: [
-        "Centralized Data Management",
-        "Custom Dashboards",
-        "API Integration",
-        "Real-time Analytics",
+        "Lead Generation & Outreach",
+        "Automated Video Generation",
+        "Social Media & Blog Automation",
+        "Sales Funnel Automation",
       ],
       gradient: "from-blue-500 to-cyan-400",
     },
     {
-      title: "Workflow Automations",
+      title: "AI Agents",
       description:
-        "Integrate Slack, Gmail, Stripe, and more with Make, n8n, Zapier.",
-      slug: "workflow-automations",
-      icon: "fas fa-cogs",
+        "Intelligent AI agents that handle customer interactions, sales, and support across multiple channels 24/7.",
+      slug: "ai-agents",
+      icon: "fas fa-comments",
       features: [
-        "Multi-platform Integration",
-        "Real-time Data Sync",
-        "90% Time Reduction",
-        "Error-free Processing",
+        "Sales Chatbots",
+        "AI Voice Receptionist",
+        "AI Calling Agents",
+        "Multi-Channel Support",
       ],
       gradient: "from-purple-500 to-pink-500",
     },
     {
-      title: "AI-Driven Agents & Chatbots",
+      title: "AI Web Applications",
       description:
-        "Voice, text, multi-channel bots with ChatGPT, Botpress, Vapi.",
-      slug: "ai-agents-chatbots",
-      icon: "fas fa-robot",
+        "Custom AI-powered web applications including CRM, ERP, and POS systems tailored to your business needs.",
+      slug: "ai-web-applications",
+      icon: "fas fa-globe",
       features: [
-        "24/7 Customer Support",
-        "Multi-channel Deployment",
-        "Smart Response Handling",
-        "Seamless Human Handoff",
+        "AI-Powered CRM",
+        "Enterprise ERP Systems",
+        "Point of Sale (POS)",
+        "Custom Business Apps",
       ],
       gradient: "from-green-500 to-teal-400",
     },
@@ -95,7 +95,7 @@ const Services: React.FC = () => {
             >
               Our{" "}
               <span className="bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
-                Services
+                AI Services
               </span>
             </motion.h2>
 
@@ -103,9 +103,9 @@ const Services: React.FC = () => {
               className="text-lg sm:text-xl text-[var(--text-secondary)] max-w-2xl mx-auto leading-relaxed"
               variants={cardVariants}
             >
-              Discover our AI-powered services designed to transform your
-              business operations and drive growth through intelligent
-              automation.
+              Transform your business with cutting-edge AI automation,
+              intelligent agents, and custom web applications designed for the
+              future.
             </motion.p>
           </motion.div>
 
@@ -205,7 +205,8 @@ const Services: React.FC = () => {
                   Not Sure Which Service You Need?
                 </h4>
                 <p className="text-[var(--text-secondary)] text-sm sm:text-base">
-                  Get personalized recommendations from our automation experts.
+                  Get personalized recommendations from our AI automation
+                  experts.
                 </p>
               </div>
               <Link

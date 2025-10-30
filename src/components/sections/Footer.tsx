@@ -160,7 +160,7 @@ const Footer: React.FC = () => {
                 whileHover={{ x: 5 }}
               >
                 <i className="fas fa-envelope mr-3"></i>
-                hello@autolinium.com
+                office@autolinium.com
               </motion.a>
 
               <motion.a

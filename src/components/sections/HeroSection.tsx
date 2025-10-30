@@ -1,25 +1,55 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import collage3D from "/src/assets/auto-logo.png";
-import heroBgPng from "/src/assets/hero-bg.png";
-import heroBgWebp from "/src/assets/hero-bg-optimized.webp";
+
+// Lazy load the large logo image
+const collage3D = "/src/assets/auto-logo.png";
+
+// Use optimized WebP format as default
+const heroBgWebp = "/src/assets/hero-bg-optimized.webp";
+const heroBgPng = "/src/assets/hero-bg.png";
 
 const HeroSection: React.FC = () => {
+  const [imageLoaded, setImageLoaded] = useState(false);
+
+  useEffect(() => {
+    // Preload the hero background image
+    const img = new Image();
+    img.src = heroBgWebp;
+    img.onload = () => setImageLoaded(true);
+  }, []);
+
   return (
     <section className="relative min-h-screen flex flex-col items-center justify-center px-4 sm:px-6 md:px-8 lg:px-10 overflow-hidden font-[Poppins] bg-[#050810] pt-20 sm:pt-24">
-      {/* ===== Background ===== */}
+      {/* ===== Background with fade-in effect ===== */}
       <picture>
-        <source srcSet={heroBgWebp} type="image/webp" />
+        <source
+          srcSet={heroBgWebp}
+          type="image/webp"
+          media="(min-width: 768px)"
+        />
+        <source
+          srcSet="/src/assets/hero-bg3.webp"
+          type="image/webp"
+          media="(max-width: 767px)"
+        />
         <img
           src={heroBgPng}
-          alt="Hero background"
-          className="absolute inset-0 w-full h-full object-cover opacity-80 z-[1]"
+          alt="Hero background showcasing AI automation technology"
+          className={`absolute inset-0 w-full h-full object-cover opacity-80 z-[1] transition-opacity duration-500 ${
+            imageLoaded ? "opacity-80" : "opacity-0"
+          }`}
           loading="eager"
           decoding="async"
+          fetchPriority="high"
+          width={1920}
+          height={1080}
           sizes="100vw"
         />
       </picture>
+
+      {/* Gradient overlay for better text readability */}
+      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#050810]/80 z-[2]" />
 
       {/* ===== Main Content ===== */}
       <div className="relative z-[5] w-full max-w-7xl mx-auto flex flex-col lg:flex-row items-center justify-center gap-10 lg:gap-12 min-h-[calc(100vh-5rem)]">
@@ -30,16 +60,17 @@ const HeroSection: React.FC = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, ease: "easeOut" }}
         >
-          <motion.h3
+          <motion.h1
             className="text-3xl xs:text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-regular leading-tight mb-4 sm:mb-6 text-white"
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, delay: 0.2, ease: "easeOut" }}
+            style={{ fontFamily: "'Poppins', sans-serif" }}
           >
-            <span className="block text-[2.5rem] xs:text-[3rem] sm:text-[4rem] md:text-[5rem] lg:text-[6rem] leading-[1.1]">
-              Using <span className="text-cyan-400">Ai</span> to
+            <span className="block text-[2.5rem] xs:text-[3rem] sm:text-[4rem] md:text-[5rem] lg:text-[5.2rem] leading-[1.1]">
+              Using <span className="text-cyan-400">AI</span> to
             </span>
-            <span className="block text-[2rem] xs:text-[2rem] sm:text-[3rem] md:text-[4rem] lg:text-[5rem] leading-[1.1] mt-2">
+            <span className="block text-[3rem] xs:text-[2rem] sm:text-[2rem] md:text-[2rem] lg:text-[5.2rem] leading-[1.1] mt-2">
               Improve <span className="text-cyan-400">Your Business</span>
             </span>
             <motion.span
@@ -47,10 +78,11 @@ const HeroSection: React.FC = () => {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 1, delay: 0.4 }}
+              style={{ fontFamily: "'Inter', sans-serif" }}
             >
-              Work Less, Let Ai Do the Rest
+              Work Less, Let AI Do the Rest
             </motion.span>
-          </motion.h3>
+          </motion.h1>
 
           {/* === CTA Buttons === */}
           <motion.div
@@ -62,15 +94,19 @@ const HeroSection: React.FC = () => {
             <Link
               to="/services"
               className="inline-flex items-center justify-center px-8 py-4 rounded-xl text-lg font-bold text-white bg-cyan-600 shadow-lg shadow-blue-500/10 hover:shadow-blue-500/20 hover:scale-105 transition-all duration-300 touch-manipulation"
+              aria-label="Explore our AI automation services"
+              style={{ fontFamily: "'Inter', sans-serif" }}
             >
               Explore Our Services
-              <i className="fas fa-arrow-right ml-2"></i>
+              <i className="fas fa-arrow-right ml-2" aria-hidden="true"></i>
             </Link>
             <Link
               to="/contact"
               className="inline-flex items-center justify-center px-8 py-4 rounded-xl text-lg font-semibold text-white border border-gray-600 hover:border-cyan-400 hover:bg-cyan-400/5 hover:scale-105 backdrop-blur-sm transition-all duration-300 touch-manipulation"
+              aria-label="Book a demo of our AI solutions"
+              style={{ fontFamily: "'Inter', sans-serif" }}
             >
-              <i className="fas fa-calendar-alt mr-2"></i>
+              <i className="fas fa-calendar-alt mr-2" aria-hidden="true"></i>
               Book Demo
             </Link>
           </motion.div>
@@ -85,8 +121,11 @@ const HeroSection: React.FC = () => {
         >
           <motion.img
             src={collage3D}
-            alt="AI Automation Tools Collage"
+            alt="AI Automation Tools including CRM, workflow automation, and mobile app development"
             className="w-full h-auto drop-shadow-[0_0_50px_rgba(34,211,238,0.4)]"
+            loading="lazy"
+            width={500}
+            height={500}
             animate={{
               rotate: [0, 1.5, -1.5, 0],
               scale: [1, 1.05, 1],
@@ -109,8 +148,11 @@ const HeroSection: React.FC = () => {
         >
           <motion.img
             src={collage3D}
-            alt="AI Automation Tools Collage"
+            alt="Comprehensive AI Automation Tools Suite - CRM, Workflow Automation, Mobile Apps"
             className="w-full h-auto max-w-6xl xl:max-w-7xl 2xl:max-w-[90rem] scale-[1.2] drop-shadow-[0_0_100px_rgba(34,211,238,0.5)]"
+            loading="lazy"
+            width={1200}
+            height={1200}
             animate={{
               rotate: [0, 1.5, -1.5, 0],
               scale: [1.2, 1.23, 1.2],
@@ -127,10 +169,12 @@ const HeroSection: React.FC = () => {
 
       {/* === Scroll Indicator (Hidden on XS) === */}
       <motion.div
-        className="absolute bottom-6 left-1/2 transform -translate-x-1/2 hidden sm:flex flex-col items-center text-white/60"
+        className="absolute bottom-6 left-1/2 transform -translate-x-1/2 hidden sm:flex flex-col items-center text-white/60 z-[5]"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 1.5 }}
+        aria-label="Scroll down to explore more"
+        style={{ fontFamily: "'Inter', sans-serif" }}
       >
         <span className="text-xs mb-2">Scroll to explore</span>
         <motion.div

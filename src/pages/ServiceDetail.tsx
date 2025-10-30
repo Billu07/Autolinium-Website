@@ -25,275 +25,160 @@ const serviceData: {
     pricing: { type: string; price: string; features: string[] }[];
   };
 } = {
-  "custom-crms": {
-    title: "Custom CRMs",
+  "ai-automation": {
+    title: "AI Automation",
     description:
-      "Streamline your business with tailored Customer Relationship Management systems that centralize data and enhance efficiency.",
+      "Automate your entire business workflow with AI-powered automation for lead generation, content creation, sales funnels, and more.",
     longDescription:
-      "Our custom CRM solutions transform how you manage customer relationships, sales pipelines, and business operations. Built with your specific workflows in mind, we create systems that adapt to your business—not the other way around. Whether you need a simple contact manager or a complex enterprise solution, we deliver CRMs that drive growth and efficiency.",
+      "Our AI automation solutions transform how you operate by eliminating manual tasks and introducing intelligent workflows. From automated lead generation to content creation and sales funnel optimization, we build systems that work 24/7 to grow your business. Using cutting-edge AI technologies, we create automation that adapts, learns, and scales with your needs.",
     features: [
       {
-        name: "Centralized Data Management",
+        name: "Lead Generation & Outreach",
         description:
-          "Unify customer information, interactions, and history in one secure platform",
-        icon: "fas fa-database",
+          "Automated cold email and SMS campaigns with AI-powered personalization and follow-up sequences",
+        icon: "fas fa-bullseye",
       },
       {
-        name: "Custom Dashboards & Reporting",
+        name: "Automated Video Generation",
         description:
-          "Real-time insights with customizable reports and visual analytics",
-        icon: "fas fa-chart-bar",
+          "AI-driven video creation for marketing, training, and social media with personalized content",
+        icon: "fas fa-video",
       },
       {
-        name: "Workflow Automation",
+        name: "Content Automation",
         description:
-          "Automate sales processes, follow-ups, and task assignments",
-        icon: "fas fa-cogs",
+          "Automated social media posting, blog generation, and content scheduling across platforms",
+        icon: "fas fa-share-alt",
       },
       {
-        name: "Multi-Platform Integration",
+        name: "Sales Funnel Automation",
         description:
-          "Seamlessly connect with email, calendar, communication tools, and more",
-        icon: "fas fa-plug",
+          "End-to-end automation of customer acquisition, nurturing, and conversion processes",
+        icon: "fas fa-funnel-dollar",
       },
     ],
     benefits: [
-      "Increase sales team productivity by 40-60%",
-      "Improve customer satisfaction with faster response times",
-      "Gain complete visibility into sales pipelines",
-      "Reduce manual data entry by up to 80%",
-      "Make data-driven decisions with real-time analytics",
+      "Reduce manual work by 70-90% across business operations",
+      "Generate qualified leads 24/7 with AI-powered outreach",
+      "Create engaging content automatically at scale",
+      "Optimize sales funnels with data-driven automation",
+      "Scale operations without proportional staff increases",
     ],
     process: [
       {
-        step: "Discovery & Planning",
+        step: "Workflow Analysis",
         description:
-          "We analyze your business processes and define CRM requirements",
+          "Identify automation opportunities and map current business processes",
       },
       {
-        step: "Design & Prototyping",
-        description: "Create wireframes and prototypes for your approval",
-      },
-      {
-        step: "Development & Integration",
+        step: "AI Solution Design",
         description:
-          "Build your custom CRM and integrate with existing systems",
+          "Design intelligent automation workflows with AI integration",
       },
       {
-        step: "Testing & Training",
-        description: "Thorough testing and team training for smooth adoption",
+        step: "Development & Training",
+        description:
+          "Build automation systems and train AI models on your specific data",
       },
       {
-        step: "Launch & Support",
-        description: "Go live with ongoing support and optimization",
+        step: "Integration & Testing",
+        description:
+          "Connect with existing systems and conduct comprehensive testing",
+      },
+      {
+        step: "Launch & Optimization",
+        description:
+          "Go live with continuous monitoring and AI model improvement",
       },
     ],
     caseStudies: [
       {
-        client: "Real Estate Agency (USA)",
+        client: "E-commerce Brand",
         challenge:
-          "Managing 500+ properties and client communications across multiple platforms was causing missed opportunities and communication gaps.",
+          "Manual lead generation and customer outreach was consuming 30+ hours weekly with inconsistent results and high human error rate.",
         solution:
-          "Built a custom CRM integrating Airtable for data management, Make for automation, and a Softr frontend for agent access. Features included automated lead scoring, property matching, and client communication tracking.",
+          "Implemented AI-powered automation for lead generation, personalized email sequences, and social media content creation using Make, ChatGPT, and custom AI models.",
         results: [
-          "80% reduction in manual data entry",
-          "45% increase in lead conversion rate",
-          "30% faster response time to client inquiries",
-          "Complete visibility into sales pipeline",
+          "85% reduction in manual outreach time",
+          "3x increase in qualified lead generation",
+          "40% improvement in email open rates",
+          "24/7 automated content creation",
         ],
       },
     ],
-    tools: ["Airtable", "Softr", "Make", "React", "Node.js", "PostgreSQL"],
+    tools: ["Make", "n8n", "ChatGPT API", "Python", "AWS", "Custom AI Models"],
     pricing: [
       {
-        type: "Starter CRM",
-        price: "From $5,000",
+        type: "Basic Automation",
+        price: "From $3,500",
         features: [
-          "Basic contact management",
+          "Single workflow automation",
+          "Basic AI integration",
           "Standard reporting",
-          "Email integration",
           "3-month support",
         ],
       },
       {
-        type: "Business CRM",
-        price: "From $15,000",
+        type: "Business Automation",
+        price: "From $12,000",
         features: [
-          "Advanced automation",
+          "Multiple workflow automations",
+          "Advanced AI capabilities",
           "Custom dashboards",
-          "API integrations",
           "6-month support",
           "Team training",
-        ],
-      },
-      {
-        type: "Enterprise CRM",
-        price: "Custom Quote",
-        features: [
-          "Full customization",
-          "Advanced analytics",
-          "Dedicated support",
-          "Ongoing development",
-          "SLA guarantee",
-        ],
-      },
-    ],
-  },
-  "workflow-automations": {
-    title: "Workflow Automations",
-    description:
-      "Automate repetitive tasks and integrate your favorite tools to save time and reduce errors across your organization.",
-    longDescription:
-      "Our workflow automation solutions eliminate manual, repetitive tasks that consume valuable time and introduce human error. We design intelligent automation systems that connect your apps and services, creating seamless workflows that operate 24/7. From simple task automation to complex multi-system orchestrations, we help you work smarter, not harder.",
-    features: [
-      {
-        name: "Multi-App Integration",
-        description:
-          "Connect 1000+ applications with pre-built connectors and custom APIs",
-        icon: "fas fa-puzzle-piece",
-      },
-      {
-        name: "Intelligent Triggers",
-        description:
-          "Automate workflows based on time, events, or custom conditions",
-        icon: "fas fa-bolt",
-      },
-      {
-        name: "Error Handling & Logging",
-        description:
-          "Built-in error detection, retry mechanisms, and detailed activity logs",
-        icon: "fas fa-exclamation-triangle",
-      },
-      {
-        name: "Custom Logic & Transformations",
-        description:
-          "Add complex business rules and data transformations to your workflows",
-        icon: "fas fa-code",
-      },
-    ],
-    benefits: [
-      "Reduce manual work by 70-90%",
-      "Eliminate human error in repetitive tasks",
-      "Process data 10x faster than manual methods",
-      "Scale operations without adding staff",
-      "Gain real-time visibility into business processes",
-    ],
-    process: [
-      {
-        step: "Process Analysis",
-        description:
-          "Identify automation opportunities and map current workflows",
-      },
-      {
-        step: "Automation Design",
-        description: "Design optimal automated workflows with error handling",
-      },
-      {
-        step: "Development & Testing",
-        description: "Build and thoroughly test automation scenarios",
-      },
-      {
-        step: "Deployment & Monitoring",
-        description: "Launch automations with performance monitoring",
-      },
-      {
-        step: "Optimization",
-        description: "Continuously improve based on usage and feedback",
-      },
-    ],
-    caseStudies: [
-      {
-        client: "Financial Services Company",
-        challenge:
-          "Manual invoice processing was taking 20+ hours weekly and causing payment delays and errors.",
-        solution:
-          "Implemented automated invoice processing using Make to connect QuickBooks, Gmail, and Slack. The system automatically extracts invoice data, routes for approval, and updates accounting records.",
-        results: [
-          "90% reduction in manual invoice processing",
-          "Eliminated payment delays and late fees",
-          "Reduced accounting errors by 95%",
-          "Freed up 18 hours weekly for strategic work",
-        ],
-      },
-    ],
-    tools: [
-      "Make",
-      "n8n",
-      "Zapier",
-      "Python",
-      "AWS Lambda",
-      "Google Apps Script",
-    ],
-    pricing: [
-      {
-        type: "Basic Automation",
-        price: "From $2,500",
-        features: [
-          "Up to 5 workflows",
-          "Standard integrations",
-          "Basic monitoring",
-          "2-month support",
-        ],
-      },
-      {
-        type: "Business Automation",
-        price: "From $7,500",
-        features: [
-          "Unlimited workflows",
-          "Advanced integrations",
-          "Custom logic",
-          "4-month support",
         ],
       },
       {
         type: "Enterprise Automation",
         price: "Custom Quote",
         features: [
-          "Complex orchestrations",
-          "Custom development",
-          "24/7 monitoring",
+          "Full business process automation",
+          "Custom AI model training",
+          "Advanced analytics",
+          "Dedicated support",
           "Ongoing optimization",
         ],
       },
     ],
   },
-  "ai-agents-chatbots": {
-    title: "AI-Driven Agents & Chatbots",
+  "ai-agents": {
+    title: "AI Agents",
     description:
-      "Enhance customer engagement with AI-powered agents and chatbots that operate 24/7 across voice, text, and multi-channel platforms.",
+      "Intelligent AI agents that handle customer interactions, sales, and support across multiple channels 24/7.",
     longDescription:
-      "Our AI agents and chatbots revolutionize customer interactions by providing instant, intelligent responses 24/7. Powered by advanced language models and custom training, these solutions understand context, handle complex queries, and provide personalized assistance. From simple FAQ bots to sophisticated virtual assistants, we create AI solutions that scale with your business and delight your customers.",
+      "Our AI agents revolutionize customer engagement by providing intelligent, personalized interactions across all your communication channels. From sales chatbots that convert visitors into customers, to voice receptionists that handle calls professionally, these AI solutions work tirelessly to enhance customer experience while reducing operational costs. Built with advanced natural language processing and custom training, our agents understand context and provide human-like interactions.",
     features: [
       {
-        name: "Multi-Channel Deployment",
+        name: "Sales Chatbots",
         description:
-          "Deploy across website, mobile apps, messaging platforms, and voice interfaces",
+          "Intelligent chatbots for WhatsApp, Messenger, Telegram, and websites that handle sales and support",
+        icon: "fas fa-robot",
+      },
+      {
+        name: "AI Voice Receptionist",
+        description:
+          "Voice agents that answer calls, handle FAQs, book appointments, and create support tickets 24/7",
+        icon: "fas fa-phone-alt",
+      },
+      {
+        name: "AI Calling Agents",
+        description:
+          "Outbound calling agents for lead generation, follow-ups, and customer outreach campaigns",
+        icon: "fas fa-phone-volume",
+      },
+      {
+        name: "Multi-Channel Support",
+        description:
+          "Unified AI agents that maintain context across voice, text, and messaging platforms",
         icon: "fas fa-comments",
-      },
-      {
-        name: "Natural Language Understanding",
-        description:
-          "Advanced NLP to understand context, intent, and user sentiment",
-        icon: "fas fa-brain",
-      },
-      {
-        name: "CRM Integration",
-        description:
-          "Seamless integration with your existing customer data and systems",
-        icon: "fas fa-user-friends",
-      },
-      {
-        name: "Continuous Learning",
-        description:
-          "AI models that improve over time based on user interactions",
-        icon: "fas fa-graduation-cap",
       },
     ],
     benefits: [
       "Provide 24/7 customer support without additional staff",
-      "Reduce response time from hours to seconds",
       "Handle 80% of common customer queries automatically",
-      "Increase customer satisfaction scores by 30-50%",
+      "Reduce response time from hours to seconds",
+      "Increase lead conversion with instant engagement",
       "Gather valuable customer insights from interactions",
     ],
     process: [
@@ -321,48 +206,165 @@ const serviceData: {
     ],
     caseStudies: [
       {
-        client: "Construction Company (Mexico)",
+        client: "Service Business",
         challenge:
-          "Field teams needed to report progress, issues, and safety concerns from remote sites with limited internet access.",
+          "High call volume was overwhelming staff, leading to missed calls, long wait times, and poor customer experience during peak hours.",
         solution:
-          "Developed a Telegram bot with ChatGPT integration for natural language processing and Airtable backend for data storage. Teams could report via text, voice, or photos with offline capability.",
+          "Deployed AI voice receptionist with Vapi integration, handling initial call screening, appointment booking, and FAQ responses with seamless human handoff when needed.",
         results: [
-          "90% faster incident reporting",
-          "Eliminated paper-based reporting entirely",
-          "Real-time project visibility for management",
-          "Improved safety compliance tracking",
+          "75% of calls handled automatically by AI",
+          "Reduced wait times from 5+ minutes to instant",
+          "24/7 availability for customer inquiries",
+          "40% reduction in staff workload",
         ],
       },
     ],
-    tools: ["ChatGPT", "Botpress", "Vapi", "Python", "AWS", "Telegram API"],
+    tools: ["Vapi", "ChatGPT", "Botpress", "Python", "Twilio", "WhatsApp API"],
     pricing: [
       {
         type: "Basic Chatbot",
-        price: "From $3,500",
+        price: "From $4,000",
         features: [
-          "FAQ automation",
-          "Basic NLP",
-          "Single channel",
+          "Single channel deployment",
+          "Basic NLP capabilities",
+          "Standard integration",
           "3-month support",
         ],
       },
       {
         type: "Advanced AI Agent",
-        price: "From $12,000",
+        price: "From $15,000",
         features: [
-          "Multi-channel",
-          "Advanced NLP",
+          "Multi-channel deployment",
+          "Advanced NLP and voice",
           "CRM integration",
           "6-month support",
+          "Custom training",
         ],
       },
       {
-        type: "Enterprise Virtual Assistant",
+        type: "Enterprise AI Suite",
         price: "Custom Quote",
         features: [
-          "Voice capabilities",
-          "Custom training",
+          "Omnichannel AI agents",
+          "Custom AI model development",
           "Advanced analytics",
+          "Dedicated support",
+          "Ongoing optimization",
+        ],
+      },
+    ],
+  },
+  "ai-web-applications": {
+    title: "AI Web Applications",
+    description:
+      "Custom AI-powered web applications including CRM, ERP, and POS systems tailored to your business needs.",
+    longDescription:
+      "We build intelligent web applications that leverage AI to transform how you manage your business. From AI-powered CRMs that predict customer behavior, to ERP systems that optimize operations, and POS systems that enhance retail experiences - our applications are built with intelligence at their core. Using modern technologies and AI integration, we create solutions that not only manage data but provide actionable insights and automation.",
+    features: [
+      {
+        name: "AI-Powered CRM",
+        description:
+          "Intelligent customer relationship management with predictive analytics and automated workflows",
+        icon: "fas fa-users",
+      },
+      {
+        name: "Enterprise ERP Systems",
+        description:
+          "Comprehensive enterprise resource planning with AI-driven optimization and forecasting",
+        icon: "fas fa-chart-line",
+      },
+      {
+        name: "Point of Sale (POS)",
+        description:
+          "Smart retail systems with inventory management, sales analytics, and customer insights",
+        icon: "fas fa-cash-register",
+      },
+      {
+        name: "Custom Business Applications",
+        description:
+          "Tailored applications for specific business needs with integrated AI capabilities",
+        icon: "fas fa-cogs",
+      },
+    ],
+    benefits: [
+      "Make data-driven decisions with AI-powered insights",
+      "Automate complex business processes intelligently",
+      "Scale operations with robust, AI-enhanced systems",
+      "Improve customer experience with predictive analytics",
+      "Reduce operational costs through optimization",
+    ],
+    process: [
+      {
+        step: "Requirements Analysis",
+        description:
+          "Deep dive into business needs and AI integration opportunities",
+      },
+      {
+        step: "Architecture Design",
+        description:
+          "Design scalable application architecture with AI components",
+      },
+      {
+        step: "Development & AI Integration",
+        description: "Build application with integrated AI models and features",
+      },
+      {
+        step: "Testing & Training",
+        description:
+          "Comprehensive testing and user training for smooth adoption",
+      },
+      {
+        step: "Deployment & Support",
+        description: "Launch with ongoing support and AI model refinement",
+      },
+    ],
+    caseStudies: [
+      {
+        client: "Manufacturing Company",
+        challenge:
+          "Outdated systems were causing inventory mismanagement, production delays, and lack of real-time insights into operations.",
+        solution:
+          "Developed custom AI-powered ERP system with predictive inventory management, production optimization, and real-time analytics dashboard using React, Node.js, and machine learning models.",
+        results: [
+          "30% reduction in inventory costs",
+          "25% improvement in production efficiency",
+          "Real-time operational visibility",
+          "Automated supply chain optimization",
+        ],
+      },
+    ],
+    tools: ["React", "Node.js", "PostgreSQL", "Python", "TensorFlow", "AWS"],
+    pricing: [
+      {
+        type: "Standard Application",
+        price: "From $8,000",
+        features: [
+          "Basic AI features",
+          "Standard functionality",
+          "Basic reporting",
+          "4-month support",
+        ],
+      },
+      {
+        type: "Advanced AI Application",
+        price: "From $25,000",
+        features: [
+          "Advanced AI capabilities",
+          "Custom features",
+          "Advanced analytics",
+          "6-month support",
+          "Team training",
+        ],
+      },
+      {
+        type: "Enterprise Solution",
+        price: "Custom Quote",
+        features: [
+          "Full AI integration",
+          "Enterprise scalability",
+          "Custom AI models",
+          "Dedicated support",
           "Ongoing development",
         ],
       },

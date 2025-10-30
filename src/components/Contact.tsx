@@ -261,7 +261,7 @@ const Contact: React.FC = () => {
                       Email
                     </p>
                     <p className="text-[var(--text-secondary)] text-sm">
-                      hello@autolinium.com
+                      office@autolinium.com
                     </p>
                   </div>
                 </div>

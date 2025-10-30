@@ -53,7 +53,7 @@ const Header: React.FC = () => {
               <img
                 src="/assets/autolinium-logo.png"
                 alt="Autolinium"
-                className="w-8 h-6 md:w-10 md:h-8 object-contain"
+                className="w-4 h-6 md:w-10 md:h-10 object-contain"
                 loading="eager"
                 onError={(e) => {
                   e.currentTarget.style.display = "none";

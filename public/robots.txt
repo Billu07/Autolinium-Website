@@ -1,0 +1,23 @@
+# robots.txt for Autolinium.com
+User-agent: *
+Allow: /
+
+# Disallow admin and private sections if any
+Disallow: /admin/
+Disallow: /private/
+Disallow: /*.json$
+
+# Allow all CSS and JS
+Allow: /assets/
+Allow: /*.css
+Allow: /*.js
+Allow: /*.webp
+Allow: /*.png
+Allow: /*.jpg
+Allow: /*.svg
+
+# Sitemap location
+Sitemap: https://autolinium.com/sitemap.xml
+
+# Crawl-delay for respectful crawling
+Crawl-delay: 1
