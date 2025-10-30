@@ -2,12 +2,11 @@ import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 
-// Lazy load the large logo image
-const collage3D = "/src/assets/auto-logo.png";
-
-// Use optimized WebP format as default
-const heroBgWebp = "/src/assets/hero-bg-optimized.webp";
-const heroBgPng = "/src/assets/hero-bg.png";
+// Import images directly (this works in both dev and production)
+import collage3D from "/src/assets/auto-logo.png";
+import heroBgWebp from "/src/assets/hero-bg-optimized.webp";
+import heroBgPng from "/src/assets/hero-bg.png";
+import heroBg3Webp from "/src/assets/hero-bg3.webp";
 
 const HeroSection: React.FC = () => {
   const [imageLoaded, setImageLoaded] = useState(false);
@@ -29,7 +28,7 @@ const HeroSection: React.FC = () => {
           media="(min-width: 768px)"
         />
         <source
-          srcSet="/src/assets/hero-bg3.webp"
+          srcSet={heroBg3Webp}
           type="image/webp"
           media="(max-width: 767px)"
         />
@@ -65,12 +64,11 @@ const HeroSection: React.FC = () => {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, delay: 0.2, ease: "easeOut" }}
-            style={{ fontFamily: "'Poppins', sans-serif" }}
           >
-            <span className="block text-[2.5rem] xs:text-[3rem] sm:text-[4rem] md:text-[5rem] lg:text-[5.2rem] leading-[1.1]">
+            <span className="block text-[2.5rem] xs:text-[3rem] sm:text-[4rem] md:text-[5rem] lg:text-[5.5rem] leading-[1.1]">
               Using <span className="text-cyan-400">AI</span> to
             </span>
-            <span className="block text-[3rem] xs:text-[2rem] sm:text-[2rem] md:text-[2rem] lg:text-[5.2rem] leading-[1.1] mt-2">
+            <span className="block text-[2rem] xs:text-[2rem] sm:text-[3rem] md:text-[4rem] lg:text-[5.5rem] leading-[1.1] mt-2">
               Improve <span className="text-cyan-400">Your Business</span>
             </span>
             <motion.span
@@ -78,7 +76,6 @@ const HeroSection: React.FC = () => {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 1, delay: 0.4 }}
-              style={{ fontFamily: "'Inter', sans-serif" }}
             >
               Work Less, Let AI Do the Rest
             </motion.span>
@@ -95,7 +92,6 @@ const HeroSection: React.FC = () => {
               to="/services"
               className="inline-flex items-center justify-center px-8 py-4 rounded-xl text-lg font-bold text-white bg-cyan-600 shadow-lg shadow-blue-500/10 hover:shadow-blue-500/20 hover:scale-105 transition-all duration-300 touch-manipulation"
               aria-label="Explore our AI automation services"
-              style={{ fontFamily: "'Inter', sans-serif" }}
             >
               Explore Our Services
               <i className="fas fa-arrow-right ml-2" aria-hidden="true"></i>
@@ -104,7 +100,6 @@ const HeroSection: React.FC = () => {
               to="/contact"
               className="inline-flex items-center justify-center px-8 py-4 rounded-xl text-lg font-semibold text-white border border-gray-600 hover:border-cyan-400 hover:bg-cyan-400/5 hover:scale-105 backdrop-blur-sm transition-all duration-300 touch-manipulation"
               aria-label="Book a demo of our AI solutions"
-              style={{ fontFamily: "'Inter', sans-serif" }}
             >
               <i className="fas fa-calendar-alt mr-2" aria-hidden="true"></i>
               Book Demo
@@ -174,7 +169,6 @@ const HeroSection: React.FC = () => {
         animate={{ opacity: 1 }}
         transition={{ delay: 1.5 }}
         aria-label="Scroll down to explore more"
-        style={{ fontFamily: "'Inter', sans-serif" }}
       >
         <span className="text-xs mb-2">Scroll to explore</span>
         <motion.div
