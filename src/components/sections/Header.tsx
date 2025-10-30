@@ -51,7 +51,7 @@ const Header: React.FC = () => {
               aria-label="Autolinium Home"
             >
               <img
-                src="/assets/autolinium-logo.png"
+                src="/assets/autolinium-logo.webp"
                 alt="Autolinium"
                 className="w-4 h-6 md:w-10 md:h-10 object-contain"
                 loading="eager"

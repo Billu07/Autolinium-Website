@@ -2,11 +2,9 @@ import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 
-// Import images directly (this works in both dev and production)
-import collage3D from "/src/assets/auto-logo.png";
-import heroBgWebp from "/src/assets/hero-bg-optimized.webp";
-import heroBgPng from "/src/assets/hero-bg.png";
-import heroBg3Webp from "/src/assets/hero-bg3.webp";
+// Simplified image imports - only what we actually need
+import collage3D from "/src/assets/auto-logo.webp";
+import heroBg from "/src/assets/hero-bg-optimized.webp";
 
 const HeroSection: React.FC = () => {
   const [imageLoaded, setImageLoaded] = useState(false);
@@ -14,38 +12,25 @@ const HeroSection: React.FC = () => {
   useEffect(() => {
     // Preload the hero background image
     const img = new Image();
-    img.src = heroBgWebp;
+    img.src = heroBg;
     img.onload = () => setImageLoaded(true);
   }, []);
 
   return (
     <section className="relative min-h-screen flex flex-col items-center justify-center px-4 sm:px-6 md:px-8 lg:px-10 overflow-hidden font-[Poppins] bg-[#050810] pt-20 sm:pt-24">
-      {/* ===== Background with fade-in effect ===== */}
-      <picture>
-        <source
-          srcSet={heroBgWebp}
-          type="image/webp"
-          media="(min-width: 768px)"
-        />
-        <source
-          srcSet={heroBg3Webp}
-          type="image/webp"
-          media="(max-width: 767px)"
-        />
-        <img
-          src={heroBgPng}
-          alt="Hero background showcasing AI automation technology"
-          className={`absolute inset-0 w-full h-full object-cover opacity-80 z-[1] transition-opacity duration-500 ${
-            imageLoaded ? "opacity-80" : "opacity-0"
-          }`}
-          loading="eager"
-          decoding="async"
-          fetchPriority="high"
-          width={1920}
-          height={1080}
-          sizes="100vw"
-        />
-      </picture>
+      {/* ===== Simplified Background ===== */}
+      <img
+        src={heroBg}
+        alt="Hero background showcasing AI automation technology"
+        className={`absolute inset-0 w-full h-full object-cover opacity-80 z-[1] transition-opacity duration-500 ${
+          imageLoaded ? "opacity-80" : "opacity-0"
+        }`}
+        loading="eager"
+        decoding="async"
+        fetchPriority="high"
+        width={1920}
+        height={1080}
+      />
 
       {/* Gradient overlay for better text readability */}
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#050810]/80 z-[2]" />
