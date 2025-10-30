@@ -22,7 +22,6 @@ const SEO: React.FC<SEOProps> = ({
   title = "Autolinium - AI Automation Agency | Transform Your Business with AI",
   description = "Transform your business with AI automation. Autolinium specializes in AI agents, custom CRMs, workflow automation, and mobile apps. Boost efficiency and reduce costs.",
   keywords = "AI automation, AI agents, custom CRM, workflow automation, business automation, mobile apps, Airtable, Zapier, Make, n8n",
-  image = "https://autolinium.com/og-image.jpg",
   url,
   type = "website",
   author = "Autolinium",
@@ -45,17 +44,9 @@ const SEO: React.FC<SEOProps> = ({
     // Open Graph tags
     updateMetaTag("property", "og:title", title);
     updateMetaTag("property", "og:description", description);
-    updateMetaTag("property", "og:image", image);
     updateMetaTag("property", "og:url", currentUrl);
     updateMetaTag("property", "og:type", type);
     updateMetaTag("property", "og:site_name", "Autolinium");
-
-    // Twitter Card tags
-    updateMetaTag("name", "twitter:card", "summary_large_image");
-    updateMetaTag("name", "twitter:title", title);
-    updateMetaTag("name", "twitter:description", description);
-    updateMetaTag("name", "twitter:image", image);
-    updateMetaTag("name", "twitter:creator", "@autolinium");
 
     // Article specific tags
     if (type === "article") {
@@ -79,7 +70,6 @@ const SEO: React.FC<SEOProps> = ({
     title,
     description,
     keywords,
-    image,
     currentUrl,
     type,
     author,
@@ -148,7 +138,7 @@ export const schemas = {
     "@type": "Organization",
     name: "Autolinium",
     url: "https://autolinium.com",
-    logo: "https://autolinium.com/assets/autolinium-logo.png",
+    logo: "https://autolinium.com/assets/autolinium-logo.webp",
     description:
       "AI Automation Agency specializing in AI agents, custom CRMs, workflow automation, and mobile app development",
     contactPoint: {
@@ -193,7 +183,7 @@ export const schemas = {
       name: "Autolinium",
       logo: {
         "@type": "ImageObject",
-        url: "https://autolinium.com/assets/autolinium-logo.png",
+        url: "https://autolinium.com/assets/autolinium-logo.webp",
       },
     },
     datePublished: datePublished,

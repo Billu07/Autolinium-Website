@@ -36,7 +36,7 @@ const HeroSection: React.FC = () => {
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#050810]/80 z-[2]" />
 
       {/* ===== Main Content ===== */}
-      <div className="relative z-[5] w-full max-w-7xl mx-auto flex flex-col lg:flex-row items-center justify-center gap-10 lg:gap-12 min-h-[calc(100vh-5rem)]">
+      <div className="relative z-[5] w-full max-w-7xl mx-auto flex flex-col lg:flex-row items-center justify-center gap-10 lg:gap-12 min-h-[calc(50vh-5rem)] lg:min-h-[calc(100vh-5rem)]">
         {/* === Left Content === */}
         <motion.div
           className="flex-1 text-center lg:text-left max-w-2xl w-full px-2 sm:px-4"
@@ -53,7 +53,7 @@ const HeroSection: React.FC = () => {
             <span className="block text-[2.5rem] xs:text-[3rem] sm:text-[4rem] md:text-[5rem] lg:text-[5.5rem] leading-[1.1]">
               Using <span className="text-cyan-400">AI</span> to
             </span>
-            <span className="block text-[2rem] xs:text-[2rem] sm:text-[3rem] md:text-[4rem] lg:text-[5.5rem] leading-[1.1] mt-2">
+            <span className="block text-[2rem] xs:text-[2rem] sm:text-[3rem] md:text-[4rem] lg:text-[5.5.5rem] leading-[1.1] mt-2">
               Improve <span className="text-cyan-400">Your Business</span>
             </span>
             <motion.span
