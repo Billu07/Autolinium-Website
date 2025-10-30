@@ -53,7 +53,7 @@ const HeroSection: React.FC = () => {
             <span className="block text-[2.5rem] xs:text-[3rem] sm:text-[4rem] md:text-[5rem] lg:text-[5.5rem] leading-[1.1]">
               Using <span className="text-cyan-400">AI</span> to
             </span>
-            <span className="block text-[2rem] xs:text-[2rem] sm:text-[3rem] md:text-[4rem] lg:text-[5.5.5rem] leading-[1.1] mt-2">
+            <span className="block text-[2rem] xs:text-[2rem] sm:text-[3rem] md:text-[4rem] lg:text-[5.5rem] leading-[1.1] mt-2">
               Improve <span className="text-cyan-400">Your Business</span>
             </span>
             <motion.span
