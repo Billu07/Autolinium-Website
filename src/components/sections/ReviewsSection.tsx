@@ -214,30 +214,30 @@ const TestimonialsSection: React.FC = () => {
               </motion.div>
             </AnimatePresence>
 
-            {/* === Nav Arrows === */}
+            {/* === Nav Arrows - FIXED FOR MOBILE === */}
             <button
               onClick={prevTestimonial}
-              className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 rounded-full bg-gradient-to-r from-cyan-500 to-blue-500 text-white flex items-center justify-center hover:scale-110 active:scale-95 transition-all duration-300 shadow-lg shadow-cyan-500/25 touch-manipulation"
+              className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 w-12 h-12 sm:w-10 sm:h-10 lg:w-12 lg:h-12 rounded-full bg-gradient-to-r from-cyan-500 to-blue-500 text-white flex items-center justify-center hover:scale-110 active:scale-95 transition-all duration-300 shadow-lg shadow-cyan-500/25 touch-manipulation z-20"
               aria-label="Previous testimonial"
             >
-              <i className="fas fa-chevron-left text-xs sm:text-sm" />
+              <i className="fas fa-chevron-left text-sm sm:text-sm" />
             </button>
             <button
               onClick={nextTestimonial}
-              className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 rounded-full bg-gradient-to-r from-cyan-500 to-blue-500 text-white flex items-center justify-center hover:scale-110 active:scale-95 transition-all duration-300 shadow-lg shadow-cyan-500/25 touch-manipulation"
+              className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 w-12 h-12 sm:w-10 sm:h-10 lg:w-12 lg:h-12 rounded-full bg-gradient-to-r from-cyan-500 to-blue-500 text-white flex items-center justify-center hover:scale-110 active:scale-95 transition-all duration-300 shadow-lg shadow-cyan-500/25 touch-manipulation z-20"
               aria-label="Next testimonial"
             >
-              <i className="fas fa-chevron-right text-xs sm:text-sm" />
+              <i className="fas fa-chevron-right text-sm sm:text-sm" />
             </button>
           </div>
 
-          {/* === Dots === */}
-          <div className="flex justify-center items-center gap-3 sm:gap-4 mb-8 sm:mb-12">
+          {/* === Dots - FIXED FOR MOBILE === */}
+          <div className="flex justify-center items-center gap-4 sm:gap-4 mb-8 sm:mb-12">
             {testimonials.map((_, i) => (
               <button
                 key={i}
                 onClick={() => setActiveTestimonial(i)}
-                className={`w-2 h-2 sm:w-3 sm:h-3 rounded-full transition-all duration-300 touch-manipulation ${
+                className={`w-4 h-4 sm:w-3 sm:h-3 rounded-full transition-all duration-300 touch-manipulation ${
                   activeTestimonial === i
                     ? "bg-gradient-to-r from-cyan-500 to-blue-500 scale-125"
                     : "bg-gray-600 hover:bg-gray-500"

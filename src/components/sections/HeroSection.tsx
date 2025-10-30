@@ -92,34 +92,7 @@ const HeroSection: React.FC = () => {
           </motion.div>
         </motion.div>
 
-        {/* === Mobile Image (Visible Only on Small Devices) === */}
-        <motion.div
-          className="flex lg:hidden items-center justify-center w-full mt-8 sm:mt-12 max-w-[90%] sm:max-w-sm mx-auto"
-          initial={{ opacity: 0, scale: 0.9, y: 30 }}
-          animate={{ opacity: 1, scale: 1, y: 0 }}
-          transition={{ duration: 1, delay: 0.4, ease: "easeOut" }}
-        >
-          <motion.img
-            src={collage3D}
-            alt="AI Automation Tools including CRM, workflow automation, and mobile app development"
-            className="w-full h-auto drop-shadow-[0_0_50px_rgba(34,211,238,0.4)]"
-            loading="lazy"
-            width={500}
-            height={500}
-            animate={{
-              rotate: [0, 1.5, -1.5, 0],
-              scale: [1, 1.05, 1],
-              y: [0, -10, 0],
-            }}
-            transition={{
-              duration: 6,
-              repeat: Infinity,
-              ease: "easeInOut",
-            }}
-          />
-        </motion.div>
-
-        {/* === Desktop Image (Hidden on Mobile) === */}
+        {/* === Desktop Image Only (Hidden on Mobile) === */}
         <motion.div
           className="hidden lg:flex items-center justify-center flex-1"
           initial={{ opacity: 0, scale: 0.9, x: 50 }}
