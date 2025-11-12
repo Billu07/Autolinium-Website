@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import bgImg from "/src/assets/pro-bg.webp";
 
-// Import company logos (you'll need to add these images to your assets folder)
+// Import company logos
 import kreaLogo from "/src/assets/company-logos/krea-logo.webp";
 import smallbayLogo from "/src/assets/company-logos/smallbay-logo.webp";
 import flyironbirdLogo from "/src/assets/company-logos/fly-iron-bird-logo.webp";
@@ -214,7 +214,7 @@ const TestimonialsSection: React.FC = () => {
               </motion.div>
             </AnimatePresence>
 
-            {/* === Nav Arrows - FIXED FOR MOBILE === */}
+            {/* === Nav Arrows === */}
             <button
               onClick={prevTestimonial}
               className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 w-12 h-12 sm:w-10 sm:h-10 lg:w-12 lg:h-12 rounded-full bg-gradient-to-r from-cyan-500 to-blue-500 text-white flex items-center justify-center hover:scale-110 active:scale-95 transition-all duration-300 shadow-lg shadow-cyan-500/25 touch-manipulation z-20"
@@ -231,8 +231,8 @@ const TestimonialsSection: React.FC = () => {
             </button>
           </div>
 
-          {/* === Dots - FIXED FOR MOBILE === */}
-          <div className="flex justify-center items-center gap-4 sm:gap-4 mb-8 sm:mb-12">
+          {/* === Dots === */}
+          <div className="flex justify-center items-center gap-4 sm:gap-4">
             {testimonials.map((_, i) => (
               <button
                 key={i}
@@ -246,56 +246,6 @@ const TestimonialsSection: React.FC = () => {
               />
             ))}
           </div>
-
-          {/* === Stats Bar === */}
-          <motion.div
-            className="grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-6 max-w-4xl mx-auto mb-8 sm:mb-12"
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.3 }}
-            viewport={{ once: true, margin: "-50px" }}
-          >
-            {[
-              { number: "10+", label: "Projects Completed" },
-              { number: "100%", label: "Satisfaction Rate" },
-              { number: "5.0", label: "Upwork Rating" },
-              { number: "$4k+", label: "Earned" },
-            ].map((stat, i) => (
-              <motion.div
-                key={stat.label}
-                initial={{ opacity: 0, scale: 0.8 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.5, delay: i * 0.1 }}
-                className="text-center group p-2 sm:p-0"
-              >
-                <div className="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-cyan-400 to-blue-400 bg-clip-text text-transparent mb-1 sm:mb-2">
-                  {stat.number}
-                </div>
-                <div className="text-gray-400 text-xs sm:text-sm font-medium group-hover:text-cyan-300 transition-colors duration-300">
-                  {stat.label}
-                </div>
-              </motion.div>
-            ))}
-          </motion.div>
-
-          {/* === CTA === */}
-          <motion.div
-            className="text-center"
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.5 }}
-            viewport={{ once: true, margin: "-50px" }}
-          >
-            <motion.button
-              className="px-6 py-3 sm:px-8 sm:py-4 bg-gradient-to-r from-cyan-500 to-blue-500 text-white rounded-xl font-bold text-base sm:text-lg hover:shadow-2xl hover:shadow-cyan-500/25 transition-all duration-300 inline-flex items-center gap-2 sm:gap-3 touch-manipulation active:scale-95 min-h-[52px]"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={() => (window.location.href = "/contact")}
-            >
-              <span>Start Your Project</span>
-              <i className="fas fa-arrow-right text-sm" />
-            </motion.button>
-          </motion.div>
         </div>
       </div>
     </section>

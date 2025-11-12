@@ -4,9 +4,9 @@ import ServicesSection from "./ServicesSection";
 import TestimonialsSection from "./ReviewsSection";
 import FAQSection from "./FAQSection";
 import CTASection from "./CTASection";
-import SlidingTextSection from "./SlidingTextSection";
 import OurProjectsSection from "./OurProjectsSection";
 import WhyChooseUs from "./WhyChooseUs";
+import HireOnUpworkCTA from "./HireUs";
 //import StatsSection from "./StatsSection";
 
 const Home: React.FC = () => {
@@ -16,8 +16,8 @@ const Home: React.FC = () => {
       <ServicesSection />
       <OurProjectsSection />
       <TestimonialsSection />
+      <HireOnUpworkCTA />
       <WhyChooseUs />
-      <SlidingTextSection />
       <CTASection />
       <FAQSection />
     </div>

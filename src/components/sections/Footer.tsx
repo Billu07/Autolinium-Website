@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import bgImg from "/src/assets/pro-bg.webp";
+import logo from "/src/assets/logo.webp";
 
 const Footer: React.FC = () => {
   const currentYear = new Date().getFullYear();
@@ -33,10 +34,33 @@ const Footer: React.FC = () => {
     },
   ];
 
+  // Updated social links
   const socialLinks = [
-    { icon: "fab fa-linkedin-in", url: "#", label: "LinkedIn" },
-    { icon: "fab fa-twitter", url: "#", label: "Twitter" },
-    { icon: "fab fa-github", url: "#", label: "GitHub" },
+    {
+      icon: "fab fa-facebook-f",
+      url: "https://www.facebook.com/people/Autolinium/61579833773688/",
+      label: "Facebook",
+    },
+    {
+      icon: "fab fa-whatsapp",
+      url: " wa.me/8801742425796",
+      label: "WhatsApp",
+    },
+    {
+      icon: "fab fa-upwork",
+      url: "https://www.upwork.com/freelancers/~01881dc186a6673f48?mp_source=share",
+      label: "Upwork",
+    },
+    {
+      icon: "fab fa-linkedin-in",
+      url: "https://www.linkedin.com/company/autolinium",
+      label: "LinkedIn",
+    },
+    {
+      icon: "fas fa-briefcase",
+      url: "https://portfolio.autolinium.com",
+      label: "Portfolio",
+    },
   ];
 
   return (
@@ -44,7 +68,6 @@ const Footer: React.FC = () => {
       {/* === Background === */}
       <div className="absolute inset-0 z-0">
         <div className="absolute inset-0 bg-gradient-to-b from-[#010205] to-[#000000]" />
-        {/* ✅ Use imported background image here */}
         <img
           src={bgImg}
           alt="Footer background"
@@ -68,9 +91,12 @@ const Footer: React.FC = () => {
               to="/"
               className="inline-flex items-center space-x-3 group mb-6"
             >
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-cyan-500 to-blue-500 flex items-center justify-center text-white font-bold text-lg">
-                AL
-              </div>
+              {/* Replaced "AL" with logo */}
+              <img
+                src={logo}
+                alt="Autolinium Logo"
+                className="w-10 h-10 rounded-xl object-contain bg-white/10 p-1"
+              />
               <span className="text-xl font-bold text-white group-hover:text-cyan-400 transition-colors duration-300">
                 Autolinium
               </span>
@@ -87,6 +113,8 @@ const Footer: React.FC = () => {
                 <motion.a
                   key={social.label}
                   href={social.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center text-gray-400 hover:text-cyan-400 hover:bg-cyan-400/10 transition-all duration-300"
                   aria-label={social.label}
                   whileHover={{ scale: 1.1, y: -2 }}
@@ -155,7 +183,7 @@ const Footer: React.FC = () => {
             </h3>
             <div className="space-y-4">
               <motion.a
-                href="mailto:hello@autolinium.com"
+                href="mailto:office@autolinium.com"
                 className="inline-flex items-center text-cyan-400 hover:text-cyan-300 transition-colors duration-300 text-sm font-medium group"
                 whileHover={{ x: 5 }}
               >
@@ -164,7 +192,7 @@ const Footer: React.FC = () => {
               </motion.a>
 
               <motion.a
-                href="tel:+11234567890"
+                href="tel:+8801743425796"
                 className="inline-flex items-center text-gray-400 hover:text-cyan-400 transition-colors duration-300 text-sm font-medium group"
                 whileHover={{ x: 5 }}
               >
@@ -180,7 +208,7 @@ const Footer: React.FC = () => {
                 viewport={{ once: true }}
               >
                 <Link
-                  to="/contact"
+                  to="https://calendar.app.google/1YYTXKxWK5PFaSzV8"
                   className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-cyan-500 to-blue-500 text-white rounded-xl text-sm font-semibold hover:shadow-lg hover:shadow-cyan-500/25 transition-all duration-300 group"
                 >
                   <span>Let's Have a Talk</span>
