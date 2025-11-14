@@ -19,7 +19,6 @@ const testimonials = [
     website: "https://kreabusiness.com",
     results: ["Full-stack CRM", "Lead automation", "Scalable solution"],
     project: "Custom CRM + Workflow Automation (Make + Airtable)",
-    amount: "$520.00",
     duration: "Jul 30, 2025 - Sep 23, 2025",
   },
   {
@@ -32,7 +31,6 @@ const testimonials = [
     website: "https://smallbayflex.com",
     results: ["Custom CRM", "Workflow automation", "Busy schedule friendly"],
     project: "Customized Real Estate CRM + Workflow Automation",
-    amount: "$520.00",
     duration: "Jul 30, 2025 - Sep 23, 2025",
   },
   {
@@ -46,7 +44,6 @@ const testimonials = [
     results: ["Great communication", "Tech expertise", "Project execution"],
     project:
       "Build Softr MVP Website (G2-Style Aviation Software Review Platform)",
-    amount: "$200.00",
     duration: "Sep 22, 2025 - Sep 30, 2025",
   },
   {
@@ -59,7 +56,6 @@ const testimonials = [
     website: "https://kreabusiness.com",
     results: ["Make.com expertise", "Responsive", "Knowledgeable"],
     project: "Make.com Scenario Development",
-    amount: "$200.00",
     duration: "Sep 11, 2025 - Sep 23, 2025",
   },
 ];

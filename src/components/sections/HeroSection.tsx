@@ -99,10 +99,10 @@ const HeroSection: React.FC = () => {
 
       {/* Main Content Container */}
       <div className="relative z-[5] w-full max-w-7xl mx-auto">
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
           {/* Left Content - Text */}
           <motion.div
-            className="text-left"
+            className="text-center lg:text-left"
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
@@ -120,7 +120,7 @@ const HeroSection: React.FC = () => {
 
             {/* Subheadline */}
             <motion.p
-              className="text-xl sm:text-2xl text-gray-300 mb-8 leading-relaxed max-w-2xl"
+              className="text-xl sm:text-2xl text-gray-300 mb-8 leading-relaxed max-w-2xl mx-auto lg:mx-0"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.4 }}
@@ -130,7 +130,7 @@ const HeroSection: React.FC = () => {
 
             {/* CTA Buttons */}
             <motion.div
-              className="flex flex-col sm:flex-row gap-4 mb-12"
+              className="flex flex-col sm:flex-row gap-4 mb-12 justify-center lg:justify-start"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.6 }}
@@ -153,15 +153,11 @@ const HeroSection: React.FC = () => {
 
             {/* Trust Indicators */}
             <motion.div
-              className="flex items-center space-x-8 opacity-70"
+              className="flex items-center space-x-8 opacity-70 justify-center lg:justify-start"
               initial={{ opacity: 0 }}
               animate={{ opacity: 0.7 }}
               transition={{ duration: 0.8, delay: 0.8 }}
-            >
-              <div className="text-sm text-gray-400 font-semibold">
-                Trusted by industry leaders
-              </div>
-            </motion.div>
+            ></motion.div>
           </motion.div>
 
           {/* Right Side - Voice Agent Demo - Now visible on mobile */}
@@ -171,7 +167,7 @@ const HeroSection: React.FC = () => {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
           >
-            <div className="flex flex-col items-center space-y-8 -mt-16">
+            <div className="flex flex-col items-center space-y-8 -mt-8 lg:-mt-16">
               {/* Voice Agent Illustration */}
               <div className="flex flex-col items-center">
                 <div className="w-28 h-28 rounded-full bg-gradient-to-br from-cyan-500/20 to-blue-500/20 border border-cyan-400/30 flex items-center justify-center">
