@@ -12,6 +12,7 @@ const HeroSection: React.FC = () => {
   const [imageLoaded, setImageLoaded] = useState(false);
   const [isCalling, setIsCalling] = useState(false);
   const [vapi, setVapi] = useState<Vapi | null>(null);
+  const [callActive, setCallActive] = useState(false); // NEW: Track active call for hang-up
 
   useEffect(() => {
     // Preload the hero background image
@@ -33,15 +34,19 @@ const HeroSection: React.FC = () => {
         // Set up event listeners once after init (per latest docs)
         vapiClient.on("call-start", () => {
           console.log("Call started");
+          setCallActive(true); // NEW: Mark call as active
+          setIsCalling(false);
         });
 
         vapiClient.on("call-end", () => {
           console.log("Call ended");
+          setCallActive(false); // NEW: Reset call state
           setIsCalling(false);
         });
 
         vapiClient.on("error", (error: any) => {
           console.error("Call error:", error);
+          setCallActive(false); // NEW: Reset on error
           setIsCalling(false);
         });
 
@@ -60,8 +65,8 @@ const HeroSection: React.FC = () => {
   }, []);
 
   const handleVoiceAgentClick = async () => {
-    if (!vapi) {
-      console.error("Vapi not initialized");
+    if (!vapi || callActive) {
+      console.error("Vapi not initialized or call already active");
       return;
     }
 
@@ -80,6 +85,14 @@ const HeroSection: React.FC = () => {
       console.error("Failed to start voice agent:", error);
       setIsCalling(false);
     }
+  };
+
+  // NEW: Hang-up handler
+  const handleHangUp = () => {
+    if (!vapi || !callActive) return;
+    vapi.stop();
+    setCallActive(false);
+    setIsCalling(false);
   };
 
   return (
@@ -197,38 +210,59 @@ const HeroSection: React.FC = () => {
                 </div>
               </div>
 
-              {/* Voice Agent CTA Button */}
-              <motion.button
-                onClick={handleVoiceAgentClick}
-                disabled={isCalling}
-                className={`inline-flex items-center justify-center px-8 py-4 rounded-xl font-bold text-lg transition-all duration-300 ${
-                  isCalling
-                    ? "bg-cyan-600 cursor-not-allowed"
-                    : "bg-cyan-600 hover:bg-cyan-700 shadow-lg shadow-cyan-500/25 hover:shadow-cyan-500/40 hover:scale-105"
-                }`}
-                whileHover={!isCalling ? { scale: 1.05 } : {}}
-                whileTap={!isCalling ? { scale: 0.95 } : {}}
-              >
-                {isCalling ? (
-                  <>
-                    <motion.div
-                      animate={{ rotate: 360 }}
-                      transition={{
-                        duration: 1,
-                        repeat: Infinity,
-                        ease: "linear",
-                      }}
-                      className="w-5 h-5 border-2 border-white border-t-transparent rounded-full mr-3"
-                    />
-                    Connecting...
-                  </>
-                ) : (
-                  <>
-                    <i className="fas fa-microphone mr-3"></i>
-                    Try Our Voice Agent
-                  </>
+              {/* Voice Agent CTA Buttons - NEW: Container for start/hang-up */}
+              <div className="flex flex-col gap-3 w-full max-w-xs">
+                {/* Start Button (only if not active) */}
+                {!callActive ? (
+                  <motion.button
+                    onClick={handleVoiceAgentClick}
+                    disabled={isCalling}
+                    className={`inline-flex items-center justify-center w-full px-8 py-4 rounded-xl font-bold text-lg transition-all duration-300 ${
+                      isCalling
+                        ? "bg-cyan-600 cursor-not-allowed"
+                        : "bg-cyan-600 hover:bg-cyan-700 shadow-lg shadow-cyan-500/25 hover:shadow-cyan-500/40 hover:scale-105"
+                    }`}
+                    whileHover={!isCalling ? { scale: 1.05 } : {}}
+                    whileTap={!isCalling ? { scale: 0.95 } : {}}
+                  >
+                    {isCalling ? (
+                      <>
+                        <motion.div
+                          animate={{ rotate: 360 }}
+                          transition={{
+                            duration: 1,
+                            repeat: Infinity,
+                            ease: "linear",
+                          }}
+                          className="w-5 h-5 border-2 border-white border-t-transparent rounded-full mr-3"
+                        />
+                        Connecting...
+                      </>
+                    ) : (
+                      <>
+                        <i className="fas fa-microphone mr-3"></i>
+                        Try Our Voice Agent
+                      </>
+                    )}
+                  </motion.button>
+                ) : null}
+
+                {/* Hang-Up Button (only if active) */}
+                {callActive && (
+                  <motion.button
+                    onClick={handleHangUp}
+                    className="inline-flex items-center justify-center w-full px-8 py-4 rounded-xl font-bold text-lg bg-red-600 hover:bg-red-700 shadow-lg shadow-red-500/25 hover:shadow-red-500/40 transition-all duration-300 hover:scale-105"
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                  >
+                    <i
+                      className="fas fa-phone-slash mr-3"
+                      aria-hidden="true"
+                    ></i>
+                    Hang Up
+                  </motion.button>
                 )}
-              </motion.button>
+              </div>
             </div>
           </motion.div>
         </div>
