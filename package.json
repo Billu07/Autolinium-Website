@@ -13,6 +13,7 @@
     "analyze": "vite-bundle-visualizer"
   },
   "dependencies": {
+    "@vapi-ai/web": "^2.5.0",
     "framer-motion": "^12.23.22",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
@@ -20,7 +21,8 @@
     "react-tsparticles": "^2.12.2",
     "three": "^0.180.0",
     "tsparticles-slim": "^2.12.0",
-    "vanta": "^0.5.24"
+    "vanta": "^0.5.24",
+    "vapi-web": "^1.0.5"
   },
   "devDependencies": {
     "@eslint/js": "^9.36.0",

@@ -2,35 +2,45 @@ name: Deploy to Hostinger
 on:
   push:
     branches: [main]
+
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: "20"
+
       - name: Install dependencies
         run: npm install
-      - name: Build
+
+      - name: Build with env vars
         run: npm run build
+        env:
+          VITE_VAPI_PUBLIC_KEY: ${{ secrets.VITE_VAPI_PUBLIC_KEY }}
+          VITE_VAPI_ASSISTANT_ID: ${{ secrets.VITE_VAPI_ASSISTANT_ID }}
+
       - name: Copy .htaccess
-        run: cp public/.htaccess dist/ || true # Allows workflow to continue if .htaccess is missing
+        run: cp public/.htaccess dist/ || true
+
       - name: List dist contents
-        run: ls -la dist/ # Debug: Check what’s in dist/
+        run: ls -la dist/
+
       - name: Deploy to Hostinger
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
-          server: 77.37.34.75 # Replace with hostname (e.g., srv123456.hostinger.com) if needed
-          username: u966234716
-          password: Believe07!!
+          server: ${{ secrets.FTP_HOST }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
           port: 21
           protocol: ftp
           local-dir: ./dist/
           server-dir: /domains/autolinium.com/public_html/
-          log-level: verbose # Debug: Detailed FTP logs
+          log-level: verbose
           exclude: |
             **/.git*
             **/node_modules*

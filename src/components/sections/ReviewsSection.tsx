@@ -3,10 +3,10 @@ import { motion, AnimatePresence } from "framer-motion";
 import bgImg from "/src/assets/pro-bg.webp";
 
 // Import company logos
-import kreaLogo from "/src/assets/company-logos/krea-logo.webp";
+import kreaLogo from "/src/assets/company-logos/krea-logo.png";
 import smallbayLogo from "/src/assets/company-logos/smallbay-logo.webp";
 import flyironbirdLogo from "/src/assets/company-logos/fly-iron-bird-logo.webp";
-import makeLogo from "/src/assets/company-logos/make-logo.webp";
+import makeLogo from "/src/assets/company-logos/krea-logo.png";
 
 const testimonials = [
   {
