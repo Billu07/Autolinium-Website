@@ -167,9 +167,6 @@ const TestimonialsSection: React.FC = () => {
                         <p className="text-white text-sm font-semibold mb-1">
                           {testimonials[activeTestimonial].project}
                         </p>
-                        <p className="text-cyan-300 text-sm font-bold">
-                          {testimonials[activeTestimonial].amount}
-                        </p>
                         <p className="text-gray-400 text-xs mt-1">
                           {testimonials[activeTestimonial].duration}
                         </p>
