@@ -34,7 +34,7 @@ const Footer: React.FC = () => {
     },
   ];
 
-  // Updated social links
+  // Fixed WhatsApp URL (removed space)
   const socialLinks = [
     {
       icon: "fab fa-facebook-f",
@@ -43,12 +43,12 @@ const Footer: React.FC = () => {
     },
     {
       icon: "fab fa-whatsapp",
-      url: " wa.me/8801742425796",
+      url: "https://wa.me/8801742425796",
       label: "WhatsApp",
     },
     {
       icon: "fab fa-upwork",
-      url: "https://www.upwork.com/freelancers/~01881dc186a6673f48?mp_source=share",
+      url: "https://www.upwork.com/freelancers/~01881dc186a6673f48?mpSource=share",
       label: "Upwork",
     },
     {
@@ -77,11 +77,11 @@ const Footer: React.FC = () => {
       </div>
 
       {/* === Main Footer Content === */}
-      <div className="relative z-10 container mx-auto px-6 py-16">
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-12 max-w-7xl mx-auto">
-          {/* === Brand Section === */}
+      <div className="relative z-10 container mx-auto px-4 sm:px-6 py-12 lg:py-16">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 lg:gap-12 max-w-7xl mx-auto">
+          {/* === Brand Section - Full width on mobile, then spans 2 columns on desktop === */}
           <motion.div
-            className="lg:col-span-1 text-center lg:text-left"
+            className="md:col-span-2 lg:col-span-2 text-center md:text-left"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
@@ -89,9 +89,8 @@ const Footer: React.FC = () => {
           >
             <Link
               to="/"
-              className="inline-flex items-center space-x-3 group mb-6"
+              className="inline-flex items-center space-x-3 group mb-6 justify-center md:justify-start"
             >
-              {/* Replaced "AL" with logo */}
               <img
                 src={logo}
                 alt="Autolinium Logo"
@@ -102,13 +101,13 @@ const Footer: React.FC = () => {
               </span>
             </Link>
 
-            <p className="text-gray-400 mb-6 leading-relaxed text-sm">
+            <p className="text-gray-400 mb-6 leading-relaxed text-sm max-w-md mx-auto md:mx-0">
               Building intelligent automation solutions that transform
               businesses through AI-powered tools and custom development.
             </p>
 
-            {/* === Social Links === */}
-            <div className="flex justify-center lg:justify-start space-x-3">
+            {/* === Social Links - Centered on mobile, left on desktop === */}
+            <div className="flex justify-center md:justify-start space-x-3">
               {socialLinks.map((social, index) => (
                 <motion.a
                   key={social.label}
@@ -130,11 +129,11 @@ const Footer: React.FC = () => {
             </div>
           </motion.div>
 
-          {/* === Footer Links Sections === */}
+          {/* === Footer Links Sections - Each takes 1 column on desktop === */}
           {footerSections.map((section, sectionIndex) => (
             <motion.div
               key={section.title}
-              className="text-center lg:text-left"
+              className="text-center md:text-left"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: sectionIndex * 0.1 }}
@@ -159,7 +158,7 @@ const Footer: React.FC = () => {
                       to={link.path}
                       className="text-gray-400 hover:text-cyan-400 transition-all duration-300 text-sm font-medium block py-1 group"
                     >
-                      <span className="flex items-center lg:justify-start justify-center">
+                      <span className="flex items-center justify-center md:justify-start">
                         <i className="fas fa-arrow-right text-xs mr-3 text-cyan-400/0 group-hover:text-cyan-400 group-hover:mr-3 transition-all duration-300"></i>
                         {link.name}
                       </span>
@@ -170,9 +169,9 @@ const Footer: React.FC = () => {
             </motion.div>
           ))}
 
-          {/* === Contact / CTA Section === */}
+          {/* === Contact / CTA Section - Full width on mobile, then spans 1 column === */}
           <motion.div
-            className="text-center lg:text-left"
+            className="text-center md:text-left"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.3 }}
@@ -184,7 +183,7 @@ const Footer: React.FC = () => {
             <div className="space-y-4">
               <motion.a
                 href="mailto:office@autolinium.com"
-                className="inline-flex items-center text-cyan-400 hover:text-cyan-300 transition-colors duration-300 text-sm font-medium group"
+                className="inline-flex items-center text-cyan-400 hover:text-cyan-300 transition-colors duration-300 text-sm font-medium group justify-center md:justify-start"
                 whileHover={{ x: 5 }}
               >
                 <i className="fas fa-envelope mr-3"></i>
@@ -193,7 +192,7 @@ const Footer: React.FC = () => {
 
               <motion.a
                 href="tel:+8801743425796"
-                className="inline-flex items-center text-gray-400 hover:text-cyan-400 transition-colors duration-300 text-sm font-medium group"
+                className="inline-flex items-center text-gray-400 hover:text-cyan-400 transition-colors duration-300 text-sm font-medium group justify-center md:justify-start"
                 whileHover={{ x: 5 }}
               >
                 <i className="fas fa-phone mr-3"></i>
@@ -209,7 +208,9 @@ const Footer: React.FC = () => {
               >
                 <Link
                   to="https://calendar.app.google/1YYTXKxWK5PFaSzV8"
-                  className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-cyan-500 to-blue-500 text-white rounded-xl text-sm font-semibold hover:shadow-lg hover:shadow-cyan-500/25 transition-all duration-300 group"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-cyan-500 to-blue-500 text-white rounded-xl text-sm font-semibold hover:shadow-lg hover:shadow-cyan-500/25 transition-all duration-300 group justify-center md:justify-start mx-auto md:mx-0"
                 >
                   <span>Let's Have a Talk</span>
                   <i className="fas fa-arrow-right ml-2 group-hover:translate-x-1 transition-transform duration-300"></i>
@@ -221,7 +222,7 @@ const Footer: React.FC = () => {
 
         {/* === Newsletter Section === */}
         <motion.div
-          className="mt-16 pt-12 border-t border-white/10 max-w-4xl mx-auto"
+          className="mt-12 lg:mt-16 pt-8 lg:pt-12 border-t border-white/10 max-w-4xl mx-auto"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.4 }}
@@ -256,10 +257,10 @@ const Footer: React.FC = () => {
 
       {/* === Bottom Bar === */}
       <div className="relative z-10 border-t border-white/10 bg-[#070B15]/80 backdrop-blur-sm">
-        <div className="container mx-auto px-6 py-6">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-4 text-center md:text-left">
+        <div className="container mx-auto px-4 sm:px-6 py-4">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-3 text-center">
             <motion.p
-              className="text-gray-400 text-sm flex items-center justify-center md:justify-start"
+              className="text-gray-400 text-sm flex items-center justify-center"
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               transition={{ duration: 0.6 }}
@@ -270,7 +271,7 @@ const Footer: React.FC = () => {
             </motion.p>
 
             <motion.div
-              className="flex items-center gap-6 text-gray-400 text-sm"
+              className="flex flex-wrap items-center justify-center gap-4 md:gap-6 text-gray-400 text-sm"
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               transition={{ duration: 0.6, delay: 0.2 }}
@@ -278,17 +279,17 @@ const Footer: React.FC = () => {
             >
               <Link
                 to="/privacy"
-                className="hover:text-cyan-400 transition-colors duration-300"
+                className="hover:text-cyan-400 transition-colors duration-300 whitespace-nowrap"
               >
-                Privacy
+                Privacy Policy
               </Link>
               <Link
                 to="/terms"
-                className="hover:text-cyan-400 transition-colors duration-300"
+                className="hover:text-cyan-400 transition-colors duration-300 whitespace-nowrap"
               >
-                Terms
+                Terms of Service
               </Link>
-              <div className="flex items-center gap-2 text-green-400">
+              <div className="flex items-center gap-2 text-green-400 whitespace-nowrap">
                 <i className="fas fa-circle text-xs animate-pulse"></i>
                 <span className="text-xs">Systems Operational</span>
               </div>

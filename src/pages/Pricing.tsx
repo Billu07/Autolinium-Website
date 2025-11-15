@@ -267,7 +267,7 @@ const Pricing: React.FC = () => {
                     </div>
                   </div>
 
-                  {/* CTA Button - Updated to use Google Calendar */}
+                  {/* CTA Button */}
                   <motion.div
                     variants={buttonVariants}
                     whileHover="hover"
@@ -337,7 +337,7 @@ const Pricing: React.FC = () => {
             </div>
           </motion.div>
 
-          {/* Custom Solution CTA - Updated to use Google Calendar */}
+          {/* Custom Solution CTA */}
           <motion.div
             variants={staggerContainer}
             initial="hidden"

@@ -63,10 +63,7 @@
       name="twitter:description"
       content="Expert AI automation solutions for modern businesses. Build AI agents, custom CRMs, and automated workflows."
     />
-    <meta
-      name="twitter:image"
-      content="https://autolinium.com/twitter-card.jpg"
-    />
+    <meta name="twitter:image" content="https://autolinium.com/og-image.jpg" />
     <meta name="twitter:creator" content="@autolinium" />
 
     <!-- Theme & Mobile -->
@@ -100,12 +97,12 @@
         "contactPoint": {
           "@type": "ContactPoint",
           "contactType": "Customer Service",
-          "email": "contact@autolinium.com"
+          "email": "office@autolinium.com"
         },
         "sameAs": [
           "https://linkedin.com/company/autolinium",
           "https://twitter.com/autolinium",
-          "https://facebook.com/autolinium"
+          "https://www.facebook.com/people/Autolinium/61579833773688/"
         ]
       }
     </script>
@@ -139,35 +136,85 @@
       />
     </noscript>
 
-    <!-- Preload -->
-    <link
-      rel="preload"
-      as="image"
-      href="/src/assets/hero-bg-optimized.webp"
-      type="image/webp"
-    />
+    <!-- SSR Fallback Styles -->
+    <style>
+      /* Critical CSS for SSR fallback */
+      .ssr-fallback {
+        font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+        background: #050810;
+        color: white;
+        min-height: 100vh;
+      }
+
+      .ssr-header {
+        background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+        padding: 2rem 1rem;
+        text-align: center;
+        border-bottom: 1px solid #334155;
+      }
+
+      .ssr-main {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 3rem 1rem;
+      }
+
+      .ssr-section {
+        margin-bottom: 3rem;
+      }
+
+      .ssr-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2rem;
+        margin-top: 2rem;
+      }
+
+      .ssr-card {
+        background: #1e293b;
+        border: 1px solid #334155;
+        border-radius: 12px;
+        padding: 2rem;
+        transition: all 0.3s ease;
+      }
+
+      .ssr-card:hover {
+        border-color: #06b6d4;
+        transform: translateY(-4px);
+      }
+
+      .ssr-btn {
+        display: inline-block;
+        background: linear-gradient(135deg, #06b6d4, #0ea5e9);
+        color: white;
+        padding: 12px 24px;
+        border-radius: 8px;
+        text-decoration: none;
+        font-weight: 600;
+        transition: all 0.3s ease;
+      }
+
+      .ssr-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 25px rgba(6, 182, 212, 0.3);
+      }
+
+      .ssr-footer {
+        background: #0f172a;
+        border-top: 1px solid #334155;
+        padding: 2rem 1rem;
+        text-align: center;
+        margin-top: 4rem;
+      }
+
+      /* Hide SSR content when React loads */
+      .react-loaded .ssr-fallback {
+        display: none;
+      }
+    </style>
 
     <!-- VAPI Widget CSS -->
     <style>
-      /* Ensure VAPI widget appears above React content */
-      vapi-widget {
-        z-index: 99999 !important;
-        position: fixed !important;
-        bottom: 20px !important;
-        right: 20px !important;
-        display: block !important;
-        visibility: visible !important;
-        opacity: 1 !important;
-      }
-
-      /* Container for better control */
-      #vapi-wrapper {
-        position: fixed !important;
-        bottom: 20px !important;
-        right: 20px !important;
-        z-index: 99999 !important;
-      }
-
       /* Mobile responsive */
       @media (max-width: 768px) {
         vapi-widget,
@@ -176,16 +223,204 @@
           right: 15px !important;
         }
       }
-
-      /* Debug border - remove in production */
-      vapi-widget {
-        border: 1px solid #14b8a6 !important;
-      }
     </style>
   </head>
   <body>
+    <!-- SSR Fallback Content for SEO & Crawlers -->
+    <div class="ssr-fallback">
+      <header class="ssr-header">
+        <div style="max-width: 1200px; margin: 0 auto">
+          <h1
+            style="
+              font-size: 3rem;
+              font-weight: 800;
+              margin-bottom: 1rem;
+              background: linear-gradient(135deg, #06b6d4, #0ea5e9);
+              -webkit-background-clip: text;
+              -webkit-text-fill-color: transparent;
+            "
+          >
+            Autolinium
+          </h1>
+          <p style="font-size: 1.5rem; color: #94a3b8; margin-bottom: 2rem">
+            AI Automation Agency - Transform Your Business with Intelligent
+            Automation
+          </p>
+          <div
+            style="
+              display: flex;
+              gap: 1rem;
+              justify-content: center;
+              flex-wrap: wrap;
+            "
+          >
+            <a href="/services" class="ssr-btn">
+              <i class="fas fa-robot" style="margin-right: 8px"></i>
+              Our Services
+            </a>
+            <a
+              href="/contact"
+              class="ssr-btn"
+              style="background: transparent; border: 2px solid #06b6d4"
+            >
+              <i class="fas fa-calendar" style="margin-right: 8px"></i>
+              Free Consultation
+            </a>
+          </div>
+        </div>
+      </header>
+
+      <main class="ssr-main">
+        <!-- Services Section -->
+        <section class="ssr-section">
+          <h2
+            style="
+              font-size: 2.5rem;
+              text-align: center;
+              margin-bottom: 1rem;
+              color: white;
+            "
+          >
+            AI Automation Solutions
+          </h2>
+          <p
+            style="
+              text-align: center;
+              color: #94a3b8;
+              font-size: 1.2rem;
+              max-width: 800px;
+              margin: 0 auto 3rem;
+            "
+          >
+            We build custom AI solutions that automate workflows, enhance
+            customer experiences, and drive business growth.
+          </p>
+
+          <div class="ssr-grid">
+            <div class="ssr-card">
+              <i
+                class="fas fa-brain"
+                style="font-size: 2rem; color: #06b6d4; margin-bottom: 1rem"
+              ></i>
+              <h3 style="color: white; margin-bottom: 1rem">
+                AI Agents & Chatbots
+              </h3>
+              <p style="color: #94a3b8; line-height: 1.6">
+                Intelligent AI assistants that handle customer queries, automate
+                support, and provide 24/7 service.
+              </p>
+            </div>
+
+            <div class="ssr-card">
+              <i
+                class="fas fa-cogs"
+                style="font-size: 2rem; color: #06b6d4; margin-bottom: 1rem"
+              ></i>
+              <h3 style="color: white; margin-bottom: 1rem">
+                Workflow Automation
+              </h3>
+              <p style="color: #94a3b8; line-height: 1.6">
+                Streamline business processes with custom automation solutions
+                using Airtable, Zapier, and n8n.
+              </p>
+            </div>
+
+            <div class="ssr-card">
+              <i
+                class="fas fa-mobile-alt"
+                style="font-size: 2rem; color: #06b6d4; margin-bottom: 1rem"
+              ></i>
+              <h3 style="color: white; margin-bottom: 1rem">
+                Custom CRM Development
+              </h3>
+              <p style="color: #94a3b8; line-height: 1.6">
+                Tailored CRM systems built on Airtable and Softr to manage
+                customer relationships effectively.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- CTA Section -->
+        <section
+          class="ssr-section"
+          style="
+            text-align: center;
+            padding: 4rem 2rem;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            border-radius: 20px;
+          "
+        >
+          <h2 style="font-size: 2.5rem; margin-bottom: 1rem; color: white">
+            Ready to Automate Your Business?
+          </h2>
+          <p
+            style="
+              color: #94a3b8;
+              font-size: 1.2rem;
+              margin-bottom: 2rem;
+              max-width: 600px;
+              margin-left: auto;
+              margin-right: auto;
+            "
+          >
+            Let's discuss how AI automation can transform your operations and
+            boost efficiency.
+          </p>
+          <a
+            href="/contact"
+            class="ssr-btn"
+            style="font-size: 1.1rem; padding: 15px 30px"
+          >
+            <i class="fas fa-calendar-check" style="margin-right: 10px"></i>
+            Schedule Free Consultation
+          </a>
+        </section>
+      </main>
+
+      <footer class="ssr-footer">
+        <div style="max-width: 1200px; margin: 0 auto">
+          <p style="color: #94a3b8; margin-bottom: 1rem">
+            &copy; 2024 Autolinium. AI Automation Agency.
+          </p>
+          <div
+            style="
+              display: flex;
+              gap: 2rem;
+              justify-content: center;
+              flex-wrap: wrap;
+            "
+          >
+            <a href="/services" style="color: #06b6d4; text-decoration: none"
+              >Services</a
+            >
+            <a href="/about" style="color: #06b6d4; text-decoration: none"
+              >About</a
+            >
+            <a href="/contact" style="color: #06b6d4; text-decoration: none"
+              >Contact</a
+            >
+            <a href="/privacy" style="color: #06b6d4; text-decoration: none"
+              >Privacy</a
+            >
+          </div>
+        </div>
+      </footer>
+    </div>
+
+    <!-- React App Mount Point -->
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
+
+    <!-- Script to hide SSR content when React loads -->
+    <script>
+      // Hide SSR fallback when React app loads
+      window.addEventListener("load", function () {
+        setTimeout(function () {
+          document.body.classList.add("react-loaded");
+        }, 100);
+      });
+    </script>
 
     <!-- VAPI WIDGET - CHAT MODE -->
     <div id="vapi-wrapper">
@@ -221,12 +456,28 @@
       type="text/javascript"
     ></script>
 
+    <script>
+      // Simple size change - tiny on mobile, compact on desktop
+      function setWidgetSize() {
+        const widget = document.querySelector("vapi-widget");
+        if (widget) {
+          if (window.innerWidth <= 768) {
+            widget.setAttribute("size", "tiny");
+          } else {
+            widget.setAttribute("size", "compact");
+          }
+        }
+      }
+
+      // Set size on load and resize
+      window.addEventListener("load", setWidgetSize);
+      window.addEventListener("resize", setWidgetSize);
+      setWidgetSize(); // Set immediately
+    </script>
+
     <!-- Simplified Loading Script - No Timeouts -->
     <script>
       (function () {
-        console.log("🚀 Initializing VAPI Chat Widget...");
-
-        // Function to check if widget is properly loaded
         function checkWidgetStatus() {
           const widget = document.querySelector("vapi-widget");
 
@@ -234,8 +485,6 @@
             console.log("✅ VAPI chat widget fully loaded with shadow DOM");
             console.log("🔧 Widget type:", widget.constructor.name);
             console.log("💬 Mode: Chat");
-
-            // Apply additional styles for chat mode
             widget.style.setProperty("width", "400px", "important");
             widget.style.setProperty("height", "600px", "important");
             widget.style.setProperty("max-width", "90vw", "important");
@@ -245,8 +494,6 @@
           }
 
           if (widget) {
-            console.log("🔄 VAPI widget element exists but no shadow DOM yet");
-            // Check if it's a proper web component
             if (widget.constructor.name !== "HTMLElement") {
               console.log(
                 "✅ VAPI web component detected:",
@@ -258,44 +505,13 @@
 
           return false;
         }
-
-        // Just check once when the page loads
         window.addEventListener("load", function () {
-          console.log("📄 Page fully loaded, checking VAPI chat widget...");
-
-          // Check immediately
           checkWidgetStatus();
 
           // Check again after a short delay in case it's still loading
           setTimeout(checkWidgetStatus, 1000);
         });
-
-        // Configuration log
-        console.log("🌐 VAPI Chat Configuration:");
-        console.log("• Public Key: bbe4d95e-f4dc-46a7-bd5b-46939cd75576");
-        console.log("• Assistant ID: c70c05ce-acc7-44f8-b39a-e7dfdf0f7fd3");
-        console.log("• Mode: Chat");
-        console.log(
-          "• Script: https://unpkg.com/@vapi-ai/client-sdk-react/dist/embed/widget.umd.js"
-        );
       })();
     </script>
-
-    <noscript>
-      <div
-        style="
-          padding: 20px;
-          text-align: center;
-          background: #0891b2;
-          color: white;
-        "
-      >
-        <h1>JavaScript Required</h1>
-        <p>
-          Please enable JavaScript to experience Autolinium's AI automation
-          solutions.
-        </p>
-      </div>
-    </noscript>
   </body>
 </html>

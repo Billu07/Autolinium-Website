@@ -11,9 +11,48 @@ const WhyChooseUs: React.FC = () => {
         <div className="absolute inset-0 bg-gradient-to-b from-[#05070B] via-[#0A0F2A] to-[#050810]" />
       </div>
 
-      {/* === Left Content === */}
+      {/* === Globe Visual - First on Mobile, Right on Desktop === */}
       <motion.div
-        className="relative z-[3] w-full lg:w-1/2 max-w-2xl text-center lg:text-left space-y-6 sm:space-y-8"
+        className="relative z-[3] w-full lg:w-1/2 flex justify-center items-center order-first lg:order-last mb-12 lg:mb-0"
+        initial={{ opacity: 0, x: 40 }}
+        whileInView={{ opacity: 1, x: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 1 }}
+      >
+        <motion.div
+          className="relative"
+          animate={{
+            y: [0, -15, 0],
+            scale: [1, 1.02, 1],
+          }}
+          transition={{
+            duration: 6,
+            repeat: Infinity,
+            ease: "easeInOut",
+          }}
+        >
+          <img
+            src={globe2D}
+            alt="Floating 2D Globe"
+            className="w-[380px] sm:w-[480px] md:w-[580px] lg:w-[680px] xl:w-[760px] object-contain drop-shadow-[0_0_80px_rgba(34,211,238,0.35)]"
+            loading="lazy"
+          />
+          {/* Soft Glow Pulse */}
+          <motion.div
+            className="absolute inset-0 rounded-full blur-3xl bg-cyan-400/20"
+            animate={{ opacity: [0.1, 0.3, 0.1], scale: [1, 1.2, 1] }}
+            transition={{
+              duration: 4,
+              repeat: Infinity,
+              ease: "easeInOut",
+            }}
+          />
+        </motion.div>
+      </motion.div>
+
+      {/* === Content - Second on Mobile, Left on Desktop === */}
+      <motion.div
+        className="relative z-[3] w-full lg:w-1/2 max-w-2xl text-center lg:text-left space-y-6 sm:space-y-8 order-last lg:order-first"
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
@@ -85,45 +124,6 @@ const WhyChooseUs: React.FC = () => {
             <i className="fas fa-arrow-right text-sm" />
             Let's Connect!
           </Link>
-        </motion.div>
-      </motion.div>
-
-      {/* === Right Visual — Floating Globe === */}
-      <motion.div
-        className="relative z-[3] w-full lg:w-1/2 flex justify-center items-center mt-12 lg:mt-0"
-        initial={{ opacity: 0, x: 40 }}
-        whileInView={{ opacity: 1, x: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 1 }}
-      >
-        <motion.div
-          className="relative"
-          animate={{
-            y: [0, -15, 0],
-            scale: [1, 1.02, 1],
-          }}
-          transition={{
-            duration: 6,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
-        >
-          <img
-            src={globe2D}
-            alt="Floating 2D Globe"
-            className="w-[380px] sm:w-[480px] md:w-[580px] lg:w-[680px] xl:w-[760px] object-contain drop-shadow-[0_0_80px_rgba(34,211,238,0.35)]"
-            loading="lazy"
-          />
-          {/* Soft Glow Pulse */}
-          <motion.div
-            className="absolute inset-0 rounded-full blur-3xl bg-cyan-400/20"
-            animate={{ opacity: [0.1, 0.3, 0.1], scale: [1, 1.2, 1] }}
-            transition={{
-              duration: 4,
-              repeat: Infinity,
-              ease: "easeInOut",
-            }}
-          />
         </motion.div>
       </motion.div>
 
