@@ -114,6 +114,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="preconnect" href="https://cdnjs.cloudflare.com" />
+    <!-- VAPI WIDGET CDN -->
     <link rel="preconnect" href="https://unpkg.com" />
 
     <!-- Fonts -->
@@ -146,61 +147,39 @@
       type="image/webp"
     />
 
-    <!-- VAPI CHAT WIDGET - MOBILE FIXED (NO OVERLAY) -->
+    <!-- VAPI Widget CSS -->
     <style>
-      /* Container: Only holds position, NO width/height */
-      #vapi-chat-container {
-        position: fixed !important;
-        bottom: 16px !important;
-        right: 16px !important;
-        z-index: 99999 !important;
-        pointer-events: none !important;
-        width: auto !important;
-        height: auto !important;
-      }
-
-      /* Only the widget itself gets pointer events */
-      #vapi-chat-container > vapi-widget {
-        pointer-events: auto !important;
-      }
-
-      /* Desktop: Nice size */
-      @media (min-width: 769px) {
-        vapi-widget {
-          width: 380px !important;
-          height: 580px !important;
-        }
-      }
-
-      /* Mobile: Compact bubble, NEVER full-width */
-      @media (max-width: 768px) {
-        vapi-widget {
-          width: 320px !important;
-          max-width: 92vw !important;
-          height: 500px !important;
-          min-height: 460px !important;
-          max-height: 75vh !important;
-          border-radius: 20px !important;
-          box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5) !important;
-          transform: scale(1) !important;
-        }
-      }
-
-      /* Force internal scroll */
-      vapi-widget::part(messages),
-      vapi-widget [part="messages"] {
-        overflow-y: auto !important;
-        -webkit-overflow-scrolling: touch !important;
-        max-height: calc(100% - 120px) !important;
-      }
-
-      /* Remove any forced full-size */
+      /* Ensure VAPI widget appears above React content */
       vapi-widget {
-        position: relative !important;
-        left: auto !important;
-        right: auto !important;
-        top: auto !important;
-        bottom: auto !important;
+        z-index: 99999 !important;
+        position: fixed !important;
+        bottom: 20px !important;
+        right: 20px !important;
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+      }
+
+      /* Container for better control */
+      #vapi-wrapper {
+        position: fixed !important;
+        bottom: 20px !important;
+        right: 20px !important;
+        z-index: 99999 !important;
+      }
+
+      /* Mobile responsive */
+      @media (max-width: 768px) {
+        vapi-widget,
+        #vapi-wrapper {
+          bottom: 80px !important;
+          right: 15px !important;
+        }
+      }
+
+      /* Debug border - remove in production */
+      vapi-widget {
+        border: 1px solid #14b8a6 !important;
       }
     </style>
   </head>
@@ -208,8 +187,8 @@
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
 
-    <!-- VAPI CHAT WIDGET - COMPACT & CLICKABLE -->
-    <div id="vapi-chat-container">
+    <!-- VAPI WIDGET - CHAT MODE -->
+    <div id="vapi-wrapper">
       <vapi-widget
         public-key="bbe4d95e-f4dc-46a7-bd5b-46939cd75576"
         assistant-id="c70c05ce-acc7-44f8-b39a-e7dfdf0f7fd3"
@@ -220,11 +199,11 @@
         cta-button-color="#000000"
         cta-button-text-color="#ffffff"
         border-radius="large"
-        size="compact"
+        size="full"
         position="bottom-right"
         title="CHAT WITH US"
         start-button-text="Start"
-        end-button-text="End"
+        end-button-text="End Call"
         chat-first-message="Hey, How can I help you today?"
         chat-placeholder="Type your message..."
         voice-show-transcript="true"
@@ -235,12 +214,72 @@
       ></vapi-widget>
     </div>
 
-    <!-- VAPI SCRIPT -->
+    <!-- VAPI Script -->
     <script
       src="https://unpkg.com/@vapi-ai/client-sdk-react/dist/embed/widget.umd.js"
       async
       type="text/javascript"
     ></script>
+
+    <!-- Simplified Loading Script - No Timeouts -->
+    <script>
+      (function () {
+        console.log("🚀 Initializing VAPI Chat Widget...");
+
+        // Function to check if widget is properly loaded
+        function checkWidgetStatus() {
+          const widget = document.querySelector("vapi-widget");
+
+          if (widget && widget.shadowRoot) {
+            console.log("✅ VAPI chat widget fully loaded with shadow DOM");
+            console.log("🔧 Widget type:", widget.constructor.name);
+            console.log("💬 Mode: Chat");
+
+            // Apply additional styles for chat mode
+            widget.style.setProperty("width", "400px", "important");
+            widget.style.setProperty("height", "600px", "important");
+            widget.style.setProperty("max-width", "90vw", "important");
+            widget.style.setProperty("max-height", "80vh", "important");
+
+            return true;
+          }
+
+          if (widget) {
+            console.log("🔄 VAPI widget element exists but no shadow DOM yet");
+            // Check if it's a proper web component
+            if (widget.constructor.name !== "HTMLElement") {
+              console.log(
+                "✅ VAPI web component detected:",
+                widget.constructor.name
+              );
+              return true;
+            }
+          }
+
+          return false;
+        }
+
+        // Just check once when the page loads
+        window.addEventListener("load", function () {
+          console.log("📄 Page fully loaded, checking VAPI chat widget...");
+
+          // Check immediately
+          checkWidgetStatus();
+
+          // Check again after a short delay in case it's still loading
+          setTimeout(checkWidgetStatus, 1000);
+        });
+
+        // Configuration log
+        console.log("🌐 VAPI Chat Configuration:");
+        console.log("• Public Key: bbe4d95e-f4dc-46a7-bd5b-46939cd75576");
+        console.log("• Assistant ID: c70c05ce-acc7-44f8-b39a-e7dfdf0f7fd3");
+        console.log("• Mode: Chat");
+        console.log(
+          "• Script: https://unpkg.com/@vapi-ai/client-sdk-react/dist/embed/widget.umd.js"
+        );
+      })();
+    </script>
 
     <noscript>
       <div
@@ -252,7 +291,10 @@
         "
       >
         <h1>JavaScript Required</h1>
-        <p>Please enable JavaScript to use the AI chat.</p>
+        <p>
+          Please enable JavaScript to experience Autolinium's AI automation
+          solutions.
+        </p>
       </div>
     </noscript>
   </body>

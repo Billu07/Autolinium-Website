@@ -1102,36 +1102,56 @@ body {
 
 /* ===== VAPI WIDGET MINIMAL STYLES ===== */
 
-/* Don't interfere with VAPI widget - let it handle its own styles */
+/* ===== VAPI WIDGET FIX - NO OVERLAY ISSUE ===== */
+
+/* Reset any problematic styles that might cause overlay */
 vapi-widget {
-  /* Reset only positioning, don't touch inner styles */
   position: fixed !important;
   bottom: 20px !important;
   right: 20px !important;
   z-index: 99999 !important;
-  display: block !important;
-  visibility: visible !important;
-  opacity: 1 !important;
 }
 
-/* Container for the widget */
-#vapi-wrapper {
+/* Ensure the container doesn't block clicks */
+#vapi-chat-container {
   position: fixed !important;
   bottom: 20px !important;
   right: 20px !important;
   z-index: 99999 !important;
-  pointer-events: none !important; /* Don't block clicks */
+  pointer-events: none !important;
+  width: auto !important;
+  height: auto !important;
 }
 
-#vapi-wrapper vapi-widget {
-  pointer-events: auto !important; /* Re-enable clicks for widget */
+/* Only the widget itself should be interactive */
+#vapi-chat-container > vapi-widget {
+  pointer-events: auto !important;
 }
 
 /* Mobile adjustment */
 @media (max-width: 768px) {
   vapi-widget,
-  #vapi-wrapper {
+  #vapi-chat-container {
     bottom: 80px !important;
     right: 15px !important;
   }
+
+  /* Force widget to reasonable size on mobile */
+  vapi-widget {
+    width: 90vw !important;
+    max-width: 350px !important;
+    height: 70vh !important;
+    max-height: 600px !important;
+  }
+}
+
+/* Remove any full-screen overlay styles */
+body:has(vapi-widget) {
+  overflow: auto !important;
+}
+
+/* Ensure no other elements are creating overlays */
+[class*="overlay"],
+[class*="backdrop"] {
+  display: none !important;
 }
