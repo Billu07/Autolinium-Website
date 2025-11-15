@@ -11,9 +11,9 @@ const Footer: React.FC = () => {
     {
       title: "Services",
       links: [
-        { name: "Process Automation", path: "/services/process-automation" },
-        { name: "AI & Chatbots", path: "/services/ai-chatbots" },
-        { name: "App Development", path: "/services/app-web-development" },
+        { name: "AI Automation", path: "/services/ai-automation" },
+        { name: "AI Agents", path: "/services/ai-agents" },
+        { name: "AI Web Applications", path: "/services/ai-web-applications" },
       ],
     },
     {
@@ -30,6 +30,7 @@ const Footer: React.FC = () => {
         { name: "Documentation", path: "/docs" },
         { name: "Case Studies", path: "/case-studies" },
         { name: "Support", path: "/support" },
+        { name: "Privacy Policy", path: "/privacy" }, // Added Privacy Policy here
       ],
     },
   ];
@@ -47,7 +48,7 @@ const Footer: React.FC = () => {
       label: "WhatsApp",
     },
     {
-      icon: "fab fa-upwork",
+      icon: "fas fa-briefcase",
       url: "https://www.upwork.com/freelancers/~01881dc186a6673f48?mpSource=share",
       label: "Upwork",
     },
@@ -55,11 +56,6 @@ const Footer: React.FC = () => {
       icon: "fab fa-linkedin-in",
       url: "https://www.linkedin.com/company/autolinium",
       label: "LinkedIn",
-    },
-    {
-      icon: "fas fa-briefcase",
-      url: "https://portfolio.autolinium.com",
-      label: "Portfolio",
     },
   ];
 

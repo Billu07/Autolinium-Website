@@ -134,15 +134,20 @@ const ServicesSection: React.FC = () => {
       ref={ref}
       className="relative py-16 sm:py-24 lg:py-32 bg-[#050810] z-[50]"
     >
-      {/* Background */}
+      {/* Background - Fixed for Mobile */}
       <div className="absolute inset-0 z-[1]">
         <div className="absolute inset-0 bg-gradient-to-b from-[#050810] via-[#0A0F2A] to-[#050810]" />
         <img
           src={bgImg}
           alt="Wavy dots background"
-          className="absolute inset-0 w-full h-full object-cover opacity-30"
+          className="absolute inset-0 w-full h-full object-cover opacity-10 sm:opacity-20"
           loading="lazy"
+          style={{
+            objectPosition: "center center",
+          }}
         />
+        {/* Mobile-optimized overlay */}
+        <div className="absolute inset-0 bg-[#050810]/70 sm:bg-transparent" />
       </div>
 
       <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8">
@@ -193,7 +198,7 @@ const ServicesSection: React.FC = () => {
               className="relative group"
             >
               {/* Card */}
-              <div className="relative bg-gradient-to-br from-[#0F172A]/80 to-[#0F172A]/90 border border-cyan-400/20 rounded-2xl p-6 sm:p-8 text-center transition-all duration-500 hover:scale-[1.02] hover:border-cyan-400/40 shadow-2xl shadow-black/20 hover:shadow-cyan-500/10 flex flex-col h-full">
+              <div className="relative bg-gradient-to-br from-[#0F172A]/90 to-[#0F172A]/95 border border-cyan-400/20 rounded-2xl p-6 sm:p-8 text-center transition-all duration-500 hover:scale-[1.02] hover:border-cyan-400/40 shadow-2xl shadow-black/20 hover:shadow-cyan-500/10 flex flex-col h-full backdrop-blur-sm">
                 {/* Hover Effects */}
                 <div className="absolute inset-0 bg-gradient-to-br from-blue-500/0 via-cyan-400/0 to-blue-400/0 group-hover:from-blue-500/5 group-hover:via-cyan-400/3 group-hover:to-blue-400/5 transition-all duration-500 rounded-2xl pointer-events-none" />
                 <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-cyan-400/0 via-blue-500/0 to-cyan-400/0 group-hover:from-cyan-400/10 group-hover:via-blue-500/5 group-hover:to-cyan-400/10 transition-all duration-700 opacity-0 group-hover:opacity-100 blur-sm pointer-events-none" />
@@ -218,18 +223,20 @@ const ServicesSection: React.FC = () => {
                   {service.description}
                 </p>
 
-                {/* Dropdown Button */}
-                <motion.button
+                {/* Dropdown Button - REMOVED ROTATION */}
+                <button
                   className="dropdown-button w-full inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl text-cyan-400 font-medium border border-cyan-400/30 hover:border-cyan-400 hover:bg-cyan-400/5 transition-all duration-300 group/dropdown touch-manipulation active:scale-95 mt-auto"
-                  animate={{ rotate: activeCard === service.id ? 180 : 0 }}
-                  transition={{ duration: 0.3 }}
                   onClick={(e) => handleOptionClick(e, service.id)}
                 >
                   <span className="group-hover/dropdown:translate-y-0.5 transition-transform duration-300">
                     Explore Services
                   </span>
-                  <i className="fas fa-chevron-down text-sm group-hover/dropdown:translate-y-0.5 transition-transform duration-300" />
-                </motion.button>
+                  <i
+                    className={`fas fa-chevron-down text-sm group-hover/dropdown:translate-y-0.5 transition-transform duration-300 ${
+                      activeCard === service.id ? "rotate-180" : ""
+                    }`}
+                  />
+                </button>
               </div>
 
               {/* Dropdown (Fixed Placement & Animation) */}

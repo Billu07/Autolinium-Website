@@ -68,13 +68,13 @@ const HireOnUpworkCTA = () => {
                 <div className="flex items-center gap-2 bg-white/5 border border-white/10 rounded-lg px-4 py-2">
                   <i className="fas fa-check-circle text-green-400 text-sm"></i>
                   <span className="text-white text-sm font-medium">
-                    25+ Jobs
+                    12+ Projects Done
                   </span>
                 </div>
                 <div className="flex items-center gap-2 bg-white/5 border border-white/10 rounded-lg px-4 py-2">
                   <i className="fas fa-dollar-sign text-cyan-400 text-sm"></i>
                   <span className="text-white text-sm font-medium">
-                    $10K+ Earned
+                    $4K+ Earned
                   </span>
                 </div>
               </div>

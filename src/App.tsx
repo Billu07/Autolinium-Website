@@ -20,6 +20,8 @@ const Services = lazy(() => import("./pages/Services"));
 const About = lazy(() => import("./pages/About"));
 const Pricing = lazy(() => import("./pages/Pricing"));
 const Tools = lazy(() => import("./pages/Tools"));
+const PrivacyPolicy = lazy(() => import("./pages/PrivacyPolicy"));
+const TermsOfService = lazy(() => import("./pages/TermsOfService"));
 
 // Loading fallback
 const LoadingFallback: React.FC = () => (
@@ -97,15 +99,14 @@ const App: React.FC = () => {
                 <Route path="/services/:slug" element={<ServiceDetail />} />
                 <Route path="/tools/:slug" element={<ToolDetail />} />
                 <Route path="/subscribe" element={<Subscribe />} />
+                <Route path="/privacy" element={<PrivacyPolicy />} />{" "}
+                <Route path="/terms" element={<TermsOfService />} />
               </Routes>
             </Suspense>
           </main>
         </AnimatePresence>
 
         <Footer />
-
-        {/* VAPI Widget is now loaded directly in index.html */}
-        {/* This ensures it works as a standalone web component */}
       </div>
     </ErrorBoundary>
   );

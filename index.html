@@ -436,7 +436,7 @@
         border-radius="large"
         size="tiny"
         position="bottom-right"
-        title="CHAT WITH US"
+        title="Chat With Us"
         start-button-text="Start"
         end-button-text="End Call"
         chat-first-message="Hey, How can I help you today?"
@@ -482,9 +482,6 @@
           const widget = document.querySelector("vapi-widget");
 
           if (widget && widget.shadowRoot) {
-            console.log("✅ VAPI chat widget fully loaded with shadow DOM");
-            console.log("🔧 Widget type:", widget.constructor.name);
-            console.log("💬 Mode: Chat");
             widget.style.setProperty("width", "400px", "important");
             widget.style.setProperty("height", "600px", "important");
             widget.style.setProperty("max-width", "90vw", "important");
@@ -495,8 +492,6 @@
 
           if (widget) {
             if (widget.constructor.name !== "HTMLElement") {
-              console.log(
-                "✅ VAPI web component detected:",
                 widget.constructor.name
               );
               return true;

@@ -1,143 +1,107 @@
 import React from "react";
-import { motion } from "framer-motion";
 import { useParams, Link } from "react-router-dom";
-import { fadeInVariants, buttonVariants } from "../utils/animationVariants";
-
 import ErrorBoundary from "../components/ErrorBoundary";
-import { useScrollAnimation } from "../hooks/useScrollAnimation";
 
-// Enhanced mock data for services
-const serviceData: {
-  [key: string]: {
-    title: string;
-    description: string;
-    longDescription: string;
-    features: { name: string; description: string; icon: string }[];
-    benefits: string[];
-    process: { step: string; description: string }[];
-    caseStudies: {
-      client: string;
-      challenge: string;
-      solution: string;
-      results: string[];
-    }[];
-    tools: string[];
-    pricing: { type: string; price: string; features: string[] }[];
-  };
-} = {
+// Define proper TypeScript interfaces
+interface ServiceFeature {
+  name: string;
+  description: string;
+  icon: string;
+}
+
+interface ProcessStep {
+  step: string;
+  description: string;
+}
+
+interface CaseStudy {
+  client: string;
+  challenge: string;
+  solution: string;
+  results: string[];
+}
+
+interface ServiceData {
+  title: string;
+  description: string;
+  longDescription: string;
+  features: ServiceFeature[];
+  benefits: string[];
+  process: ProcessStep[];
+  caseStudies: CaseStudy[];
+}
+
+// Service data with proper typing
+const serviceData: Record<string, ServiceData> = {
   "ai-automation": {
     title: "AI Automation",
     description:
       "Automate your entire business workflow with AI-powered automation for lead generation, content creation, sales funnels, and more.",
     longDescription:
-      "Our AI automation solutions transform how you operate by eliminating manual tasks and introducing intelligent workflows. From automated lead generation to content creation and sales funnel optimization, we build systems that work 24/7 to grow your business. Using cutting-edge AI technologies, we create automation that adapts, learns, and scales with your needs.",
+      "Our AI automation solutions transform how you operate by eliminating manual tasks and introducing intelligent workflows. From automated lead generation to content creation and sales funnel optimization, we build systems that work 24/7 to grow your business.",
     features: [
       {
         name: "Lead Generation & Outreach",
         description:
-          "Automated cold email and SMS campaigns with AI-powered personalization and follow-up sequences",
+          "Automated cold email and SMS campaigns with AI-powered personalization",
         icon: "fas fa-bullseye",
       },
       {
         name: "Automated Video Generation",
-        description:
-          "AI-driven video creation for marketing, training, and social media with personalized content",
+        description: "AI-driven video creation for marketing and social media",
         icon: "fas fa-video",
       },
       {
         name: "Content Automation",
-        description:
-          "Automated social media posting, blog generation, and content scheduling across platforms",
+        description: "Automated social media posting and blog generation",
         icon: "fas fa-share-alt",
       },
       {
         name: "Sales Funnel Automation",
         description:
-          "End-to-end automation of customer acquisition, nurturing, and conversion processes",
+          "End-to-end automation of customer acquisition and conversion",
         icon: "fas fa-funnel-dollar",
       },
     ],
     benefits: [
-      "Reduce manual work by 70-90% across business operations",
-      "Generate qualified leads 24/7 with AI-powered outreach",
+      "Reduce manual work by 70-90% across operations",
+      "Generate qualified leads 24/7 with AI outreach",
       "Create engaging content automatically at scale",
       "Optimize sales funnels with data-driven automation",
-      "Scale operations without proportional staff increases",
     ],
     process: [
       {
         step: "Workflow Analysis",
-        description:
-          "Identify automation opportunities and map current business processes",
+        description: "Identify automation opportunities and map processes",
       },
       {
         step: "AI Solution Design",
-        description:
-          "Design intelligent automation workflows with AI integration",
+        description: "Design intelligent automation workflows",
       },
       {
         step: "Development & Training",
-        description:
-          "Build automation systems and train AI models on your specific data",
+        description: "Build systems and train AI models",
       },
       {
         step: "Integration & Testing",
-        description:
-          "Connect with existing systems and conduct comprehensive testing",
+        description: "Connect with existing systems and test",
       },
       {
         step: "Launch & Optimization",
-        description:
-          "Go live with continuous monitoring and AI model improvement",
+        description: "Go live with continuous monitoring",
       },
     ],
     caseStudies: [
       {
         client: "E-commerce Brand",
         challenge:
-          "Manual lead generation and customer outreach was consuming 30+ hours weekly with inconsistent results and high human error rate.",
+          "Manual lead generation consuming 30+ hours weekly with inconsistent results.",
         solution:
-          "Implemented AI-powered automation for lead generation, personalized email sequences, and social media content creation using Make, ChatGPT, and custom AI models.",
+          "Implemented AI-powered automation for lead generation and personalized outreach.",
         results: [
           "85% reduction in manual outreach time",
-          "3x increase in qualified lead generation",
+          "3x increase in qualified leads",
           "40% improvement in email open rates",
-          "24/7 automated content creation",
-        ],
-      },
-    ],
-    tools: ["Make", "n8n", "ChatGPT API", "Python", "AWS", "Custom AI Models"],
-    pricing: [
-      {
-        type: "Basic Automation",
-        price: "From $3,500",
-        features: [
-          "Single workflow automation",
-          "Basic AI integration",
-          "Standard reporting",
-          "3-month support",
-        ],
-      },
-      {
-        type: "Business Automation",
-        price: "From $12,000",
-        features: [
-          "Multiple workflow automations",
-          "Advanced AI capabilities",
-          "Custom dashboards",
-          "6-month support",
-          "Team training",
-        ],
-      },
-      {
-        type: "Enterprise Automation",
-        price: "Custom Quote",
-        features: [
-          "Full business process automation",
-          "Custom AI model training",
-          "Advanced analytics",
-          "Dedicated support",
-          "Ongoing optimization",
         ],
       },
     ],
@@ -147,110 +111,69 @@ const serviceData: {
     description:
       "Intelligent AI agents that handle customer interactions, sales, and support across multiple channels 24/7.",
     longDescription:
-      "Our AI agents revolutionize customer engagement by providing intelligent, personalized interactions across all your communication channels. From sales chatbots that convert visitors into customers, to voice receptionists that handle calls professionally, these AI solutions work tirelessly to enhance customer experience while reducing operational costs. Built with advanced natural language processing and custom training, our agents understand context and provide human-like interactions.",
+      "Our AI agents revolutionize customer engagement by providing intelligent, personalized interactions across all communication channels.",
     features: [
       {
         name: "Sales Chatbots",
         description:
-          "Intelligent chatbots for WhatsApp, Messenger, Telegram, and websites that handle sales and support",
+          "Intelligent chatbots for WhatsApp, Messenger, and websites",
         icon: "fas fa-robot",
       },
       {
         name: "AI Voice Receptionist",
-        description:
-          "Voice agents that answer calls, handle FAQs, book appointments, and create support tickets 24/7",
+        description: "Voice agents that answer calls and handle FAQs 24/7",
         icon: "fas fa-phone-alt",
       },
       {
         name: "AI Calling Agents",
-        description:
-          "Outbound calling agents for lead generation, follow-ups, and customer outreach campaigns",
+        description: "Outbound calling for lead generation and follow-ups",
         icon: "fas fa-phone-volume",
       },
       {
         name: "Multi-Channel Support",
-        description:
-          "Unified AI agents that maintain context across voice, text, and messaging platforms",
+        description: "Unified AI agents across voice, text, and messaging",
         icon: "fas fa-comments",
       },
     ],
     benefits: [
       "Provide 24/7 customer support without additional staff",
-      "Handle 80% of common customer queries automatically",
+      "Handle 80% of common queries automatically",
       "Reduce response time from hours to seconds",
       "Increase lead conversion with instant engagement",
-      "Gather valuable customer insights from interactions",
     ],
     process: [
       {
         step: "Use Case Definition",
-        description: "Identify key interaction scenarios and success metrics",
+        description: "Identify key interaction scenarios",
       },
       {
         step: "Conversation Design",
-        description: "Design natural conversation flows and response templates",
+        description: "Design natural conversation flows",
       },
       {
         step: "AI Model Training",
-        description: "Train and fine-tune AI models for your specific domain",
+        description: "Train models for your specific domain",
       },
       {
         step: "Integration & Testing",
-        description: "Connect with your systems and conduct extensive testing",
+        description: "Connect with systems and test",
       },
       {
         step: "Launch & Optimization",
-        description:
-          "Go live with performance monitoring and continuous improvement",
+        description: "Go live with performance monitoring",
       },
     ],
     caseStudies: [
       {
         client: "Service Business",
         challenge:
-          "High call volume was overwhelming staff, leading to missed calls, long wait times, and poor customer experience during peak hours.",
+          "High call volume overwhelming staff with missed calls and long wait times.",
         solution:
-          "Deployed AI voice receptionist with Vapi integration, handling initial call screening, appointment booking, and FAQ responses with seamless human handoff when needed.",
+          "Deployed AI voice receptionist handling calls and appointment booking.",
         results: [
-          "75% of calls handled automatically by AI",
-          "Reduced wait times from 5+ minutes to instant",
-          "24/7 availability for customer inquiries",
-          "40% reduction in staff workload",
-        ],
-      },
-    ],
-    tools: ["Vapi", "ChatGPT", "Botpress", "Python", "Twilio", "WhatsApp API"],
-    pricing: [
-      {
-        type: "Basic Chatbot",
-        price: "From $4,000",
-        features: [
-          "Single channel deployment",
-          "Basic NLP capabilities",
-          "Standard integration",
-          "3-month support",
-        ],
-      },
-      {
-        type: "Advanced AI Agent",
-        price: "From $15,000",
-        features: [
-          "Multi-channel deployment",
-          "Advanced NLP and voice",
-          "CRM integration",
-          "6-month support",
-          "Custom training",
-        ],
-      },
-      {
-        type: "Enterprise AI Suite",
-        price: "Custom Quote",
-        features: [
-          "Omnichannel AI agents",
-          "Custom AI model development",
-          "Advanced analytics",
-          "Dedicated support",
-          "Ongoing optimization",
+          "75% of calls handled automatically",
+          "Reduced wait times to instant",
+          "24/7 availability",
         ],
       },
     ],
@@ -260,112 +183,68 @@ const serviceData: {
     description:
       "Custom AI-powered web applications including CRM, ERP, and POS systems tailored to your business needs.",
     longDescription:
-      "We build intelligent web applications that leverage AI to transform how you manage your business. From AI-powered CRMs that predict customer behavior, to ERP systems that optimize operations, and POS systems that enhance retail experiences - our applications are built with intelligence at their core. Using modern technologies and AI integration, we create solutions that not only manage data but provide actionable insights and automation.",
+      "We build intelligent web applications that leverage AI to transform how you manage your business with actionable insights and automation.",
     features: [
       {
         name: "AI-Powered CRM",
-        description:
-          "Intelligent customer relationship management with predictive analytics and automated workflows",
+        description: "Intelligent CRM with predictive analytics",
         icon: "fas fa-users",
       },
       {
         name: "Enterprise ERP Systems",
-        description:
-          "Comprehensive enterprise resource planning with AI-driven optimization and forecasting",
+        description: "ERP with AI-driven optimization",
         icon: "fas fa-chart-line",
       },
       {
         name: "Point of Sale (POS)",
-        description:
-          "Smart retail systems with inventory management, sales analytics, and customer insights",
+        description: "Smart retail systems with analytics",
         icon: "fas fa-cash-register",
       },
       {
         name: "Custom Business Applications",
-        description:
-          "Tailored applications for specific business needs with integrated AI capabilities",
+        description: "Tailored apps with AI capabilities",
         icon: "fas fa-cogs",
       },
     ],
     benefits: [
-      "Make data-driven decisions with AI-powered insights",
-      "Automate complex business processes intelligently",
-      "Scale operations with robust, AI-enhanced systems",
-      "Improve customer experience with predictive analytics",
-      "Reduce operational costs through optimization",
+      "Make data-driven decisions with AI insights",
+      "Automate complex business processes",
+      "Scale operations with robust systems",
+      "Improve customer experience with analytics",
     ],
     process: [
       {
         step: "Requirements Analysis",
-        description:
-          "Deep dive into business needs and AI integration opportunities",
+        description: "Deep dive into business needs",
       },
       {
         step: "Architecture Design",
-        description:
-          "Design scalable application architecture with AI components",
+        description: "Design scalable application architecture",
       },
       {
         step: "Development & AI Integration",
-        description: "Build application with integrated AI models and features",
+        description: "Build with integrated AI models",
       },
       {
         step: "Testing & Training",
-        description:
-          "Comprehensive testing and user training for smooth adoption",
+        description: "Comprehensive testing and user training",
       },
       {
         step: "Deployment & Support",
-        description: "Launch with ongoing support and AI model refinement",
+        description: "Launch with ongoing support",
       },
     ],
     caseStudies: [
       {
         client: "Manufacturing Company",
         challenge:
-          "Outdated systems were causing inventory mismanagement, production delays, and lack of real-time insights into operations.",
+          "Outdated systems causing inventory mismanagement and production delays.",
         solution:
-          "Developed custom AI-powered ERP system with predictive inventory management, production optimization, and real-time analytics dashboard using React, Node.js, and machine learning models.",
+          "Developed AI-powered ERP with predictive inventory management.",
         results: [
           "30% reduction in inventory costs",
-          "25% improvement in production efficiency",
+          "25% improvement in production",
           "Real-time operational visibility",
-          "Automated supply chain optimization",
-        ],
-      },
-    ],
-    tools: ["React", "Node.js", "PostgreSQL", "Python", "TensorFlow", "AWS"],
-    pricing: [
-      {
-        type: "Standard Application",
-        price: "From $8,000",
-        features: [
-          "Basic AI features",
-          "Standard functionality",
-          "Basic reporting",
-          "4-month support",
-        ],
-      },
-      {
-        type: "Advanced AI Application",
-        price: "From $25,000",
-        features: [
-          "Advanced AI capabilities",
-          "Custom features",
-          "Advanced analytics",
-          "6-month support",
-          "Team training",
-        ],
-      },
-      {
-        type: "Enterprise Solution",
-        price: "Custom Quote",
-        features: [
-          "Full AI integration",
-          "Enterprise scalability",
-          "Custom AI models",
-          "Dedicated support",
-          "Ongoing development",
         ],
       },
     ],
@@ -374,35 +253,26 @@ const serviceData: {
 
 const ServiceDetail: React.FC = () => {
   const { slug } = useParams<{ slug: string }>();
-  const { ref, isVisible } = useScrollAnimation();
   const service = slug && serviceData[slug] ? serviceData[slug] : null;
 
   if (!service) {
     return (
       <ErrorBoundary>
-        <section className="section bg-[var(--primary-bg)] min-h-screen pt-20">
-          <div className="container text-center">
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8 }}
+        <section className="min-h-screen bg-[#050810] pt-20 flex items-center justify-center">
+          <div className="container text-center px-4">
+            <i className="fas fa-cogs text-6xl text-cyan-400 mb-6"></i>
+            <h2 className="text-4xl font-bold mb-4 text-white">
+              Service Not Found
+            </h2>
+            <p className="text-lg text-gray-400 mb-8">
+              The service you're looking for doesn't exist.
+            </p>
+            <Link
+              to="/services"
+              className="px-8 py-3 bg-cyan-500 text-white rounded-lg font-semibold hover:bg-cyan-400 transition-colors"
             >
-              <i className="fas fa-cogs text-6xl text-[var(--accent-blue)] mb-6"></i>
-              <h2 className="text-4xl font-bold mb-4 text-white">
-                Service Not Found
-              </h2>
-              <p className="text-lg text-[var(--text-secondary)] mb-8">
-                The service you're looking for doesn't exist in our portfolio.
-              </p>
-              <motion.div variants={buttonVariants} whileHover="hover">
-                <Link
-                  to="/services"
-                  className="button bg-[var(--accent-deep-teal)]"
-                >
-                  Back to Services
-                </Link>
-              </motion.div>
-            </motion.div>
+              Back to Services
+            </Link>
           </div>
         </section>
       </ErrorBoundary>
@@ -411,134 +281,98 @@ const ServiceDetail: React.FC = () => {
 
   return (
     <ErrorBoundary>
-      <section
-        ref={ref}
-        className="section bg-[var(--primary-bg)] min-h-screen pt-20"
-      >
-        <motion.div
-          variants={fadeInVariants}
-          initial="hidden"
-          animate={isVisible ? "visible" : "hidden"}
-          className="container max-w-6xl"
-        >
+      <section className="min-h-screen bg-[#050810] pt-20 pb-16">
+        <div className="container max-w-6xl mx-auto px-4 sm:px-6">
           {/* Back Button */}
-          <motion.div
-            className="mb-8"
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6 }}
-          >
+          <div className="mb-8">
             <Link
               to="/services"
-              className="inline-flex items-center text-[var(--accent-blue)] hover:text-[var(--accent-deep-teal)] transition-colors"
+              className="inline-flex items-center text-cyan-400 hover:text-cyan-300 transition-colors"
             >
               <i className="fas fa-arrow-left mr-2"></i>
               Back to Services
             </Link>
-          </motion.div>
+          </div>
 
           {/* Header Section */}
-          <motion.div
-            className="text-center mb-16"
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-          >
-            <h1 className="text-4xl font-bold mb-6 text-white">
+          <div className="text-center mb-16">
+            <h1 className="text-4xl sm:text-5xl font-bold mb-6 text-white">
               {service.title}
             </h1>
-            <p className="text-xl text-[var(--text-secondary)] mb-6 max-w-3xl mx-auto leading-relaxed">
+            <p className="text-xl text-gray-300 mb-6 max-w-3xl mx-auto leading-relaxed">
               {service.description}
             </p>
-            <p className="text-[var(--text-secondary)] max-w-4xl mx-auto mb-8">
+            <p className="text-gray-400 max-w-4xl mx-auto mb-8 leading-relaxed">
               {service.longDescription}
             </p>
-            <motion.div variants={buttonVariants} whileHover="hover">
-              <Link
-                to="/contact"
-                className="button bg-[var(--accent-deep-teal)] text-lg"
-              >
-                Start Your {service.title} Project
-              </Link>
-            </motion.div>
-          </motion.div>
+            <Link
+              to="/contact"
+              className="inline-flex items-center px-8 py-4 bg-cyan-500 text-white rounded-xl font-semibold hover:bg-cyan-400 transition-colors text-lg"
+            >
+              Start Your {service.title} Project
+            </Link>
+          </div>
 
           {/* Benefits Section */}
-          <motion.div
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-          >
-            {service.benefits.map((benefit, index) => (
-              <motion.div
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
+            {service.benefits.map((benefit: string, index: number) => (
+              <div
                 key={index}
-                className="card p-6 text-center group hover:transform hover:scale-105 transition-all duration-300"
-                whileHover={{ y: -5 }}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
+                className="bg-[#0f172a] border border-gray-800 rounded-xl p-6 text-center hover:border-cyan-400/50 transition-colors duration-300"
               >
-                <div className="w-12 h-12 bg-gradient-to-br from-[var(--accent-blue)] to-[var(--accent-deep-teal)] rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
+                <div className="w-12 h-12 bg-gradient-to-br from-cyan-400 to-blue-500 rounded-full flex items-center justify-center mx-auto mb-4">
                   <i className="fas fa-check text-white"></i>
                 </div>
-                <p className="text-[var(--text-secondary)]">{benefit}</p>
-              </motion.div>
+                <p className="text-gray-300 text-sm leading-relaxed">
+                  {benefit}
+                </p>
+              </div>
             ))}
-          </motion.div>
+          </div>
 
           {/* Features & Process */}
-          <motion.div
-            className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-16"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
-          >
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-16">
             {/* Features */}
             <div>
-              <h2 className="text-3xl font-bold mb-8 text-white">
+              <h2 className="text-3xl font-bold mb-8 text-white text-center lg:text-left">
                 Key Features
               </h2>
-              <div className="space-y-6">
-                {service.features.map((feature, index) => (
-                  <motion.div
-                    key={index}
-                    className="flex items-start space-x-4 p-4 rounded-lg hover:bg-gray-800 transition-colors"
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.6, delay: 0.6 + index * 0.1 }}
-                  >
-                    <div className="w-10 h-10 bg-[var(--accent-blue)] rounded-full flex items-center justify-center flex-shrink-0 mt-1">
-                      <i className={`${feature.icon} text-white`}></i>
+              <div className="space-y-4">
+                {service.features.map(
+                  (feature: ServiceFeature, index: number) => (
+                    <div
+                      key={index}
+                      className="flex items-start space-x-4 p-4 rounded-lg bg-[#0f172a] border border-gray-800"
+                    >
+                      <div className="w-10 h-10 bg-cyan-500 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                        <i className={`${feature.icon} text-white text-sm`}></i>
+                      </div>
+                      <div>
+                        <h3 className="text-lg font-semibold text-white mb-2">
+                          {feature.name}
+                        </h3>
+                        <p className="text-gray-400 text-sm">
+                          {feature.description}
+                        </p>
+                      </div>
                     </div>
-                    <div>
-                      <h3 className="text-lg font-semibold text-white mb-2">
-                        {feature.name}
-                      </h3>
-                      <p className="text-[var(--text-secondary)]">
-                        {feature.description}
-                      </p>
-                    </div>
-                  </motion.div>
-                ))}
+                  )
+                )}
               </div>
             </div>
 
             {/* Process */}
             <div>
-              <h2 className="text-3xl font-bold mb-8 text-white">
+              <h2 className="text-3xl font-bold mb-8 text-white text-center lg:text-left">
                 Our Process
               </h2>
-              <div className="space-y-6">
-                {service.process.map((step, index) => (
-                  <motion.div
+              <div className="space-y-4">
+                {service.process.map((step: ProcessStep, index: number) => (
+                  <div
                     key={index}
-                    className="flex items-start space-x-4"
-                    initial={{ opacity: 0, x: 20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.6, delay: 0.6 + index * 0.1 }}
+                    className="flex items-start space-x-4 p-4 rounded-lg bg-[#0f172a] border border-gray-800"
                   >
-                    <div className="w-8 h-8 bg-[var(--accent-blue)] rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                    <div className="w-8 h-8 bg-cyan-500 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
                       <span className="text-white font-bold text-sm">
                         {index + 1}
                       </span>
@@ -547,161 +381,106 @@ const ServiceDetail: React.FC = () => {
                       <h3 className="text-lg font-semibold text-white mb-2">
                         {step.step}
                       </h3>
-                      <p className="text-[var(--text-secondary)]">
+                      <p className="text-gray-400 text-sm">
                         {step.description}
                       </p>
                     </div>
-                  </motion.div>
+                  </div>
                 ))}
               </div>
             </div>
-          </motion.div>
+          </div>
 
           {/* Case Study */}
-          <motion.div
-            className="mb-16"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.6 }}
-          >
+          <div className="mb-16">
             <h2 className="text-3xl font-bold mb-8 text-center text-white">
               Success Story
             </h2>
-            {service.caseStudies.map((caseStudy, index) => (
-              <motion.div
+            {service.caseStudies.map((caseStudy: CaseStudy, index: number) => (
+              <div
                 key={index}
-                className="card p-8"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.8 }}
+                className="bg-[#0f172a] border border-gray-800 rounded-2xl p-6 sm:p-8"
               >
-                <h3 className="text-2xl font-bold mb-4 text-white">
+                <h3 className="text-2xl font-bold mb-6 text-white text-center">
                   {caseStudy.client}
                 </h3>
 
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-6">
-                  <div>
-                    <h4 className="text-lg font-semibold text-[var(--accent-blue)] mb-3">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+                  <div className="space-y-4">
+                    <h4 className="text-lg font-semibold text-cyan-400">
                       The Challenge
                     </h4>
-                    <p className="text-[var(--text-secondary)]">
+                    <p className="text-gray-400 leading-relaxed">
                       {caseStudy.challenge}
                     </p>
                   </div>
-                  <div>
-                    <h4 className="text-lg font-semibold text-[var(--accent-blue)] mb-3">
+                  <div className="space-y-4">
+                    <h4 className="text-lg font-semibold text-cyan-400">
                       Our Solution
                     </h4>
-                    <p className="text-[var(--text-secondary)]">
+                    <p className="text-gray-400 leading-relaxed">
                       {caseStudy.solution}
                     </p>
                   </div>
                 </div>
 
-                <div>
-                  <h4 className="text-lg font-semibold text-[var(--accent-blue)] mb-4">
+                <div className="space-y-4">
+                  <h4 className="text-lg font-semibold text-cyan-400">
                     The Results
                   </h4>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    {caseStudy.results.map((result, resultIndex) => (
-                      <div
-                        key={resultIndex}
-                        className="flex items-center space-x-3"
-                      >
-                        <i className="fas fa-check text-green-400"></i>
-                        <span className="text-[var(--text-secondary)]">
-                          {result}
-                        </span>
-                      </div>
-                    ))}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    {caseStudy.results.map(
+                      (result: string, resultIndex: number) => (
+                        <div
+                          key={resultIndex}
+                          className="flex items-center space-x-3"
+                        >
+                          <i className="fas fa-check text-green-400 text-sm"></i>
+                          <span className="text-gray-300 text-sm">
+                            {result}
+                          </span>
+                        </div>
+                      )
+                    )}
                   </div>
                 </div>
-              </motion.div>
+              </div>
             ))}
-          </motion.div>
+          </div>
 
-          {/* Pricing & CTA */}
-          <motion.div
-            className="grid grid-cols-1 lg:grid-cols-2 gap-8"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.8 }}
-          >
-            {/* Pricing */}
-            <div className="card p-6">
-              <h3 className="text-2xl font-bold mb-6 text-white">
-                Pricing Options
-              </h3>
-              <div className="space-y-4">
-                {service.pricing.map((pricing, index) => (
-                  <div
-                    key={index}
-                    className="p-4 border border-[var(--card-border)] rounded-lg hover:border-[var(--accent-blue)] transition-colors"
-                  >
-                    <div className="flex justify-between items-start mb-3">
-                      <h4 className="font-semibold text-white">
-                        {pricing.type}
-                      </h4>
-                      <span className="text-[var(--accent-blue)] font-bold">
-                        {pricing.price}
-                      </span>
-                    </div>
-                    <ul className="space-y-2">
-                      {pricing.features.map((feature, featureIndex) => (
-                        <li
-                          key={featureIndex}
-                          className="flex items-center text-sm text-[var(--text-secondary)]"
-                        >
-                          <i className="fas fa-check text-green-400 mr-2 text-xs"></i>
-                          {feature}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                ))}
+          {/* CTA Section */}
+          <div className="bg-gradient-to-br from-cyan-500 to-blue-500 rounded-2xl p-8 sm:p-12 text-center">
+            <h3 className="text-3xl font-bold mb-4 text-white">
+              Ready to Get Started?
+            </h3>
+            <p className="text-blue-100 mb-6 text-lg leading-relaxed max-w-2xl mx-auto">
+              Let's discuss how {service.title} can transform your business
+              operations and drive growth.
+            </p>
+
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8 max-w-2xl mx-auto">
+              <div className="flex items-center justify-center text-blue-200">
+                <i className="fas fa-clock mr-2"></i>
+                <span className="text-sm">Free consultation</span>
+              </div>
+              <div className="flex items-center justify-center text-blue-200">
+                <i className="fas fa-check-circle mr-2"></i>
+                <span className="text-sm">No commitment</span>
+              </div>
+              <div className="flex items-center justify-center text-blue-200">
+                <i className="fas fa-rocket mr-2"></i>
+                <span className="text-sm">Quick start</span>
               </div>
             </div>
 
-            {/* CTA Card */}
-            <motion.div
-              className="card p-8 bg-gradient-to-br from-[var(--accent-deep-teal)] to-[var(--accent-blue)] text-center"
-              whileHover={{ scale: 1.02 }}
-              transition={{ duration: 0.3 }}
+            <Link
+              to="/contact"
+              className="inline-flex items-center justify-center px-8 py-4 bg-white text-cyan-600 rounded-xl font-semibold hover:bg-gray-100 transition-colors text-lg"
             >
-              <h3 className="text-2xl font-bold mb-4 text-white">
-                Ready to Get Started?
-              </h3>
-              <p className="text-blue-100 mb-6">
-                Let's discuss how {service.title} can transform your business
-                operations and drive growth.
-              </p>
-
-              <div className="space-y-4 mb-6">
-                <div className="flex items-center justify-center text-blue-200">
-                  <i className="fas fa-clock mr-2"></i>
-                  <span>Free 30-minute consultation</span>
-                </div>
-                <div className="flex items-center justify-center text-blue-200">
-                  <i className="fas fa-check-circle mr-2"></i>
-                  <span>No commitment required</span>
-                </div>
-                <div className="flex items-center justify-center text-blue-200">
-                  <i className="fas fa-rocket mr-2"></i>
-                  <span>Quick project start</span>
-                </div>
-              </div>
-
-              <motion.div variants={buttonVariants} whileHover="hover">
-                <Link
-                  to="/contact"
-                  className="button bg-white text-[var(--accent-deep-teal)] hover:bg-gray-100 font-semibold w-full"
-                >
-                  Start Your Project Today
-                </Link>
-              </motion.div>
-            </motion.div>
-          </motion.div>
-        </motion.div>
+              Start Your Project Today
+            </Link>
+          </div>
+        </div>
       </section>
     </ErrorBoundary>
   );
