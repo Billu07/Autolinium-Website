@@ -2,15 +2,14 @@ import React, { Suspense, lazy } from "react";
 import { Routes, Route, useLocation } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
 
-// Eager load critical components (above the fold)
+// Eager load
 import ErrorBoundary from "./components/ErrorBoundary";
 import ScrollProgress from "./components/ScrollProgress";
 import Header from "./components/sections/Header";
 import Footer from "./components/sections/Footer";
-import ChatWidget from "./components/ChatWidget";
 import Home from "./components/sections/Home";
 
-// Lazy load non-critical components (below the fold)
+// Lazy load
 const Contact = lazy(() => import("./components/Contact"));
 const ServiceDetail = lazy(() => import("./pages/ServiceDetail"));
 const ToolDetail = lazy(() => import("./pages/ToolDetail"));
@@ -22,73 +21,31 @@ const About = lazy(() => import("./pages/About"));
 const Pricing = lazy(() => import("./pages/Pricing"));
 const Tools = lazy(() => import("./pages/Tools"));
 
-// Loading component for lazy-loaded routes
+// Loading fallback
 const LoadingFallback: React.FC = () => (
   <div className="flex items-center justify-center min-h-screen">
-    <motion.div
-      className="flex flex-col items-center gap-4"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-    >
+    <motion.div className="flex flex-col items-center gap-4">
       <motion.div
         className="w-16 h-16 border-4 border-cyan-500 border-t-transparent rounded-full"
         animate={{ rotate: 360 }}
         transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
       />
-      <p className="text-cyan-400 text-lg font-medium">Loading...</p>
+      <p className="text-cyan-400">Loading...</p>
     </motion.div>
   </div>
 );
 
-// Performance monitor (removed in production via build process)
-const PerformanceMonitor: React.FC = () => {
-  React.useEffect(() => {
-    // Only run in development - will be tree-shaken in production
-    if (import.meta.env.DEV) {
-      if ("connection" in navigator) {
-        const connection = (navigator as any).connection;
-        console.log("Network type:", connection.effectiveType);
-        console.log("Data saver:", connection.saveData);
-      }
-
-      const observeLoadTime = () => {
-        if (performance.timing) {
-          const loadTime =
-            performance.timing.loadEventEnd -
-            performance.timing.navigationStart;
-          console.log("Page load time:", loadTime, "ms");
-        }
-      };
-
-      if (document.readyState === "complete") observeLoadTime();
-      else window.addEventListener("load", observeLoadTime);
-
-      return () => window.removeEventListener("load", observeLoadTime);
-    }
-  }, []);
-
-  return null;
-};
-
-// Optimized particle system with reduced count
+// Particle system
 const ParticleSystem: React.FC = React.memo(() => (
-  <motion.div
-    className="fixed inset-0 z-0 pointer-events-none"
-    initial={{ opacity: 0 }}
-    animate={{ opacity: 1 }}
-  >
+  <motion.div className="fixed inset-0 z-0 pointer-events-none">
     {[...Array(15)].map((_, i) => (
       <motion.div
         key={i}
-        className="absolute w-2 h-2 rounded-full bg-[var(--accent-blue)]"
-        style={{
-          filter: "blur(2px)",
-          willChange: "transform",
-        }}
+        className="absolute w-2 h-2 rounded-full bg-cyan-400/20"
+        style={{ filter: "blur(2px)" }}
         initial={{
           x: Math.random() * window.innerWidth,
           y: Math.random() * window.innerHeight,
-          opacity: 0.3,
         }}
         animate={{
           y: [null, Math.random() * window.innerHeight],
@@ -110,28 +67,18 @@ const App: React.FC = () => {
 
   return (
     <ErrorBoundary>
-      <div className="app-container relative min-h-screen bg-[var(--primary-bg)] text-[var(--text-primary)] font-inter overflow-hidden">
-        {import.meta.env.DEV && <PerformanceMonitor />}
-
-        {/* Enhanced Background System - HIDDEN ON HOME PAGE */}
+      <div className="app-container relative min-h-screen bg-[#050810] text-white font-inter overflow-hidden">
+        {/* Backgrounds */}
         {!isHomePage && <div className="neural-grid"></div>}
-
-        {/* PARTICLE SYSTEM - HIDDEN ON HOME PAGE (HERO) */}
         {!isHomePage && <ParticleSystem />}
-
-        {/* ADDITIONAL FLOATING PARTICLES - HIDDEN ON HOME PAGE */}
         {!isHomePage && (
           <div className="particles-container">
-            <div className="particle small"></div>
-            <div className="particle medium"></div>
-            <div className="particle large"></div>
             <div className="particle small"></div>
             <div className="particle medium"></div>
             <div className="particle large"></div>
           </div>
         )}
 
-        {/* Header + Page Transitions */}
         <Header />
         <ScrollProgress />
 
@@ -156,7 +103,9 @@ const App: React.FC = () => {
         </AnimatePresence>
 
         <Footer />
-        <ChatWidget />
+
+        {/* VAPI Widget is now loaded directly in index.html */}
+        {/* This ensures it works as a standalone web component */}
       </div>
     </ErrorBoundary>
   );

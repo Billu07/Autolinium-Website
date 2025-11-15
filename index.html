@@ -77,14 +77,14 @@
       content="black-translucent"
     />
 
-    <!-- FAVICONS (ONLY ONCE!) -->
+    <!-- FAVICONS -->
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
     <link rel="manifest" href="/site.webmanifest" />
 
-    <!-- Structured Data (FIXED LOGO URL) -->
+    <!-- Structured Data -->
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
@@ -114,6 +114,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="preconnect" href="https://cdnjs.cloudflare.com" />
+    <!-- VAPI WIDGET CDN -->
+    <link rel="preconnect" href="https://unpkg.com" />
 
     <!-- Fonts -->
     <link
@@ -144,10 +146,140 @@
       href="/src/assets/hero-bg-optimized.webp"
       type="image/webp"
     />
+
+    <!-- VAPI Widget CSS -->
+    <style>
+      /* Ensure VAPI widget appears above React content */
+      vapi-widget {
+        z-index: 99999 !important;
+        position: fixed !important;
+        bottom: 20px !important;
+        right: 20px !important;
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+      }
+
+      /* Container for better control */
+      #vapi-wrapper {
+        position: fixed !important;
+        bottom: 20px !important;
+        right: 20px !important;
+        z-index: 99999 !important;
+      }
+
+      /* Mobile responsive */
+      @media (max-width: 768px) {
+        vapi-widget,
+        #vapi-wrapper {
+          bottom: 80px !important;
+          right: 15px !important;
+        }
+      }
+
+      /* Debug border - remove in production */
+      vapi-widget {
+        border: 1px solid #14b8a6 !important;
+      }
+    </style>
   </head>
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
+
+    <!-- VAPI WIDGET - CHAT MODE -->
+    <div id="vapi-wrapper">
+      <vapi-widget
+        public-key="bbe4d95e-f4dc-46a7-bd5b-46939cd75576"
+        assistant-id="c70c05ce-acc7-44f8-b39a-e7dfdf0f7fd3"
+        mode="chat"
+        theme="dark"
+        base-bg-color="#000000"
+        accent-color="#14B8A6"
+        cta-button-color="#000000"
+        cta-button-text-color="#ffffff"
+        border-radius="large"
+        size="full"
+        position="bottom-right"
+        title="CHAT WITH US"
+        start-button-text="Start"
+        end-button-text="End Call"
+        chat-first-message="Hey, How can I help you today?"
+        chat-placeholder="Type your message..."
+        voice-show-transcript="true"
+        consent-required="true"
+        consent-title="Terms and conditions"
+        consent-content='By clicking "Agree," and each time I interact with this AI agent, I consent to the recording, storage, and sharing of my communications with third-party service providers, and as otherwise described in our Terms of Service.'
+        consent-storage-key="vapi_widget_consent"
+      ></vapi-widget>
+    </div>
+
+    <!-- VAPI Script -->
+    <script
+      src="https://unpkg.com/@vapi-ai/client-sdk-react/dist/embed/widget.umd.js"
+      async
+      type="text/javascript"
+    ></script>
+
+    <!-- Simplified Loading Script - No Timeouts -->
+    <script>
+      (function () {
+        console.log("🚀 Initializing VAPI Chat Widget...");
+
+        // Function to check if widget is properly loaded
+        function checkWidgetStatus() {
+          const widget = document.querySelector("vapi-widget");
+
+          if (widget && widget.shadowRoot) {
+            console.log("✅ VAPI chat widget fully loaded with shadow DOM");
+            console.log("🔧 Widget type:", widget.constructor.name);
+            console.log("💬 Mode: Chat");
+
+            // Apply additional styles for chat mode
+            widget.style.setProperty("width", "400px", "important");
+            widget.style.setProperty("height", "600px", "important");
+            widget.style.setProperty("max-width", "90vw", "important");
+            widget.style.setProperty("max-height", "80vh", "important");
+
+            return true;
+          }
+
+          if (widget) {
+            console.log("🔄 VAPI widget element exists but no shadow DOM yet");
+            // Check if it's a proper web component
+            if (widget.constructor.name !== "HTMLElement") {
+              console.log(
+                "✅ VAPI web component detected:",
+                widget.constructor.name
+              );
+              return true;
+            }
+          }
+
+          return false;
+        }
+
+        // Just check once when the page loads
+        window.addEventListener("load", function () {
+          console.log("📄 Page fully loaded, checking VAPI chat widget...");
+
+          // Check immediately
+          checkWidgetStatus();
+
+          // Check again after a short delay in case it's still loading
+          setTimeout(checkWidgetStatus, 1000);
+        });
+
+        // Configuration log
+        console.log("🌐 VAPI Chat Configuration:");
+        console.log("• Public Key: bbe4d95e-f4dc-46a7-bd5b-46939cd75576");
+        console.log("• Assistant ID: c70c05ce-acc7-44f8-b39a-e7dfdf0f7fd3");
+        console.log("• Mode: Chat");
+        console.log(
+          "• Script: https://unpkg.com/@vapi-ai/client-sdk-react/dist/embed/widget.umd.js"
+        );
+      })();
+    </script>
 
     <noscript>
       <div

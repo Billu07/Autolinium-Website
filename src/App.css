@@ -1099,3 +1099,39 @@ html {
 body {
   font-family: "Poppins", sans-serif;
 }
+
+/* ===== VAPI WIDGET MINIMAL STYLES ===== */
+
+/* Don't interfere with VAPI widget - let it handle its own styles */
+vapi-widget {
+  /* Reset only positioning, don't touch inner styles */
+  position: fixed !important;
+  bottom: 20px !important;
+  right: 20px !important;
+  z-index: 99999 !important;
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+/* Container for the widget */
+#vapi-wrapper {
+  position: fixed !important;
+  bottom: 20px !important;
+  right: 20px !important;
+  z-index: 99999 !important;
+  pointer-events: none !important; /* Don't block clicks */
+}
+
+#vapi-wrapper vapi-widget {
+  pointer-events: auto !important; /* Re-enable clicks for widget */
+}
+
+/* Mobile adjustment */
+@media (max-width: 768px) {
+  vapi-widget,
+  #vapi-wrapper {
+    bottom: 80px !important;
+    right: 15px !important;
+  }
+}
