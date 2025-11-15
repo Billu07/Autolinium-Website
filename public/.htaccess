@@ -35,7 +35,7 @@
   ExpiresByType image/gif "access plus 1 year"
   ExpiresByType image/png "access plus 1 year"
   ExpiresByType image/webp "access plus 1 year"
-  ExpiresByType image/svg+xml "access plus 1 year"
+  ExpiresByByType image/svg+xml "access plus 1 year"
   ExpiresByType image/x-icon "access plus 1 year"
   
   # Video
@@ -67,8 +67,10 @@
   Header always set X-Frame-Options "SAMEORIGIN"
   Header always set X-XSS-Protection "1; mode=block"
   Header always set Referrer-Policy "strict-origin-when-cross-origin"
-  Header always set Permissions-Policy "geolocation=(), microphone=(), camera=()"
-  
+
+  # FIXED: Allow microphone for Vapi (self = same origin)
+  Header always set Permissions-Policy "geolocation=(), microphone=(self), camera=()"
+
   # Cache Control
   <FilesMatch "\.(ico|pdf|flv|jpg|jpeg|png|gif|webp|svg|js|css|swf|woff|woff2|ttf|otf)$">
     Header set Cache-Control "max-age=31536000, public, immutable"
