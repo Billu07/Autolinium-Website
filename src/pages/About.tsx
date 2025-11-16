@@ -202,18 +202,9 @@ const About: React.FC = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 max-w-4xl mx-auto">
             {[
               {
-                name: "Dr. Emily Rodriguez",
-                role: "AI Research Advisor",
-                affiliation: "Former Google AI Research",
-                description:
-                  "Provides strategic guidance on AI implementation and ethical AI practices.",
-                focus: ["AI Strategy", "Research & Development", "Ethical AI"],
-                icon: "fas fa-microscope",
-              },
-              {
-                name: "Robert Kim",
-                role: "Business Strategy Advisor",
-                affiliation: "Tech Startup Consultant",
+                name: "Safayet Hosaain",
+                role: "Product Manager",
+                affiliation: "AGH Group",
                 description:
                   "Advises on business growth, market positioning, and scaling strategies.",
                 focus: [
@@ -221,6 +212,15 @@ const About: React.FC = () => {
                   "Market Strategy",
                   "Scaling Operations",
                 ],
+                icon: "fas fa-microscope",
+              },
+              {
+                name: "Murali Barathy",
+                role: "Founder & Owner",
+                affiliation: "Krea Business Advisory(A USA based M&A Company",
+                description:
+                  "Provides strategic guidance on Product building & AI Implementation.",
+                focus: ["AI Strategy", "Research & Development", "Ethical AI"],
                 icon: "fas fa-chart-network",
               },
             ].map((advisor, index) => (
